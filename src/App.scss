@@ -1,0 +1,189 @@
+@import './assets/styles/_colors.scss';
+
+
+body {
+
+    background-color: #b4bec0;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 500;
+    display: block;
+    font-family: Montserrat;
+
+    ::-webkit-scrollbar {
+        width: 4px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: transparent
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+
+    .btn {
+        background-color: $btn-color-1;
+        color: white;
+        outline: 0;
+        transition: 0.2s;
+        border: none;
+        padding: 16px 24px;
+        border-radius: 15px;
+
+
+        &:hover {
+            outline: 0;
+            opacity: 0.9;
+        }
+        &:focus {
+            outline: 0;
+        }
+        &:disabled {
+            background-color: #aaaaaa;            
+        }
+
+    }
+
+    input {
+        border: none;
+        padding: 10px 16px;
+        border-radius: 10px;
+        margin-left: 8px;
+        margin-right: 15px;
+        cursor: pointer;
+
+        &[type=text]{
+            cursor: text;
+        }
+    }
+    
+    select {
+        border: none;
+        padding: 10px 16px;
+        border-radius: 10px;
+        margin-left: 8px;
+        margin-right: 15px;
+        min-width: 100px;
+        cursor: pointer;
+        
+        option {
+            border: none;
+        }
+    }
+
+    .pill {
+        font-size: 0.8em;
+        font-weight: 600;
+        background-color: transparent;
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: solid 1px gray;
+        transition: 0.2s;
+    }
+
+    #root {
+        #app {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: start;
+            width: 100%;
+
+            #header {
+                padding: 0 5%;
+                h1 {
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                }
+            }
+    
+            #board {
+                padding: 0 5%;
+                margin-top: 30px;
+                width: 100%;
+                max-width: 1300px;
+                
+                .board-columns {
+                    display: grid;
+                    grid-template-columns: 1fr 1fr 1fr;
+                    gap: 20px;
+                    margin-bottom: 30px;
+
+
+                    .status-column {
+                        padding: 0;
+                        background-color: #f3f3f3;
+                        border-radius: 30px;
+                        width: 100%;
+                        overflow: overlay;
+
+                        .column-container{
+                            overflow: overlay;
+                            max-height: 70vh;
+
+                            .column-header {
+                                background-color: green;
+                                display: block;
+                                font-weight: 600;
+                                margin: 5%;
+                                padding: 3%;
+                                border-radius: 16px;
+                                box-sizing: border-box;
+    
+                                h3{
+                                    color: rgb(0, 0, 0);
+                                    opacity: 0.6;
+                                    margin: 0;
+                                }
+    
+                            }
+                        }
+
+                        
+                        
+
+                        &.create {
+                            .column-header {
+                                background-color: $creata;
+                            }
+                            
+                        }
+                        &.incurs {
+                            .column-header {
+                                background-color: $incurs;
+                            }
+                            
+                        }
+                        &.finalizate {
+                            .column-header {
+                                background-color: $finalizate;
+                            }
+                            
+                        }
+                    }
+                }
+
+                .board-actions{
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    
+                    > * {
+                        display: inline-block;
+                        margin-right: 20px;
+                    }
+                }
+            }
+        }
+    }
+    
+}

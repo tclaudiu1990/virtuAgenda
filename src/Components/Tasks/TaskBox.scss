@@ -1,0 +1,110 @@
+@import './../../assets/styles/colors';
+@import './../../assets/styles/animations';
+
+
+
+.status-column {
+
+    .task-box {
+        background-color: #fff;
+        margin: 16px 24px;
+        padding: 12px 16px;
+        box-shadow: 0 4px 10px rgba(0,0,0, 0.2);
+        border-radius: 16px;
+        transition: 0.2s;
+        
+    
+        .task-box-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 36px;
+
+            
+            .task-box-menu {    
+                display: none;
+                font-size: 1.2em;
+                animation: appear-right 0.3s ease-out;
+    
+                > * {
+                    cursor: pointer;
+                    padding: 0px 10px;
+                    &:hover {
+                        opacity: 0.7;
+                    }
+                }
+            }
+
+        }
+
+        .task-box-content {
+            cursor: pointer;
+            p {
+                margin: 5px 0;
+            }
+            small {
+                margin: 0;
+            }
+        }
+        
+        
+    
+        &:hover {
+            box-shadow: 0 8px 15px rgba(0,0,0, 0.3);
+            .task-box-header{
+                .task-box-menu {    
+                    display: flex;   
+                }
+            }
+            
+        }
+    
+    }
+
+    &.create {
+        .task-box {
+            .pill {
+                border: solid 1px $creata-dark;
+                color: $creata-dark;
+            }
+            &:hover {
+                .pill {
+                    background-color: $creata;
+                    border-color: $creata;
+                }
+            }
+        }        
+    }
+    &.incurs {
+        .task-box {
+            .pill {
+                border: solid 1px $incurs-dark;
+                color: $incurs-dark;
+            }
+            &:hover {
+                .pill {
+                    background-color: $incurs;
+                    border-color: $incurs;
+                }
+            }
+        }   
+        
+    }
+    &.finalizate {
+        .task-box {
+            .pill {
+                border: solid 1px $finalizate-dark;
+                color: $finalizate-dark;
+            }
+            &:hover {
+                .pill {
+                    background-color: $finalizate;
+                    border-color: $finalizate;
+                }
+            }
+        }  
+        
+    }
+
+}
+

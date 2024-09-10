@@ -1,0 +1,13 @@
+
+
+@keyframes appear-right {
+    0% {
+        position: relative;
+        opacity: 0;
+        right: -6px;
+    }
+    100% {
+        opacity: 1;
+        right: 0;
+    }
+}
