@@ -34,10 +34,10 @@ const Filters: React.FC<FiltersProps>=(props)=>{
 
             <label htmlFor="select-status">Status</label>
             <select name="status" id="select-status">
-                <option value='creata'>Toate</option>
-                <option value='creata'>Creata</option>
+                <option value=''>Toate</option>
+                <option value='create'>Creata</option>
                 <option value='incurs'>In curs</option>
-                <option value='finalizata'>Finalizata</option>
+                <option value='finalizate'>Finalizata</option>
             </select>
 
             <label htmlFor="date-picker">Data</label>

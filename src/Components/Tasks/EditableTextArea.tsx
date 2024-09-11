@@ -1,21 +1,20 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
-type InputProps = {
+interface TextAreaProps {
     acceptEdit: Dispatch<SetStateAction<string>>;
     item: React.ReactNode;
     text: string;
 }
 
-// This input will appear
-const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
+const EditableTextArea:React.FC<TextAreaProps> = ({acceptEdit, item, text}) => {
 
-    // toggle editable input or normal html element
+    // toggle editable textarea or normal html element
     const [isEditable, setIsEditable] = useState(false)
-    // text inside input
+    // text inside textarea
     const [textContent, setTextContent] = useState(text)
 
-    const handleChange = (textElement:HTMLInputElement) => {
-        setTextContent(textElement.value);        
+    const handleChange = (element:HTMLTextAreaElement) => {
+        setTextContent(element.value);        
     }
 
     const handleAccept = () => {
@@ -23,18 +22,16 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
         setIsEditable(false)
     }
 
-
     return(
         <>
             {
                 isEditable?
                     <div className="input-editable-container">
 
-                        <input
+                        <textarea
                             className="input-editable"
-                            type="text"
                             value={textContent}
-                            onChange={(e)=>handleChange(e.currentTarget as HTMLInputElement)}
+                            onChange={(e)=>handleChange(e.currentTarget as HTMLTextAreaElement)}
                         /> 
 
                         <div className="input-menu">
@@ -54,4 +51,4 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
     )
 }
 
-export default EditableInput;
+export default EditableTextArea;

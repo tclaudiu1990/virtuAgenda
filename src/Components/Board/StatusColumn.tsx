@@ -21,7 +21,7 @@ const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
                     <h3>{name}</h3>
                 </div>
             
-                {taskBoxes}
+                {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">Nu exista taskuri in aceasta coloana</h3>}
             </div>
             
             
