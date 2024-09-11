@@ -26,13 +26,13 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
      
     // grab all task on board render and set the state
     useEffect(()=>{
-        appContext?.renderTasks()
+        appContext?.reloadTasks()
     }, [])
 
     // add task logic
     const addNewTask = (task:NewTaskInfo) => {
         addTask(task);
-        appContext?.renderTasks()
+        appContext?.reloadTasks()
     }
 
     // redistribute all tasks when tasks change

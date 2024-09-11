@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import './TaskBox.scss';
 import TaskModal from "./TaskModal";
+import Modal from "../Modal/Modal";
+import DeleteModal from "./DeleteModal";
 
 interface TaskBoxProps{
     name: string;
@@ -11,41 +13,58 @@ interface TaskBoxProps{
 const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
 
     const [modalVisible, setModalVisible] = useState(false);
-
-    const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
 
+    let [modalContent, setModalContent] = useState(<></>);
+
+    const openEdit = () => {
+        setModalContent(
+            <TaskModal
+                    taskBoxInfo={taskBoxInfo}    
+                    closeModal={closeModal}
+                    openDelete={openDelete}
+                /> 
+        )
+        setModalVisible(true);
+    }
+    const openDelete = () => {
+        setModalContent(
+            <DeleteModal
+                taskBoxInfo={taskBoxInfo}    
+                closeModal={closeModal}       
+            /> 
+        )
+        setModalVisible(true);
+    }
 
     return(
-        <div className="task-box">
-
+        <>
             {modalVisible &&
-                <TaskModal
-                    taskBoxInfo={taskBoxInfo}    
-                    openModal={openModal}
-                    closeModal={closeModal}       
-                />         
+                <Modal closeModal={closeModal}>
+                    {modalContent}
+                </Modal>
             }
 
-            <div className="task-box-header">
-                <div className="pill">{name}</div>
-                <div className="task-box-menu">
-                    <div className="task-box-menu-btn" onClick={()=>openModal()}>
-                        <i className="fa-solid fa-edit"></i>
-                    </div>
-                    <div className="task-box-menu-btn">
-                        <i className="fa-solid fa-trash"></i>
+
+            <div className="task-box">
+                <div className="task-box-header">
+                    <div className="pill">{name}</div>
+                    <div className="task-box-menu">
+                        <div className="task-box-menu-btn" onClick={()=>openEdit()}>
+                            <i className="fa-solid fa-edit"></i>
+                        </div>
+                        <div className="task-box-menu-btn">
+                            <i className="fa-solid fa-trash"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className="task-box-content" onClick={()=>openModal()}>
-                <p>{taskBoxInfo.title}</p>
-                <small><em>#{taskBoxInfo.id}</em></small>
+                <div className="task-box-content" onClick={()=>openEdit()}>
+                    <p><small className="task-box-id"><em>Task #{taskBoxInfo.id}</em></small> {taskBoxInfo.title}</p>
+                </div>            
             </div>
-             
-            
-        </div>
+        </>
+        
     )
 }
 

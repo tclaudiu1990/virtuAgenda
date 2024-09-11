@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Modal from "../Modal/Modal";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { format } from "date-fns";
@@ -13,11 +13,11 @@ import { ro } from 'date-fns/locale';
 
 interface TaskModalProps {
     taskBoxInfo: TaskBoxInfo;
-    openModal: () => void;
     closeModal: () => void;
+    openDelete: () => void;
 }
 
-const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal}) => {
+const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelete}) => {
 
     // app context
     const appContext = useContext(AppContext);
@@ -26,12 +26,18 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
     const [status, setStatus] = useState(taskBoxInfo.status);
     const [title, setTitle] = useState(taskBoxInfo.title);
     const [description, setDescription] = useState(taskBoxInfo.description);
-    const [startDate, setStartDate] = useState<Date | null>(taskBoxInfo.startDate);
-    const [deadline, setDeadline] = useState<Date | null>(taskBoxInfo.deadline);
+    const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
+    const [deadline, setDeadline] = useState<Date>(taskBoxInfo.deadline);
 
     // formatting dates for display
     const startDateFormatted = format(taskBoxInfo.startDate, 'dd/MM/yyyy');
     const deadlineFormatted = format(taskBoxInfo.deadline, 'dd/MM/yyyy');
+
+    // validation error
+    const[validationError, setValidationError] = useState({
+        visible: false,
+        text: ''
+    })
 
 
     // method to update task on Save
@@ -49,23 +55,36 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
 
         // update task from taskServices.ts
         updateTask(newTaskInfo);
-        appContext?.renderTasks();
+        appContext?.reloadTasks();
 
         closeModal();
     }
     
     const handleChangeDate = (date:Date | null, type:string) =>{
         // TO DO - start date can't be after the deadline 
-        if(type=='start'){
+        
+    }
 
+    useEffect(()=>{
+        checkValidation();
+    }, [startDate, deadline])
+
+    const checkValidation =() => {
+        if(startDate>deadline){
+            setValidationError({
+                visible: true,
+                text: 'Termenul limita nu poate fi mai devreme decat data de incepere'
+            })
         } else {
-
+            setValidationError({
+                visible: false,
+                text: ''
+            })
         }
     }
 
     
-    return (        
-        <Modal>
+    return (
             <div className="modal-task-details">
 
                 <small><em>Task ID: {taskBoxInfo.id}</em></small>
@@ -79,8 +98,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
                 />
 
                 <h3>Description</h3>
-                
-                <p>{description}</p>
                 <EditableTextArea
                     acceptEdit={setDescription} 
                     item={<p>{description}</p>}
@@ -93,35 +110,44 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
                     <option value='incurs'>In curs</option>
                     <option value='finalizate'>Finalizate</option>
                 </select>
-                
-                <p>Data de start:</p>
+
+                <label htmlFor="modal-startdate-picker">Data de start:</label>
                 <div className="modal-date">
                     <DatePicker
                         id="modal-startdate-picker"
                         selected={startDate}
-                        onChange={date=>handleChangeDate(date, 'start')}
+                        onChange={date=>setStartDate(date as Date)}
                         date={ new Date() }
                         className="calendarElement"
                         locale={ro}
                     />
                 </div>
-                <p>Termen Limita:</p>
-                
+                <label htmlFor="modal-deadline-picker">Termen Limita:</label>            
                 <div className="modal-date">
                     <DatePicker
                         id="modal-deadline-picker"
                         selected={deadline}
-                        onChange={date=>handleChangeDate(date, 'deadline')}
+                        onChange={date=>setDeadline(date as Date)}
                         date={ new Date() }
                         className="calendarElement"
                         locale={ro}
                     />
                 </div>
-                <button className="btn" onClick={()=>saveTask()}>Save</button>
-                &nbsp;&nbsp;&nbsp;
-                <button className="btn" onClick={()=>closeModal()}>Discard</button>
+
+                {
+                    validationError.visible &&
+                    <p className="error">{validationError.text}</p>
+                }
+                <div className="modal-footer">
+                    <button className="btn btn-delete" onClick={()=>openDelete()}>Sterge Task</button>
+                    <div>
+                        <button className="btn" disabled={validationError.visible} onClick={()=>saveTask()}>Salveaza</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button className="btn" onClick={()=>closeModal()}>Renunta</button>
+                    </div>
+                </div>
+                
             </div>
-        </Modal>
         
     )
 }

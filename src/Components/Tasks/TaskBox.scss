@@ -12,7 +12,8 @@
         box-shadow: 0 4px 10px rgba(0,0,0, 0.2);
         border-radius: 16px;
         transition: 0.2s;
-        
+        opacity: 0;
+        animation: appear-top 0.2s 0.1s ease-in-out forwards;
     
         .task-box-header{
             display: flex;
@@ -45,6 +46,12 @@
             small {
                 margin: 0;
             }
+            .task-box-id {
+                font-weight: 600;
+                padding: 0 6px 0 0;
+                border-radius: 999px;
+                opacity: 0.5;
+            }
         }
         
         
@@ -64,13 +71,13 @@
     &.create {
         .task-box {
             .pill {
-                border: solid 1px $creata-dark;
-                color: $creata-dark;
+                border: solid 1px $create-dark;
+                color: $create-dark;
             }
             &:hover {
                 .pill {
-                    background-color: $creata;
-                    border-color: $creata;
+                    background-color: $create;
+                    border-color: $create;
                 }
             }
         }        

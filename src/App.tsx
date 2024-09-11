@@ -8,7 +8,7 @@ import { TaskBoxInfo } from './types/TaskBoxInfo';
 
 // context definition
 type TaskContextType = {
-  renderTasks: () => void
+  reloadTasks: () => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
@@ -29,10 +29,6 @@ function App() {
     setTasks(getTasks())
   }
   
-  // context containing anything the app might need
-  const appContextValue = {
-    renderTasks: reloadTasks,
-  }
 
 
 
@@ -41,6 +37,12 @@ function App() {
     console.log(getIdCounter())
   }
 
+
+  // CONTEXT VALUE - for anything that the app might need
+  const appContextValue = {
+    reloadTasks: reloadTasks,
+  }
+  
 
   return (
     <div id='app'>

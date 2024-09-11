@@ -39,6 +39,7 @@ body {
         border: none;
         padding: 12px 24px;
         border-radius: 15px;
+        margin-right: 10px;
 
 
         &:hover {
@@ -52,6 +53,14 @@ body {
             background-color: #aaaaaa;            
         }
 
+        &.btn-delete {
+            background-color: transparent;
+            color: $error;
+            &:hover {
+                background-color: $gray2;
+                opacity: 0.6;
+            }
+        }
     }
 
     input {
@@ -63,6 +72,21 @@ body {
         cursor: pointer;
         font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
+        &[type=text]{
+            cursor: text;
+        }
+    }
+
+    textarea {
+        border: none;
+        padding: 10px 16px;
+        border-radius: 10px;
+        margin-left: 8px;
+        margin-right: 15px;
+        cursor: pointer;
+        font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+        width: 100%;
+        box-sizing: border-box;
         &[type=text]{
             cursor: text;
         }
@@ -94,44 +118,51 @@ body {
         transition: 0.2s;
     }
 
- 
-
-    .calendarElement {
-        border: none;
-        padding: 12px 16px;
-        border-radius: 10px;
-        margin-left: 8px;
-        margin-right: 15px;
-        cursor: pointer;
-        font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
-        &[type=text]{
-            cursor: text;
-        }
-
+    .error {
+        color: $error;
     }
 
-    .react-datepicker {
-        font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-        background: white;
-        border: none;
-        padding: 10px;
-        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-        transition: 0.3s;
-        animation: appear-top 0.2s forwards;
-        min-height: 286px;
-
-        .react-datepicker__header {
-            background-color: transparent;
-            padding: 16px 0
+    .calendarWrap {
+        display: inline-block;
+        
+        .calendarElement {
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-left: 8px;
+            margin-right: 15px;
+            cursor: pointer;
+            font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    
+            &[type=text]{
+                cursor: text;
+            }
+    
         }
-
+    
+        .react-datepicker {
+            font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+            background: white;
+            border: none;
+            padding: 10px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            transition: 0.3s;
+            animation: appear-top 0.2s forwards;
+            min-height: 286px;
+    
+            .react-datepicker__header {
+                background-color: transparent;
+                padding: 16px 0
+            }
+    
+        }
+        
+        .react-datepicker__triangle{
+            fill: white;
+            color: white;
+        }
     }
     
-    .react-datepicker__triangle{
-        fill: white;
-        color: white;
-    }
 
     #root {
         #app {
@@ -203,7 +234,7 @@ body {
 
                         &.create {
                             .column-header {
-                                background-color: $creata;
+                                background-color: $create;
                             }
                             
                         }
