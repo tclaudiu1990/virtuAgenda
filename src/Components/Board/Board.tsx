@@ -28,7 +28,7 @@ const Board = () => {
                 title: `Task ${i} title`,
                 description: `Aceasta este descrierea sarcinii create task${i}`,
                 status: `creata`,
-                dateCreated: new Date(),
+                startDate: new Date(),
                 deadline: new Date(),
             })
         }
@@ -44,7 +44,7 @@ const Board = () => {
                 title: `Task ${i} title lorem ipsum dolor sit amet lorem ipsum dolor sit amet omg`,
                 description: `Aceasta este descrierea sarcinii in curs task${i}`,
                 status: `incurs`,
-                dateCreated: new Date(),
+                startDate: new Date(),
                 deadline: new Date(),
             })
         }
@@ -58,12 +58,16 @@ const Board = () => {
                 title: `Task ${i} title`,
                 description: `Aceasta este descrierea sarcinii finalizate task${i}`,
                 status: `finalizat`,
-                dateCreated: new Date(),
+                startDate: new Date(),
                 deadline: new Date(),
             })
         }
         setTasksFinalizate(newTasks);
+
+
     }, [])
+
+
 
 
     return(
