@@ -3,12 +3,15 @@ import './App.scss'
 import Header from './Components/Header/Header'
 import Board from './Components/Board/Board'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {  deleteAllTasks, getIdCounter, getTasks, logSavedTasks } from './Services/taskServices';
+import {  addTask, deleteAllTasks, deleteTask, getIdCounter, getTasks, logSavedTasks } from './Services/taskServices';
 import { TaskBoxInfo } from './types/TaskBoxInfo';
+import { NewTaskInfo } from './types/NewTaskInfo';
 
 // context definition
 type TaskContextType = {
   reloadTasks: () => void
+  addNewTask: (task: NewTaskInfo) => void;
+  deleteCurrentTask: (task: TaskBoxInfo) => void;
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
@@ -30,18 +33,24 @@ function App() {
     console.log(getTasks())
   }
   
-
-
-
-  
-  const logIdCounter = () => {
-    console.log(getIdCounter())
+  // TASK MANIPULATION
+  // add task 
+  const addNewTask = (task:NewTaskInfo) => {
+    addTask(task);
+    reloadTasks()
+  }
+  // delete task
+  const deleteCurrentTask = (task:TaskBoxInfo) => {
+    deleteTask(task);
+    reloadTasks()
   }
 
 
   // CONTEXT VALUE - for anything that the app might need
   const appContextValue = {
     reloadTasks: reloadTasks,
+    addNewTask: addNewTask,
+    deleteCurrentTask: deleteCurrentTask
   }
   
 
@@ -54,7 +63,6 @@ function App() {
         <div className='dev-buttons'>
           <button onClick={()=>logSavedTasks()}>log all task</button>
           <button onClick={()=>deleteAllTasks()}>delete all task</button>
-          <button onClick={()=>logIdCounter()}>get idCounter</button>
         </div>
         {/* dev buttons */}
       </AppContext.Provider>      

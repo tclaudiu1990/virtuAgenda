@@ -53,7 +53,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
                         <div className="task-box-menu-btn" onClick={()=>openEdit()}>
                             <i className="fa-solid fa-edit"></i>
                         </div>
-                        <div className="task-box-menu-btn">
+                        <div className="task-box-menu-btn" onClick={()=>openDelete()}>
                             <i className="fa-solid fa-trash"></i>
                         </div>
                     </div>

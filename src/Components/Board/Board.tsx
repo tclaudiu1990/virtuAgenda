@@ -29,12 +29,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
         appContext?.reloadTasks()
     }, [])
 
-    // add task logic
-    const addNewTask = (task:NewTaskInfo) => {
-        console.log(task);
-        addTask(task);
-        appContext?.reloadTasks()
-    }
+
 
     // redistribute all tasks when tasks change
     useEffect(()=>{
@@ -81,7 +76,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
             <div className="board-actions">
                 <Filters></Filters>
                 <button className="btn"
-                onClick={()=>addNewTask(
+                onClick={()=>appContext?.addNewTask(
                     {
                       title: 'test 1',
                       description: 'this is a description for test 1',
