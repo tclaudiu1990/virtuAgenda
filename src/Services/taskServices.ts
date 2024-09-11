@@ -8,7 +8,15 @@ import { NewTaskInfo } from "../types/NewTaskInfo";
 // GET all task boxes from storage
 const getTasks = (): TaskBoxInfo[] => {
     const taskList = JSON.parse(localStorage.getItem('vaTasks') || '[]');
-    return(taskList);
+    //parse dates to format correctly
+    const finalList = taskList.map((task:TaskBoxInfo)=>{
+        return({
+            ...task,
+            startDate: new Date(task.startDate), 
+            deadline: new Date(task.deadline) 
+        })
+    })
+    return(finalList);
 }
 
 // CREATE a task 

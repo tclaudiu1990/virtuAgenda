@@ -31,6 +31,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
 
     // add task logic
     const addNewTask = (task:NewTaskInfo) => {
+        console.log(task);
         addTask(task);
         appContext?.reloadTasks()
     }
@@ -85,7 +86,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                       title: 'test 1',
                       description: 'this is a description for test 1',
                       startDate: new Date(),        
-                      deadline: new Date()  
+                      deadline: new Date()
                     }
                   )}>+ Creaza Task Nou</button>
             </div>

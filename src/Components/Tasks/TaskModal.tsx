@@ -29,9 +29,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
     const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
     const [deadline, setDeadline] = useState<Date>(taskBoxInfo.deadline);
 
-    // formatting dates for display
-    const startDateFormatted = format(taskBoxInfo.startDate, 'dd/MM/yyyy');
-    const deadlineFormatted = format(taskBoxInfo.deadline, 'dd/MM/yyyy');
 
     // validation error
     const[validationError, setValidationError] = useState({
@@ -67,9 +64,17 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
 
     useEffect(()=>{
         checkValidation();
+        console.log(`checking validation`)
     }, [startDate, deadline])
 
-    const checkValidation =() => {
+    const checkValidation = () => {
+        
+        console.log('startDate')
+        console.log(startDate)
+        console.log('deadline')
+        console.log(deadline)
+
+
         if(startDate>deadline){
             setValidationError({
                 visible: true,
@@ -111,11 +116,13 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
                     <option value='finalizate'>Finalizate</option>
                 </select>
 
-                <label htmlFor="modal-startdate-picker">Data de start:</label>
+                <label htmlFor="modal-startdate-picker">Data de incepere:</label>
+
                 <div className="modal-date">
                     <DatePicker
                         id="modal-startdate-picker"
                         selected={startDate}
+                        dateFormat="dd/MM/yyyy"
                         onChange={date=>setStartDate(date as Date)}
                         date={ new Date() }
                         className="calendarElement"
@@ -127,6 +134,7 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
                     <DatePicker
                         id="modal-deadline-picker"
                         selected={deadline}
+                        dateFormat="dd/MM/yyyy"
                         onChange={date=>setDeadline(date as Date)}
                         date={ new Date() }
                         className="calendarElement"
