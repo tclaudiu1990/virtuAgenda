@@ -5,44 +5,55 @@ import { NewTaskInfo } from "../types/NewTaskInfo";
 
 
 
-// get all task boxes from storage
+// GET all task boxes from storage
 const getTasks = (): TaskBoxInfo[] => {
     const taskList = JSON.parse(localStorage.getItem('vaTasks') || '[]');
     return(taskList);
 }
 
-// add a task to storage
+// CREATE a task 
 const addTask = (newTaskInfo: NewTaskInfo) => {
-    let allTasks = getTasks();
-    const newId:number = createNewId();
     
-    // increment the largest id
-    const newTask = {
+    let allTasks = getTasks();
+
+    // create a new incremented id and automatically store it
+    const newId:number = createNewId();
+
+    // create the new taskBoxInfo item
+    const newTask:TaskBoxInfo = {
         id: newId,
-        status: 'creata',
+        status: 'create',
         ...newTaskInfo
     }
 
+    // push to all tasks and store 
     allTasks.push(newTask)
     localStorage.setItem(`vaTasks`, JSON.stringify(allTasks))
 }
 
 
 
-// update a certain task
+// UPDATE a task
 const updateTask = (task: TaskBoxInfo) => {
+
+    // extract all tasks
     let allTasks = getTasks();
 
+    // find the task using the unique id
+    // replace the stored task with new one 
     for(let i=0; i<allTasks.length; i++) {
         if(allTasks[i].id==task.id){
             allTasks[i]=task;
             break;
         }
     }
+    // store the new tasks
     localStorage.setItem('vaTasks', JSON.stringify(allTasks));
+
 }
 
-// delete a task
+
+// DELETE a task
 const deleteTask = (task: TaskBoxInfo) => {
 
     let allTasks = getTasks();
@@ -74,7 +85,7 @@ const deleteAllTasks = () => {
 // ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
 
 
-// idCounter - a stored id counter that automatically increments when adding a task in order to create unique ids 
+// idCounter = a stored id counter that automatically increments when adding a task in order to create unique ids 
 // in a real world project, the unique id would be created in the backend when storing the task info in the database
 const getIdCounter = ():number | null => {
     // returns the idCounter from storage as int

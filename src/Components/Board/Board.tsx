@@ -1,13 +1,21 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import StatusColumn from "./StatusColumn";
 
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Filters from "../Filters/Filters";
+import { addTask } from "../../Services/taskServices";
+import { NewTaskInfo } from "../../types/NewTaskInfo";
+import { AppContext } from "../../App";
 
+interface BoardProps {
+    tasks: TaskBoxInfo[]
+}
 
+const Board:React.FC<BoardProps> = ({tasks}) => {
 
-const Board = () => {
+    // app context
+    const appContext = useContext(AppContext);
 
     // the state that holds the 'creata' tasks
     const [tasksCreate, setTasksCreate] = useState<TaskBoxInfo[]>([]);
@@ -16,56 +24,53 @@ const Board = () => {
     // the state that holds the 'finalizate' tasks
     const [tasksFinalizate, setTasksFinalizate] = useState<TaskBoxInfo[]>([]);
      
-
+    // grab all task on board render and set the state
     useEffect(()=>{
-
-        let newTasks = [];
-        
-        // fill tasksCreate
-        for(let i=0;i<5;i++){
-            newTasks.push({
-                id: `task${i}`,
-                title: `Task ${i} title`,
-                description: `Aceasta este descrierea sarcinii create task${i}`,
-                status: `creata`,
-                startDate: new Date(),
-                deadline: new Date(),
-            })
-        }
-
-        setTasksCreate(newTasks);
-
-        // fill tasksInCurs
-
-        newTasks = [];
-        for(let i=0;i<3;i++){
-            newTasks.push({
-                id: `task${i}`,
-                title: `Task ${i} title lorem ipsum dolor sit amet lorem ipsum dolor sit amet omg`,
-                description: `Aceasta este descrierea sarcinii in curs task${i}`,
-                status: `incurs`,
-                startDate: new Date(),
-                deadline: new Date(),
-            })
-        }
-        setTasksInCurs(newTasks);
-
-        // fill tasksFinalizate
-        newTasks = [];
-        for(let i=0;i<4;i++){
-            newTasks.push({
-                id: `task${i}`,
-                title: `Task ${i} title`,
-                description: `Aceasta este descrierea sarcinii finalizate task${i}`,
-                status: `finalizat`,
-                startDate: new Date(),
-                deadline: new Date(),
-            })
-        }
-        setTasksFinalizate(newTasks);
-
-
+        appContext?.renderTasks()
     }, [])
+
+    // add task logic
+    const addNewTask = (task:NewTaskInfo) => {
+        addTask(task);
+        appContext?.renderTasks()
+    }
+
+    // redistribute all tasks when tasks change
+    useEffect(()=>{
+        distributeTasks(tasks)
+    }, [tasks])
+
+
+    // distribute tasks to columns based on status
+    const distributeTasks = (tasks:TaskBoxInfo[]) => {        
+
+        // create temp arrays for each column task list
+        let createTasks:TaskBoxInfo[] = [];
+        let inCursTasks:TaskBoxInfo[] = [];
+        let finalizateTasks:TaskBoxInfo[] = [];
+
+        // distribute tasks to column arrays
+        if(tasks.length>0){
+
+            tasks.forEach(task => {
+                switch(task.status){
+                    case 'create': createTasks.push(task);
+                        break;
+                    case 'incurs': inCursTasks.push(task);
+                        break;
+                    case 'finalizate': finalizateTasks.push(task);
+                        break;
+                    default:
+                        console.log(`ERROR building tasks. No such case.`)
+                }
+            });
+
+            // set state for each column array
+            setTasksCreate(createTasks);
+            setTasksInCurs(inCursTasks);
+            setTasksFinalizate(finalizateTasks);
+        }
+    }
 
 
 
@@ -74,7 +79,15 @@ const Board = () => {
         <div id="board">
             <div className="board-actions">
                 <Filters></Filters>
-                <button className="btn">+ Creaza Task Nou</button>
+                <button className="btn"
+                onClick={()=>addNewTask(
+                    {
+                      title: 'test 1',
+                      description: 'this is a description for test 1',
+                      startDate: new Date(),        
+                      deadline: new Date()  
+                    }
+                  )}>+ Creaza Task Nou</button>
             </div>
             
             <div className="board-columns">
