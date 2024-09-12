@@ -28,7 +28,7 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
     const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
 
 
-    // validation error
+    // error validation to include when needed
     const[validationError, setValidationError] = useState({
         visible: false,
         text: ''
@@ -54,22 +54,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
         closeModal();
     }
     
-    const handleChangeDate = (date:Date | null, type:string) =>{
-        // TO DO - start date can't be after the deadline 
-        
-    }
-
-    useEffect(()=>{
-        checkValidation();
-        console.log(`checking validation`)
-    }, [startDate])
-
-    const checkValidation = () => {
-        
-        console.log('startDate')
-        console.log(startDate)
-    }
-
     
     return (
             <div className="modal-task-details">

@@ -89,7 +89,6 @@ const deleteAllTasks = () => {
     localStorage.removeItem('vaIdCounter');
 }
 
-
 // ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
 // ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
 // ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
@@ -108,7 +107,7 @@ const createNewId = (): number => {
     // if a counter doesn't exist, it sets it to 0 and stores it
     // if a counter exists, it increments it and stores it
     const counter:number | null = getIdCounter();
-    const result = counter!=null ? counter+1 : 0;
+    const result = counter!=null ? counter+1 : 1;
     localStorage.setItem('vaIdCounter', JSON.stringify(result))
     return(result)    
 }

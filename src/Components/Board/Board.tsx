@@ -62,9 +62,10 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
             });
 
             // set state for each column array
-            setTasksCreate(createTasks);
-            setTasksInCurs(inCursTasks);
-            setTasksFinalizate(finalizateTasks);
+            // reversed to show newest task first
+            setTasksCreate(createTasks.reverse());
+            setTasksInCurs(inCursTasks.reverse());
+            setTasksFinalizate(finalizateTasks.reverse());
         } else {
             // empty arrays if tasks don't exist       
             setTasksCreate([]);
@@ -80,14 +81,6 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
         <div id="board">
             <div className="board-actions">
                 <Filters></Filters>
-                <button className="btn"
-                onClick={()=>appContext?.addNewTask(
-                    {
-                      title: 'test 1',
-                      description: 'this is a description for test 1',
-                      startDate: new Date()
-                    }
-                  )}>+ Creaza Task Nou</button>
             </div>
             
             <div className="board-columns">

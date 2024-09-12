@@ -46,20 +46,23 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
             }
 
 
-            <div className="task-box">
+            <div className="task-box" onClick={()=>openEdit()}>
                 <div className="task-box-header">
                     <div className="pill">{name}</div>
                     <div className="task-box-menu">
                         <div className="task-box-menu-btn" onClick={()=>openEdit()}>
                             <i className="fa-solid fa-edit"></i>
                         </div>
-                        <div className="task-box-menu-btn" onClick={()=>openDelete()}>
+                        <div className="task-box-menu-btn" onClick={(e)=>{
+                                e.stopPropagation()
+                                openDelete()
+                            }}>
                             <i className="fa-solid fa-trash"></i>
                         </div>
                     </div>
                 </div>
 
-                <div className="task-box-content" onClick={()=>openEdit()}>
+                <div className="task-box-content">
                     <p><small className="task-box-id"><em>Task #{taskBoxInfo.id}</em></small> {taskBoxInfo.title}</p>
                 </div>            
             </div>

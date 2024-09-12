@@ -16,10 +16,10 @@ const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
 
     return(
         <div className={`status-column ${type}`}>
+            <div className="column-header">
+                <h3>{name}</h3>
+            </div>
             <div className="column-container">
-                <div className="column-header">
-                    <h3>{name}</h3>
-                </div>
             
                 {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">Nu exista taskuri in aceasta coloana</h3>}
             </div>

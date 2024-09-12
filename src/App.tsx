@@ -3,38 +3,48 @@ import './App.scss'
 import Header from './Components/Header/Header'
 import Board from './Components/Board/Board'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {  addTask, deleteAllTasks, deleteTask, getIdCounter, getTasks, logSavedTasks } from './Services/taskServices';
+import {  addTask, deleteAllTasks, deleteTask, getTasks, logSavedTasks } from './Services/taskServices';
 import { TaskBoxInfo } from './types/TaskBoxInfo';
 import { NewTaskInfo } from './types/NewTaskInfo';
+import FiltersInfo from './types/FiltersInfo';
+import { filterTasks } from './Services/filteringServices';
 
 // context definition
 type TaskContextType = {
-  reloadTasks: () => void
+  tasks: TaskBoxInfo[];
+  selectedDay: Date;
+  changeSelectedDate: (date: Date) => void;
+  reloadTasks: () => void;
   addNewTask: (task: NewTaskInfo) => void;
   deleteCurrentTask: (task: TaskBoxInfo) => void;
+  filter: (filters: FiltersInfo) => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
 
 function App() {
 
+
   // all tasks in the localStorage
   const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
 
-  // load the tasks on app render
+  // selected Day
+  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
+
+  // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION 
+
+  const changeSelectedDate = (date: Date) => {
+    setSelectedDay(date);
+  }
+
+  // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION 
+  
+  // LOAD the tasks on app render
   useEffect(()=>{
     reloadTasks();
   }, [])
 
-  // method to reload tasks from the local storage (taskServices.tsx)
-  // can be replaced with a fetch function to request them from the backend instead
-  const reloadTasks = () => {
-    const allTasks = getTasks();
-    setTasks(allTasks)
-    console.log(allTasks)
-  }
   
-  // TASK MANIPULATION
   // add task 
   const addNewTask = (task:NewTaskInfo) => {
     addTask(task);
@@ -46,12 +56,30 @@ function App() {
     reloadTasks()
   }
 
+  // RELOAD tasks method from the local storage  
+  const reloadTasks = () => {
+    const allTasks = getTasks();
+    setTasks(allTasks)
+  }
+
+  // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS 
+
+  // filter method
+  const filter = (filters: FiltersInfo) => {
+    const filteredTasks = filterTasks(filters);
+    setTasks(filteredTasks)
+  }
+
 
   // CONTEXT VALUE - for anything that the app might need
   const appContextValue = {
+    tasks: tasks,
+    selectedDay: selectedDay,
+    changeSelectedDate: changeSelectedDate,
     reloadTasks: reloadTasks,
     addNewTask: addNewTask,
-    deleteCurrentTask: deleteCurrentTask
+    deleteCurrentTask: deleteCurrentTask,
+    filter: filter
   }
   
 
