@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 type InputProps = {
     acceptEdit: Dispatch<SetStateAction<string>>;
@@ -19,16 +19,11 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
         setTextContent(textElement.value);        
     }
 
-    // updating the actual text inside the modal
-    const handleAccept = () => {
+    // accept on every input change
+    useEffect(()=>{        
         acceptEdit(textContent.length==0 ? '-' : textContent)
-        setIsEditable(false)
-    }
-    // hide the editable item and reset its contents to original text
-    const handleReject = () => {
-        setTextContent(text);
-        setIsEditable(false)
-    }
+    }, [textContent])
+
 
     return(
         <>
@@ -42,15 +37,6 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
                             value={textContent}
                             onChange={(e)=>handleChange(e.currentTarget as HTMLInputElement)}                            
                         /> 
-
-                        <div className="editableInput-menu">
-                            <div className="editableInput-menu-btn" onClick={()=>handleAccept()}>
-                                <i className="fa-solid fa-check"></i>
-                            </div>
-                            <div className="editableInput-menu-btn" onClick={()=>{handleReject()}}>
-                                <i className="fa-solid fa-xmark"></i>
-                            </div>
-                        </div>
                     </div>
                 :
                     <span className="editable-item" onClick={()=>setIsEditable(true)}>{item}</span>

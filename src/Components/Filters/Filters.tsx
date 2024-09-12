@@ -8,7 +8,7 @@ import { getTasks } from "../../Services/taskServices";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 
 interface FiltersProps {
-
+    
 }
 
 const Filters: React.FC<FiltersProps>=(props)=>{
