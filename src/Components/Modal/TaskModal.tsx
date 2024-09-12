@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { format } from "date-fns";
 import { updateTask } from "../../Services/taskServices";
-import EditableInput from "./EditableInput";
+import EditableInput from "../Tasks/EditableInput";
 import { AppContext } from "../../App";
-import EditableTextArea from "./EditableTextArea";
+import EditableTextArea from "../Tasks/EditableTextArea";
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';

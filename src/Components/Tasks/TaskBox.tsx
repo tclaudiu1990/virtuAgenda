@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import './TaskBox.scss';
-import TaskModal from "./TaskModal";
+import TaskModal from "../Modal/TaskModal";
 import Modal from "../Modal/Modal";
-import DeleteModal from "./DeleteModal";
+import DeleteModal from "../Modal/DeleteModal";
 
 interface TaskBoxProps{
     name: string;

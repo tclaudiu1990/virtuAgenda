@@ -68,8 +68,11 @@ const deleteTask = (task: TaskBoxInfo) => {
     let newTasks = allTasks.filter(storedTask=>{
         return(storedTask.id!=task.id)
     })
+    // reset id counter if no tasks exist
+    if(newTasks.length==0){resetIdCounter()}
 
     localStorage.setItem('vaTasks', JSON.stringify(newTasks))
+    
 
 }
 
@@ -110,5 +113,10 @@ const createNewId = (): number => {
     return(result)    
 }
 
+// resetting counter
+const resetIdCounter = () => {
+    // sets the counter to 0 in local storage
+    localStorage.setItem('vaIdCounter', JSON.stringify(0))
+}
 
-export {getIdCounter, createNewId, getTasks, addTask, updateTask, deleteTask, logSavedTasks, deleteAllTasks};
+export {getIdCounter, resetIdCounter, createNewId, getTasks, addTask, updateTask, deleteTask, logSavedTasks, deleteAllTasks};
