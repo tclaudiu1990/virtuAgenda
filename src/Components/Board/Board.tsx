@@ -45,7 +45,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
         let inCursTasks:TaskBoxInfo[] = [];
         let finalizateTasks:TaskBoxInfo[] = [];
 
-        // distribute tasks to column arrays
+        // distribute tasks to column arrays if tasks exist
         if(tasks.length>0){
 
             tasks.forEach(task => {
@@ -65,6 +65,11 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
             setTasksCreate(createTasks);
             setTasksInCurs(inCursTasks);
             setTasksFinalizate(finalizateTasks);
+        } else {
+            // empty arrays if tasks don't exist       
+            setTasksCreate([]);
+            setTasksInCurs([]);
+            setTasksFinalizate([]);
         }
     }
 
@@ -80,8 +85,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                     {
                       title: 'test 1',
                       description: 'this is a description for test 1',
-                      startDate: new Date(),        
-                      deadline: new Date()
+                      startDate: new Date()
                     }
                   )}>+ Creaza Task Nou</button>
             </div>

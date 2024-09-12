@@ -12,8 +12,7 @@ const getTasks = (): TaskBoxInfo[] => {
     const finalList = taskList.map((task:TaskBoxInfo)=>{
         return({
             ...task,
-            startDate: new Date(task.startDate), 
-            deadline: new Date(task.deadline) 
+            startDate: new Date(task.startDate)
         })
     })
     return(finalList);
@@ -63,7 +62,7 @@ const updateTask = (task: TaskBoxInfo) => {
 
 // DELETE a task
 const deleteTask = (task: TaskBoxInfo) => {
-
+    
     let allTasks = getTasks();
 
     let newTasks = allTasks.filter(storedTask=>{
@@ -71,11 +70,11 @@ const deleteTask = (task: TaskBoxInfo) => {
     })
 
     localStorage.setItem('vaTasks', JSON.stringify(newTasks))
-    
+
 }
 
 
-// for dev - log all tasks in console
+// dev - log all tasks in console
 const logSavedTasks = () => {
     console.log(getTasks())
 }

@@ -29,8 +29,9 @@ function App() {
   // method to reload tasks from the local storage (taskServices.tsx)
   // can be replaced with a fetch function to request them from the backend instead
   const reloadTasks = () => {
-    setTasks(getTasks())
-    console.log(getTasks())
+    const allTasks = getTasks();
+    setTasks(allTasks)
+    console.log(allTasks)
   }
   
   // TASK MANIPULATION

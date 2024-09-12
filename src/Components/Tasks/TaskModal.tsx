@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import Modal from "../Modal/Modal";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { format } from "date-fns";
 import { updateTask } from "../../Services/taskServices";
@@ -27,7 +26,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
     const [title, setTitle] = useState(taskBoxInfo.title);
     const [description, setDescription] = useState(taskBoxInfo.description);
     const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
-    const [deadline, setDeadline] = useState<Date>(taskBoxInfo.deadline);
 
 
     // validation error
@@ -46,8 +44,7 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
             status: status,
             title: title,
             description: description,
-            startDate: startDate || new Date(),
-            deadline: deadline || new Date()
+            startDate: startDate || new Date()
         }
 
         // update task from taskServices.ts
@@ -65,27 +62,12 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
     useEffect(()=>{
         checkValidation();
         console.log(`checking validation`)
-    }, [startDate, deadline])
+    }, [startDate])
 
     const checkValidation = () => {
         
         console.log('startDate')
         console.log(startDate)
-        console.log('deadline')
-        console.log(deadline)
-
-
-        if(startDate>deadline){
-            setValidationError({
-                visible: true,
-                text: 'Termenul limita nu poate fi mai devreme decat data de incepere'
-            })
-        } else {
-            setValidationError({
-                visible: false,
-                text: ''
-            })
-        }
     }
 
     
@@ -124,18 +106,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
                         selected={startDate}
                         dateFormat="dd/MM/yyyy"
                         onChange={date=>setStartDate(date as Date)}
-                        date={ new Date() }
-                        className="calendarElement"
-                        locale={ro}
-                    />
-                </div>
-                <label htmlFor="modal-deadline-picker">Termen Limita:</label>            
-                <div className="modal-date">
-                    <DatePicker
-                        id="modal-deadline-picker"
-                        selected={deadline}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={date=>setDeadline(date as Date)}
                         date={ new Date() }
                         className="calendarElement"
                         locale={ro}
