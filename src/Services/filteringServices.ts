@@ -8,24 +8,22 @@ const filterTasks = (filters: FiltersInfo) => {
     const allTasks = getTasks()
 
     // filtered task array 
-    let filteredTasks;
+    let filteredTasks = allTasks;
 
     //filter by day
     filteredTasks = allTasks.filter((task)=>format(task.startDate, 'dd/MM/yyyy')==format(filters.selectedDay, 'dd/MM/yyyy'))
+
     //filter by status
-    if(filters.status!='Toate'){        
-        filteredTasks = filteredTasks.filter((task)=>
-            {
-                return(task.status==filters.status)
-            }
-        )
+    if(filters.status !== 'Toate' && filters.status !== ''){        
+        filteredTasks = filteredTasks.filter((task)=>task.status==filters.status)
     }
+
     //filter by title
     if(filters.title!=''){
         filteredTasks = filteredTasks.filter((task)=>task.title.toLowerCase().includes(filters.title.toLowerCase()))
     } 
 
-
+    console.log(filteredTasks)
     return(filteredTasks);
 }
 

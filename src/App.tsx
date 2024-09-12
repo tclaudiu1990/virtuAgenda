@@ -30,8 +30,13 @@ function App() {
 
   // selected Day
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
+  // search term
+  const [searchTitle, setSearchTitle] = useState('');
+  // selected state
+  const [selectedState, setSelectedState] = useState('');
 
-  // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION // DAY MANIPULATION 
+
+  // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION 
 
   const changeSelectedDate = (date: Date) => {
     setSelectedDay(date);

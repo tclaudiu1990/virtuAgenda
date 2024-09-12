@@ -107,7 +107,7 @@ const Filters: React.FC<FiltersProps>=(props)=>{
                     <option value='finalizate'>Finalizata</option>
                 </select>
 
-                <button className="btn">Filtreaza</button>
+                <button className=""><i className="fa-solid fa-filter"></i></button>
             </div>            
             
 
