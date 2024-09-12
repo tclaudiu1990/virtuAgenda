@@ -27,18 +27,12 @@ const Filters: React.FC<FiltersProps>=(props)=>{
     // task dates to be highlighted in the calendar
     const [taskDates, setTaskDates] = useState<Date[]>([])
 
-    // Calendar logic
-    useEffect(()=>{        
-        appContext?.changeSelectedDate(calendar);
-    }, [])
 
     // method that triggers when a date is selected
     const handleCalendar = (date: Date) => {
         setCalendar(date)
     }
     
-
-
 
     
     // update calendar highlighted days when tasks change
@@ -62,11 +56,11 @@ const Filters: React.FC<FiltersProps>=(props)=>{
     // filter everytime any filter is selected
     // If the filtering were done in the backend, we would probably filter through a button as to not make too many requests
     useEffect(()=>{
-        appContext?.filter({
+        appContext?.changeFilters({
             selectedDay: calendar,
             title: searchTitle,
-            status: status,
-        })
+            status: status
+        });
     }, [calendar, searchTitle, status])
 
     return(
@@ -75,8 +69,8 @@ const Filters: React.FC<FiltersProps>=(props)=>{
                 <button className="btn"
                     onClick={()=>appContext?.addNewTask(
                         {
-                            title: 'test 1',
-                            description: 'this is a description for test 1',
+                            title: 'Task nou',
+                            description: 'Scrie aici descrierea taskului tau',
                             startDate: calendar
                         }
                 )}>+ Creaza Task Nou</button>

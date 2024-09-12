@@ -13,7 +13,7 @@ import { filterTasks } from './Services/filteringServices';
 type TaskContextType = {
   tasks: TaskBoxInfo[];
   selectedDay: Date;
-  changeSelectedDate: (date: Date) => void;
+  changeFilters: (filters: FiltersInfo) => void;
   reloadTasks: () => void;
   addNewTask: (task: NewTaskInfo) => void;
   deleteCurrentTask: (task: TaskBoxInfo) => void;
@@ -24,23 +24,38 @@ export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
 function App() {
 
-
   // all tasks in the localStorage
   const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
+
+
+  // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION 
 
   // selected Day
   const [selectedDay, setSelectedDay] = useState<Date>(new Date());
   // search term
   const [searchTitle, setSearchTitle] = useState('');
-  // selected state
-  const [selectedState, setSelectedState] = useState('');
+  // selected status
+  const [selectedStatus, setSelectedStatus] = useState('');
 
 
-  // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION 
-
-  const changeSelectedDate = (date: Date) => {
-    setSelectedDay(date);
+  const changeFilters = (filters: FiltersInfo) => {
+    setSelectedDay(filters.selectedDay);
+    setSearchTitle(filters.title);
+    setSelectedStatus(filters.status)
   }
+
+  // filter method
+  const filter = (filters: FiltersInfo) => {
+    const filteredTasks = filterTasks(filters);
+    setTasks(filteredTasks)
+  }  
+
+  // FILTER automatically when any setting is changed
+  useEffect(()=>{
+    reloadTasks();
+  }, [selectedDay, searchTitle, selectedStatus])
+
+
 
   // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION 
   
@@ -61,26 +76,24 @@ function App() {
     reloadTasks()
   }
 
-  // RELOAD tasks method from the local storage  
-  const reloadTasks = () => {
-    const allTasks = getTasks();
-    setTasks(allTasks)
+  // RELOAD tasks method from the local storage
+  const reloadTasks = () => {    
+    filter({
+      selectedDay: selectedDay,
+      title: searchTitle,
+      status: selectedStatus
+    })
   }
 
   // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS 
 
-  // filter method
-  const filter = (filters: FiltersInfo) => {
-    const filteredTasks = filterTasks(filters);
-    setTasks(filteredTasks)
-  }
 
 
   // CONTEXT VALUE - for anything that the app might need
   const appContextValue = {
     tasks: tasks,
     selectedDay: selectedDay,
-    changeSelectedDate: changeSelectedDate,
+    changeFilters: changeFilters,
     reloadTasks: reloadTasks,
     addNewTask: addNewTask,
     deleteCurrentTask: deleteCurrentTask,
