@@ -3,10 +3,11 @@
 
 body {
 
-    background-color: #b4bec0;
+    background-color: #a6afbe;
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
     font-weight: 500;
+    font-size: 14px;
     display: block;
     font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
@@ -163,8 +164,10 @@ body {
         color: white;
     }
     
+    h1 {
+        font-size: 2.4em;
+    }
     
-
     #root {
         #app {
             display: flex;
@@ -214,6 +217,11 @@ body {
                                 padding: 3%;
                                 border-radius: 16px;
                                 box-sizing: border-box;
+
+                                margin: 0;
+                                border-radius: 0;
+                                padding-top: 15px;
+                                padding-left: 5%;
     
                                 h3{
                                     color: rgb(0, 0, 0);
