@@ -45,7 +45,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text, taskBoxIn
                         <FroalaEditorComponent
                             model={textContent}
                             handleChange={handleChange}
-                            
+                        
                         />
 
                         <div className="editableInput-menu-btn" onClick={() => setIsEditable(false)}>
