@@ -67,7 +67,7 @@ const Filters: React.FC<FiltersProps>=(props)=>{
         <div id="filters">
             <div className="filter-group">
                 <button className="btn"
-                    onClick={()=>appContext?.addNewTask(
+                    onClick={()=>appContext?.addTask(
                         {
                             title: 'Task nou',
                             description: 'Scrie aici descrierea taskului tau',

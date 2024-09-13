@@ -9,15 +9,15 @@ import EditableTextArea from "../Tasks/EditableTextArea";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ro } from 'date-fns/locale';
+import { useLocation } from "react-router-dom";
 
-interface TaskModalProps {
+interface TaskDetailsProps {
     taskBoxInfo: TaskBoxInfo;
-    openModal: (taskBoxInfo:TaskBoxInfo) => void;
     closeModal: () => void;
-    openDelete: () => void;
+    openDelete: (taskBoxInfo:TaskBoxInfo) => void;
 }
 
-const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal, openDelete}) => {
+const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openDelete}) => {
 
     // app context
     const appContext = useContext(AppContext);
@@ -52,8 +52,12 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
         updateTask(newTaskInfo);
         appContext?.reloadTasks();
 
-        closeModal();
     }
+
+    const location = useLocation();
+    useEffect(()=>{
+        saveTask()
+    }, [location.hash])
     
     
     return (
@@ -74,7 +78,6 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
                     acceptEdit={setDescription}
                     text={description}
                     taskBoxInfo={taskBoxInfo}
-                    openModal={openModal}
                     closeModal={closeModal}
                 />
 
@@ -107,15 +110,17 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
                 
 
 
-
                 {
                     validationError.visible &&
                     <p className="error">{validationError.text}</p>
                 }
                 <div className="modal-footer">
-                    <button className="btn btn-delete" onClick={()=>openDelete()}>Sterge Task</button>
+                    <button className="btn btn-delete" onClick={()=>openDelete(taskBoxInfo)}>Sterge Task</button>
                     <div>
-                        <button className="btn" disabled={validationError.visible} onClick={()=>saveTask()}>Salveaza</button>
+                        <button className="btn" disabled={validationError.visible} onClick={()=>{
+                            saveTask();                            
+                            closeModal();
+                        }}>Salveaza</button>
                         &nbsp;&nbsp;&nbsp;
                         <button className="btn" onClick={()=>closeModal()}>Renunta</button>
                     </div>
@@ -126,4 +131,4 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
     )
 }
 
-export default TaskModal;
+export default TaskDetails;

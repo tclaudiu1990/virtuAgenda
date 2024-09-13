@@ -4,7 +4,7 @@ import StatusColumn from "./StatusColumn";
 
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Filters from "../Filters/Filters";
-import { addTask } from "../../Services/taskServices";
+import { addNewTask } from "../../Services/taskServices";
 import { NewTaskInfo } from "../../types/NewTaskInfo";
 import { AppContext } from "../../App";
 

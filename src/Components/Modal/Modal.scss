@@ -60,6 +60,25 @@
         margin: 0;
     }
 
+    .fr-box{
+        border-radius: 10px;
+        overflow: hidden;
+        border: none;
+
+        .fr-toolbar {
+            border: none;
+            box-shadow: 0 0px 5px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+        .fr-wrapper{
+            border: none;
+        }
+        .fr-second-toolbar {
+            display: none;
+        }
+    }
+    
+    
     .input-editable-container {
         position: relative;
 
@@ -67,39 +86,24 @@
         .editableInput-menu-btn{
             position: absolute;
             right: 6px;
-            top: 4px;
+            top: 6px;
             display: flex;
-            background-color: $gray2;
+            background-color: $gray3;
+            color: white;
             cursor: pointer;
             border-radius: 5px;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: inline-block;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: row;
+            z-index: 30;
 
             &:hover{
                 opacity: 0.6;
 
-            }
-
-        }
-        
-
-        .quill {
-            background-color: white;
-            border: 0px;
-            border-radius: 5px;
-            border-radius: 10px;
-            .ql-toolbar {
-                border: none;
-                box-shadow: 0 2px 3px rgba(0,0,0,0.1);
-            }
-            .ql-container {
-                border: none;
-                font-family: Montserrat, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
             }
 
         }

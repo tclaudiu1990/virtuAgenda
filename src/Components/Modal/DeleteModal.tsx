@@ -11,7 +11,7 @@ const DeleteModal:React.FC<DeleteModalProps> = ({taskBoxInfo, closeModal}) => {
     const appContext = useContext(AppContext);
 
     const handleDelete = () => {
-        appContext?.deleteCurrentTask(taskBoxInfo);
+        appContext?.deleteTask(taskBoxInfo);
         closeModal()
     }
 

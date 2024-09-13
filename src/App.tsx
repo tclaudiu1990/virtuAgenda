@@ -3,11 +3,15 @@ import './App.scss'
 import Header from './Components/Header/Header'
 import Board from './Components/Board/Board'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {  addTask, deleteAllTasks, deleteTask, getTaskById, getTasks, logSavedTasks } from './Services/taskServices';
+import {  deleteAllTasks, logSavedTasks } from './Services/taskServices';
 import { TaskBoxInfo } from './types/TaskBoxInfo';
 import { NewTaskInfo } from './types/NewTaskInfo';
 import FiltersInfo from './types/FiltersInfo';
-import { filterTasks } from './Services/filteringServices';
+import useTasks from './hooks/useTasks';
+import DeleteModal from './Components/Modal/DeleteModal';
+import TaskDetails from './Components/Modal/TaskDetails';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Modal from './Components/Modal/Modal';
 
 // context definition
 type TaskContextType = {
@@ -15,9 +19,9 @@ type TaskContextType = {
   selectedDay: Date;
   changeFilters: (filters: FiltersInfo) => void;
   reloadTasks: () => void;
-  addNewTask: (task: NewTaskInfo) => void;
+  addTask: (task: NewTaskInfo) => void;
   getTask: (id: number) => TaskBoxInfo | undefined;
-  deleteCurrentTask: (task: TaskBoxInfo) => void;
+  deleteTask: (task: TaskBoxInfo) => void;
   filter: (filters: FiltersInfo) => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
@@ -25,85 +29,96 @@ export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
 function App() {
 
-  // all tasks in the localStorage
-  const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
+  const {tasks, 
+    selectedDay,
+    searchTitle,
+    selectedStatus,
+    changeFilters,
+    filter,
+    getTask,
+    addTask,
+    deleteTask,
+    reloadTasks
+  } = useTasks()
 
 
-  // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION 
+  // MODAL
 
-  // selected Day
-  const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-  // search term
-  const [searchTitle, setSearchTitle] = useState('');
-  // selected status
-  const [selectedStatus, setSelectedStatus] = useState('');
-
-
-  const changeFilters = (filters: FiltersInfo) => {
-    setSelectedDay(filters.selectedDay);
-    setSearchTitle(filters.title);
-    setSelectedStatus(filters.status)
-  }
-
-  // filter method
-  const filter = (filters: FiltersInfo) => {
-    const filteredTasks = filterTasks(filters);
-    setTasks(filteredTasks)
-  }  
-
-  // FILTER automatically when any setting is changed
-  useEffect(()=>{
-    reloadTasks();
-  }, [selectedDay, searchTitle, selectedStatus])
-
-
-
-  // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION // TASK MANIPULATION 
+      // router hooks
+      const navigate = useNavigate();
+      const location = useLocation();
   
-  // LOAD the tasks on app render
-  useEffect(()=>{
-    reloadTasks();
-  }, [])
 
-  // Retrieve a tasks by ID number
-  const getTask = (id:number): TaskBoxInfo | undefined => {
-    const storedTask = getTaskById(id)
-    return(storedTask)
-  }  
 
-  // add task 
-  const addNewTask = (task:NewTaskInfo) => {
-    addTask(task);
-    reloadTasks()
-  }
-  // delete task
-  const deleteCurrentTask = (task:TaskBoxInfo) => {
-    deleteTask(task);
-    reloadTasks()
-  }
+      // state to determine the visibility of the modal
+      const [modalVisible, setModalVisible] = useState(false);
+      // content to be passed to the modal component
+      let [modalContent, setModalContent] = useState(<></>);
+  
 
-  // RELOAD tasks method from the local storage
-  const reloadTasks = () => {    
-    filter({
-      selectedDay: selectedDay,
-      title: searchTitle,
-      status: selectedStatus
-    })
-  }
 
-  // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS // FILTER TASKS 
+      // close modal and navigate to home
+      const closeModal = () => {
+          setModalVisible(false)        
+          navigate(`/`)
+      };
+  
+      // method to open the Task Details modal
+      const openTaskDetails = (taskInfo:TaskBoxInfo) => {
+        console.log(`openModal NEW TaskBoxInfo`)
+        console.log(taskInfo)
+        setModalContent(
+            <TaskDetails
+                    key={taskInfo.id}  
+                    taskBoxInfo={taskInfo} 
+                    closeModal={closeModal}
+                    openDelete={openDelete}
+                /> 
+        )
+        setModalVisible(true);
+      }
+
+      // method to open the Delete Task modal
+      const openDelete = (taskBoxInfo:TaskBoxInfo) => {
+          setModalContent(
+              <DeleteModal
+                  taskBoxInfo={taskBoxInfo}    
+                  closeModal={closeModal}       
+              /> 
+          )
+          setModalVisible(true);
+      }
+  
+
+      // Automatically check for route changes
+      // When route changes to /#task_id, open Task Details of the corresponding task
+      useEffect(()=>{
+          //extract taskId
+          const linkId = location.hash.substring(1);
+          // get taskBoxInfo
+          const newTaskBoxInfo = getTask(Number(linkId))
+          
+          if(newTaskBoxInfo){
+              openTaskDetails(newTaskBoxInfo)
+          } else {
+              closeModal()
+          }
+  
+      }, [location.hash])
+
+
 
 
 
   // CONTEXT VALUE - for anything that the app might need
-  const appContextValue = {
+  const appContextValue:TaskContextType = {
     tasks: tasks,
     selectedDay: selectedDay,
     changeFilters: changeFilters,
     reloadTasks: reloadTasks,
-    addNewTask: addNewTask,
+    addTask: addTask,
     getTask: getTask,
-    deleteCurrentTask: deleteCurrentTask,
+    deleteTask: deleteTask,
     filter: filter
   }
   
@@ -111,6 +126,14 @@ function App() {
   return (
     <div id='app'>
       <AppContext.Provider value={appContextValue}>
+
+        
+        {modalVisible &&
+          <Modal closeModal={closeModal}>
+              {modalContent}
+          </Modal>
+        }
+
         <Header></Header>
         <Board tasks={tasks}></Board>
         {/* dev buttons */}
@@ -119,7 +142,7 @@ function App() {
           <button onClick={()=>deleteAllTasks()}>delete all task</button>
         </div>
         {/* dev buttons */}
-      </AppContext.Provider>      
+      </AppContext.Provider>
     </div>
   )
 }

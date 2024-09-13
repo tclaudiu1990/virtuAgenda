@@ -14,12 +14,11 @@ interface TextAreaProps {
     acceptEdit: Dispatch<SetStateAction<string>>;
     text: string;
     taskBoxInfo: TaskBoxInfo;
-    openModal: (taskBoxInfo:TaskBoxInfo)=> void;
     closeModal: ()=> void;
 }
 
 
-const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text, taskBoxInfo, openModal, closeModal }) => {
+const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     const appContext = useContext(AppContext);
 
     const [isEditable, setIsEditable] = useState(false);
@@ -27,7 +26,6 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text, taskBoxIn
 
 
     const handleChange = (value: string) => {
-
         setTextContent(value);
     };
 

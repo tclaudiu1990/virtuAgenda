@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import './TaskBox.scss';
-import TaskModal from "../Modal/TaskModal";
+import TaskDetails from "../Modal/TaskDetails";
 import Modal from "../Modal/Modal";
 import DeleteModal from "../Modal/DeleteModal";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { AppContext } from "../../App";
 
 interface TaskBoxProps{
     name: string;
@@ -12,25 +14,35 @@ interface TaskBoxProps{
 
 const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
 
+    const appContext = useContext(AppContext);
+
+    // router hooks
+    const navigate = useNavigate();
+    const location = useLocation();
+
     const [modalVisible, setModalVisible] = useState(false);
-    const closeModal = () => setModalVisible(false);
+
+    const closeModal = () => {
+        setModalVisible(false)        
+        navigate(`/`)
+    };
 
     let [modalContent, setModalContent] = useState(<></>);
 
-    const openEdit = (taskInfo:TaskBoxInfo) => {
+    const openTaskDetails = (taskInfo:TaskBoxInfo) => {
         console.log(`openModal NEW TaskBoxInfo`)
         console.log(taskInfo)
         setModalContent(
-            <TaskModal
+            <TaskDetails
                     key={taskInfo.id}  
-                    taskBoxInfo={taskInfo}    
-                    openModal={openEdit} 
+                    taskBoxInfo={taskInfo} 
                     closeModal={closeModal}
                     openDelete={openDelete}
                 /> 
         )
         setModalVisible(true);
     }
+
     const openDelete = () => {
         setModalContent(
             <DeleteModal
@@ -41,20 +53,34 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
         setModalVisible(true);
     }
 
+    
+    // when route changes to /#task_id, open Task Details of the corresponding task
+    useEffect(()=>{
+        console.log(`location is:`)
+        console.log(location)
+        //extract taskId
+        const linkId = location.hash.substring(1);
+        // get taskBoxInfo
+        const newTaskBoxInfo = appContext?.getTask(Number(linkId))
+        if(newTaskBoxInfo){
+            openTaskDetails(newTaskBoxInfo)
+        } else {
+            closeModal()
+        }
+
+    }, [location.hash])
+
     return(
         <>
-            {modalVisible &&
-                <Modal closeModal={closeModal}>
-                    {modalContent}
-                </Modal>
-            }
 
 
-            <div className="task-box" onClick={()=>openEdit(taskBoxInfo)}>
+            {/* <div className="task-box" onClick={()=>openTaskDetails(taskBoxInfo)}> */}
+            <div className="task-box" onClick={()=>navigate(`#${taskBoxInfo.id}`)}>
                 <div className="task-box-header">
                     <div className="pill">{name}</div>
                     <div className="task-box-menu">
-                        <div className="task-box-menu-btn" onClick={()=>openEdit(taskBoxInfo)}>
+                        {/* <div className="task-box-menu-btn" onClick={()=>openTaskDetails(taskBoxInfo)}> */}
+                        <div className="task-box-menu-btn" onClick={()=>navigate(`#${taskBoxInfo.id}`)}>
                             <i className="fa-solid fa-edit"></i>
                         </div>
                         <div className="task-box-menu-btn" onClick={(e)=>{
