@@ -12,11 +12,12 @@ import { ro } from 'date-fns/locale';
 
 interface TaskModalProps {
     taskBoxInfo: TaskBoxInfo;
+    openModal: (taskBoxInfo:TaskBoxInfo) => void;
     closeModal: () => void;
     openDelete: () => void;
 }
 
-const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelete}) => {
+const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal, openDelete}) => {
 
     // app context
     const appContext = useContext(AppContext);
@@ -60,7 +61,7 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
 
                 <small><em>Task ID: {taskBoxInfo.id}</em></small>
 
-                <h3>Title</h3>
+                <h3>Titlu</h3>
 
                 <EditableInput 
                     acceptEdit={setTitle} 
@@ -68,33 +69,43 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, closeModal, openDelet
                     text={title}
                 />
 
-                <h3>Description</h3>
+                <h3>Descriere</h3>
                 <EditableTextArea
-                    acceptEdit={setDescription} 
-                    item={<p>{description}</p>}
+                    acceptEdit={setDescription}
                     text={description}
+                    taskBoxInfo={taskBoxInfo}
+                    openModal={openModal}
                 />
 
-                <h3>Status</h3>
-                <select name="status" value={status} id="modal-task-status" onChange={(e)=>{setStatus(e.target.value)}}>
-                    <option value='create'>Create</option>
-                    <option value='incurs'>In curs</option>
-                    <option value='finalizate'>Finalizate</option>
-                </select>
 
-                <label htmlFor="modal-startdate-picker">Data de incepere:</label>
+                <div className="modal-group-double">
+                    <div className="group-item">
+                        <h3>Status</h3>
+                        <select name="status" value={status} id="modal-task-status" onChange={(e)=>{setStatus(e.target.value)}}>
+                            <option value='create'>Create</option>
+                            <option value='incurs'>In curs</option>
+                            <option value='finalizate'>Finalizate</option>
+                        </select>
+                    </div>
 
-                <div className="modal-date">
-                    <DatePicker
-                        id="modal-startdate-picker"
-                        selected={startDate}
-                        dateFormat="dd/MM/yyyy"
-                        onChange={date=>setStartDate(date as Date)}
-                        date={ new Date() }
-                        className="calendarElement"
-                        locale={ro}
-                    />
+                    <div className="group-item">
+                        <h3>Data:</h3>
+                        <div className="modal-date">
+                            <DatePicker
+                                id="modal-startdate-picker"
+                                selected={startDate}
+                                dateFormat="dd/MM/yyyy"
+                                onChange={date=>setStartDate(date as Date)}
+                                date={ new Date() }
+                                className="calendarElement"
+                                locale={ro}
+                            />
+                        </div>
+                    </div>
                 </div>
+                
+
+
 
                 {
                     validationError.visible &&

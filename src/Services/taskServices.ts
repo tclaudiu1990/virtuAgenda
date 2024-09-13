@@ -18,6 +18,17 @@ const getTasks = (): TaskBoxInfo[] => {
     return(finalList);
 }
 
+// GET TASK by id
+const getTaskById = (id:number): TaskBoxInfo | undefined => {
+    let tasks:TaskBoxInfo[] = getTasks();
+    for(let i=0; i < tasks.length; i++){
+        if(id==tasks[i].id){
+            return(tasks[i])
+            break;
+        }
+    }
+}
+
 // CREATE a task 
 const addTask = (newTaskInfo: NewTaskInfo) => {
     
@@ -118,4 +129,4 @@ const resetIdCounter = () => {
     localStorage.setItem('vaIdCounter', JSON.stringify(0))
 }
 
-export {getIdCounter, resetIdCounter, createNewId, getTasks, addTask, updateTask, deleteTask, logSavedTasks, deleteAllTasks};
+export {getIdCounter, resetIdCounter, createNewId, getTasks, getTaskById, addTask, updateTask, deleteTask, logSavedTasks, deleteAllTasks};

@@ -23,7 +23,6 @@ const filterTasks = (filters: FiltersInfo) => {
         filteredTasks = filteredTasks.filter((task)=>task.title.toLowerCase().includes(filters.title.toLowerCase()))
     } 
 
-    console.log(filteredTasks)
     return(filteredTasks);
 }
 

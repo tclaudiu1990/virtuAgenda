@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 type InputProps = {
     acceptEdit: Dispatch<SetStateAction<string>>;
@@ -24,6 +24,11 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
         acceptEdit(textContent.length==0 ? '-' : textContent)
     }, [textContent])
 
+    // reference to the input element
+    const inputElement = useRef<HTMLInputElement>(null)
+    useEffect(()=>{
+        if(isEditable&&inputElement.current){inputElement.current.focus()}
+    },[isEditable])
 
     return(
         <>
@@ -31,11 +36,13 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
                 isEditable?
                     <div className="input-editable-container">
                         <input
+                            ref={inputElement}
                             maxLength={70}
                             className="input-editable"
                             type="text"
                             value={textContent}
-                            onChange={(e)=>handleChange(e.currentTarget as HTMLInputElement)}                            
+                            onChange={(e)=>handleChange(e.currentTarget as HTMLInputElement)}
+                            onBlur={()=>setIsEditable(false)}                      
                         /> 
                     </div>
                 :

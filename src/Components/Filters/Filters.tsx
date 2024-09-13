@@ -75,7 +75,7 @@ const Filters: React.FC<FiltersProps>=(props)=>{
                         }
                 )}>+ Creaza Task Nou</button>
 
-                <label htmlFor="date-picker">Selecteaza Ziua:</label>
+                <label htmlFor="date-picker"> Data:</label>
                 <div className="calendarWrap" ref={calendarWrap}>
                     <DatePicker
                         id="date-picker"
@@ -90,8 +90,8 @@ const Filters: React.FC<FiltersProps>=(props)=>{
             </div>
 
             <div className="filter-group">
-                <label htmlFor="search-input"><i className="fa-solid fa-magnifying-glass"></i></label>
-                <input id="search-input" type="text" placeholder="title" onChange={(e)=>setSearchTitle(e.target.value)}></input>
+                {/* <label htmlFor="search-input"><i className="fa-solid fa-magnifying-glass"></i></label> */}
+                <input id="search-input" type="text" placeholder="Titlu Task" onChange={(e)=>setSearchTitle(e.target.value)}></input>
 
                 <label htmlFor="select-status">Status</label>
                 <select name="status" id="select-status" onChange={(e)=>setStatus((e.target as HTMLSelectElement).value)}>

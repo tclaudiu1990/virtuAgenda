@@ -3,7 +3,7 @@ import './App.scss'
 import Header from './Components/Header/Header'
 import Board from './Components/Board/Board'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {  addTask, deleteAllTasks, deleteTask, getTasks, logSavedTasks } from './Services/taskServices';
+import {  addTask, deleteAllTasks, deleteTask, getTaskById, getTasks, logSavedTasks } from './Services/taskServices';
 import { TaskBoxInfo } from './types/TaskBoxInfo';
 import { NewTaskInfo } from './types/NewTaskInfo';
 import FiltersInfo from './types/FiltersInfo';
@@ -16,6 +16,7 @@ type TaskContextType = {
   changeFilters: (filters: FiltersInfo) => void;
   reloadTasks: () => void;
   addNewTask: (task: NewTaskInfo) => void;
+  getTask: (id: number) => TaskBoxInfo | undefined;
   deleteCurrentTask: (task: TaskBoxInfo) => void;
   filter: (filters: FiltersInfo) => void
 }
@@ -64,7 +65,12 @@ function App() {
     reloadTasks();
   }, [])
 
-  
+  // Retrieve a tasks by ID number
+  const getTask = (id:number): TaskBoxInfo | undefined => {
+    const storedTask = getTaskById(id)
+    return(storedTask)
+  }  
+
   // add task 
   const addNewTask = (task:NewTaskInfo) => {
     addTask(task);
@@ -96,6 +102,7 @@ function App() {
     changeFilters: changeFilters,
     reloadTasks: reloadTasks,
     addNewTask: addNewTask,
+    getTask: getTask,
     deleteCurrentTask: deleteCurrentTask,
     filter: filter
   }

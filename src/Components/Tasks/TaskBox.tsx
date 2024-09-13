@@ -17,10 +17,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
 
     let [modalContent, setModalContent] = useState(<></>);
 
-    const openEdit = () => {
+    const openEdit = (taskInfo:TaskBoxInfo) => {
         setModalContent(
-            <TaskModal
-                    taskBoxInfo={taskBoxInfo}    
+            <TaskModal                   
+                    taskBoxInfo={taskInfo}    
+                    openModal={openEdit} 
                     closeModal={closeModal}
                     openDelete={openDelete}
                 /> 
@@ -46,11 +47,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
             }
 
 
-            <div className="task-box" onClick={()=>openEdit()}>
+            <div className="task-box" onClick={()=>openEdit(taskBoxInfo)}>
                 <div className="task-box-header">
                     <div className="pill">{name}</div>
                     <div className="task-box-menu">
-                        <div className="task-box-menu-btn" onClick={()=>openEdit()}>
+                        <div className="task-box-menu-btn" onClick={()=>openEdit(taskBoxInfo)}>
                             <i className="fa-solid fa-edit"></i>
                         </div>
                         <div className="task-box-menu-btn" onClick={(e)=>{
