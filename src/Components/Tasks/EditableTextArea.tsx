@@ -1,26 +1,14 @@
 
 
 import React, { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react";
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { AppContext } from "../../App";
 
+import 'froala-editor/css/froala_editor.pkgd.min.css';
+import 'froala-editor/css/froala_style.min.css';
 
 
-const modules = {
-    toolbar: [
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['bold', 'italic', 'underline'],
-        ['link']
-    ],
-    clipboard: {
-        matchVisual: false
-    }
-};
-const formats = ['list', 'bullet', 'bold', 'italic', 'underline', 'link', 'taskLink'];
-
-
+import FroalaEditorComponent from './FroalaEditor';
 
 interface TextAreaProps {
     acceptEdit: Dispatch<SetStateAction<string>>;
@@ -37,36 +25,29 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text, taskBoxIn
     const [isEditable, setIsEditable] = useState(false);
     const [textContent, setTextContent] = useState(text);
 
-    const quillRef = useRef<ReactQuill | null>(null);
 
     const handleChange = (value: string) => {
+
         setTextContent(value);
     };
 
-    useEffect(() => {
-        acceptEdit(textContent.length === 0 ? '-' : textContent);
-    }, [textContent]);
+    useEffect(()=>{
+        acceptEdit(textContent)
+    }, [textContent])
 
-    useEffect(() => {
-        if (isEditable && quillRef.current) {
-            quillRef.current.getEditor().focus();
-        }
-    }, [isEditable]);
-
+    
     return (
         <>
             {
                 isEditable ?
                     <div className="input-editable-container">
-                        <ReactQuill
-                            ref={quillRef}
-                            className="input-editable"
-                            theme="snow"
-                            modules={modules}
-                            formats={formats}
-                            value={textContent}
-                            onChange={handleChange}
+                        
+                        <FroalaEditorComponent
+                            model={textContent}
+                            handleChange={handleChange}
+                            
                         />
+
                         <div className="editableInput-menu-btn" onClick={() => setIsEditable(false)}>
                             <i className="fa-solid fa-check"></i>
                         </div>
