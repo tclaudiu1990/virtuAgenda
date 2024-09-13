@@ -18,8 +18,11 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
     let [modalContent, setModalContent] = useState(<></>);
 
     const openEdit = (taskInfo:TaskBoxInfo) => {
+        console.log(`openModal NEW TaskBoxInfo`)
+        console.log(taskInfo)
         setModalContent(
-            <TaskModal                   
+            <TaskModal
+                    key={taskInfo.id}  
                     taskBoxInfo={taskInfo}    
                     openModal={openEdit} 
                     closeModal={closeModal}

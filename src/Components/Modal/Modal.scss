@@ -135,6 +135,7 @@
 
         .modal-task-details {
             width: 100%;
+            animation: appear-top 0.3s forwards ease-in-out;
         }
     
         .react-datepicker-wrapper  {

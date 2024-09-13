@@ -75,6 +75,7 @@ const TaskModal: React.FC<TaskModalProps> = ({taskBoxInfo, openModal, closeModal
                     text={description}
                     taskBoxInfo={taskBoxInfo}
                     openModal={openModal}
+                    closeModal={closeModal}
                 />
 
 
