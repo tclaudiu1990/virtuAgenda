@@ -14,10 +14,9 @@ import { useLocation } from "react-router-dom";
 interface TaskDetailsProps {
     taskBoxInfo: TaskBoxInfo;
     closeModal: () => void;
-    openDelete: (taskBoxInfo:TaskBoxInfo) => void;
 }
 
-const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openDelete}) => {
+const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
 
     // app context
     const appContext = useContext(AppContext);
@@ -54,19 +53,13 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openD
 
     }
 
-
-
+    // save task automatically when location changes
     const location = useLocation();
     useEffect(()=>{
         saveTask()
     }, [location.hash])
 
 
-    useEffect(()=>{
-        console.log(`edited description: it is now stored as`)
-        console.log(description)
-    }, [description])
-    
     
     return (
             <div className="modal-task-details">
@@ -122,7 +115,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openD
                     <p className="error">{validationError.text}</p>
                 }
                 <div className="modal-footer">
-                    <button className="btn btn-delete" onClick={()=>openDelete(taskBoxInfo)}>Sterge Task</button>
+                    <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Sterge Task</button>
                     <div>
                         <button className="btn" disabled={validationError.visible} onClick={()=>{
                             saveTask();                            

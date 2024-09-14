@@ -27,22 +27,28 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
 
     const handleChange = (value: string) => {
-        console.log(`editableTextarea value before setting as task content`)
-        console.log(value)
         setTextContent(value);
     };
 
     useEffect(()=>{
-        console.log(`textContent is now:`)
-        console.log(textContent)
-        console.log(`Accepting edit:`)
         acceptEdit(textContent)
     }, [textContent])
 
-    // const processDescription = (value: string) => {
-    //     const valueWithoutDivs = value.slice(4,value.length-6)
-    //     setDescription(valueWithoutDivs)
-    // }
+
+    // everytime the task opens, check if taks links are still available
+    const checkForValidLinks = () => {
+        // get all taskLinks
+        const taskLinks = document.querySelectorAll(`.task-link`)
+        // find invalid task links and add link-not-valid class
+        taskLinks.forEach(a => {
+            const taskIdLink = a.getAttribute('href')?.substring(1);
+            !appContext?.getTask(Number(taskIdLink))? a.classList.add(`link-not-valid`) :  a.classList.remove(`link-not-valid`)
+        });
+    }
+    useEffect(()=>{
+        checkForValidLinks();
+    }, [])
+    
 
     return (
         <>
@@ -53,6 +59,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                         <FroalaEditorComponent
                             model={textContent}
                             handleChange={handleChange}
+                            checkForValidLinks={checkForValidLinks}
                         />
                         <p><small>Creaza link-uri catre alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 

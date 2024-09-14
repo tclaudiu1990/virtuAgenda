@@ -22,6 +22,7 @@ type TaskContextType = {
   addTask: (task: NewTaskInfo) => void;
   getTask: (id: number) => TaskBoxInfo | undefined;
   deleteTask: (task: TaskBoxInfo) => void;
+  openDelete: (info: TaskBoxInfo) => void;
   filter: (filters: FiltersInfo) => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
@@ -44,65 +45,64 @@ function App() {
 
   // MODAL
 
-      // router hooks
-      const navigate = useNavigate();
-      const location = useLocation();
-  
+  // router hooks
+  const navigate = useNavigate();
+  const location = useLocation();
 
 
-      // state to determine the visibility of the modal
-      const [modalVisible, setModalVisible] = useState(false);
-      // content to be passed to the modal component
-      let [modalContent, setModalContent] = useState(<></>);
-  
+
+  // state to determine the visibility of the modal
+  const [modalVisible, setModalVisible] = useState(false);
+  // content to be passed to the modal component
+  let [modalContent, setModalContent] = useState(<></>);
 
 
-      // close modal and navigate to home
-      const closeModal = () => {
-          setModalVisible(false)        
-          navigate(`/`)
-      };
-  
-      // method to open the Task Details modal
-      const openTaskDetails = (taskInfo:TaskBoxInfo) => {
-        setModalContent(
-            <TaskDetails
-                    key={taskInfo.id}  
-                    taskBoxInfo={taskInfo} 
-                    closeModal={closeModal}
-                    openDelete={openDelete}
-                /> 
-        )
-        setModalVisible(true);
+
+  // close modal and navigate to home
+  const closeModal = () => {
+      setModalVisible(false)        
+      navigate(`/`)
+  };
+
+  // method to open the Task Details modal
+  const openTaskDetails = (taskInfo:TaskBoxInfo) => {
+    setModalContent(
+        <TaskDetails
+                key={taskInfo.id}  
+                taskBoxInfo={taskInfo} 
+                closeModal={closeModal}
+            /> 
+    )
+    setModalVisible(true);
+  }
+
+  // method to open the Delete Task modal
+  const openDelete = (taskBoxInfo:TaskBoxInfo) => {
+      setModalContent(
+          <DeleteModal
+              taskBoxInfo={taskBoxInfo}    
+              closeModal={closeModal}       
+          /> 
+      )
+      setModalVisible(true);
+  }
+
+
+  // Automatically check for route changes
+  // When route changes to /#task_id, open Task Details of the corresponding task
+  useEffect(()=>{
+      //extract taskId
+      const linkId = location.hash.substring(1);
+      // get taskBoxInfo
+      const newTaskBoxInfo = getTask(Number(linkId))
+      
+      if(newTaskBoxInfo){
+          openTaskDetails(newTaskBoxInfo)
+      } else {
+          closeModal()
       }
 
-      // method to open the Delete Task modal
-      const openDelete = (taskBoxInfo:TaskBoxInfo) => {
-          setModalContent(
-              <DeleteModal
-                  taskBoxInfo={taskBoxInfo}    
-                  closeModal={closeModal}       
-              /> 
-          )
-          setModalVisible(true);
-      }
-  
-
-      // Automatically check for route changes
-      // When route changes to /#task_id, open Task Details of the corresponding task
-      useEffect(()=>{
-          //extract taskId
-          const linkId = location.hash.substring(1);
-          // get taskBoxInfo
-          const newTaskBoxInfo = getTask(Number(linkId))
-          
-          if(newTaskBoxInfo){
-              openTaskDetails(newTaskBoxInfo)
-          } else {
-              closeModal()
-          }
-  
-      }, [location.hash])
+  }, [location.hash])
 
 
 
@@ -117,6 +117,7 @@ function App() {
     addTask: addTask,
     getTask: getTask,
     deleteTask: deleteTask,
+    openDelete: openDelete,
     filter: filter
   }
   

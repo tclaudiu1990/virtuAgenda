@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Editor from 'react-froala-wysiwyg';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import 'froala-editor/js/plugins/lists.min.js';
@@ -6,20 +6,29 @@ import 'froala-editor/js/plugins/lists.min.js';
 interface FroalaEditorProps {
   model: string;
   handleChange: (value:string) => void;
+  checkForValidLinks: () => void;
 }
 
-const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChange }) => {
+const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChange, checkForValidLinks }) => {
 
 
     const handleModelChange = (value: string) => {
+
+        // add <a> tags aroung any text of format {#task_id}
         const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
-          return `<a href="#${taskId}" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
+          return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
         });
+        // recheck for invalid links and add invalid classes if necessary
+        checkForValidLinks();
         
-        console.log(`foala text`)
-        console.log(valueWithLinks)
         handleChange(valueWithLinks);
     };
+
+    // add invalid link classes on component render
+    useEffect(()=>{
+        checkForValidLinks()
+    }, [])
+
 
 
     return (
@@ -38,7 +47,8 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
                     'insertLink','formatOL', 'formatUL'
                 ],
                 fontFamilyDefaultSelection: 'Montserrat',
-                htmlAllowedTags: ['p', 'a', 'ul', 'ol', 'li', 'strong', 'em' ], //
+                htmlAllowedTags: ['p', 'a', 'ul', 'ol', 'li', 'strong', 'em' ],
+                htmlAllowedAttrs: ['class', 'className', 'href', 'src']
             }}
         />
     );

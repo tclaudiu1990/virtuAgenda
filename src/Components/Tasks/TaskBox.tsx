@@ -35,18 +35,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
                     key={taskInfo.id}  
                     taskBoxInfo={taskInfo} 
                     closeModal={closeModal}
-                    openDelete={openDelete}
                 /> 
-        )
-        setModalVisible(true);
-    }
-
-    const openDelete = () => {
-        setModalContent(
-            <DeleteModal
-                taskBoxInfo={taskBoxInfo}    
-                closeModal={closeModal}       
-            /> 
         )
         setModalVisible(true);
     }
@@ -81,7 +70,7 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
                         </div>
                         <div className="task-box-menu-btn" onClick={(e)=>{
                                 e.stopPropagation()
-                                openDelete()
+                                appContext?.openDelete(taskBoxInfo)
                             }}>
                             <i className="fa-solid fa-trash"></i>
                         </div>

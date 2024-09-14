@@ -77,6 +77,10 @@
             display: none;
         }
     }
+    .link-not-valid {
+        color: $invalid;
+        font-weight: 600;
+    }
     
     
     .input-editable-container {
