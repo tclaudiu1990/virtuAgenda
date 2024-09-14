@@ -10,6 +10,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { ro } from 'date-fns/locale';
 import { useLocation } from "react-router-dom";
+import DayPicker from "../DayPicker/DayPicker";
 
 interface TaskDetailsProps {
     taskBoxInfo: TaskBoxInfo;
@@ -95,15 +96,12 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                     <div className="group-item">
                         <h3>Data:</h3>
                         <div className="modal-date">
-                            <DatePicker
-                                id="modal-startdate-picker"
-                                selected={startDate}
-                                dateFormat="dd/MM/yyyy"
+
+                            <DayPicker
+                                selectedDay= {startDate}
                                 onChange={date=>setStartDate(date as Date)}
-                                date={ new Date() }
-                                className="calendarElement"
-                                locale={ro}
                             />
+                           
                         </div>
                     </div>
                 </div>
