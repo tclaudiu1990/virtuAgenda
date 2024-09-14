@@ -2,9 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import './TaskBox.scss';
 import TaskDetails from "../Modal/TaskDetails";
-import Modal from "../Modal/Modal";
-import DeleteModal from "../Modal/DeleteModal";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AppContext } from "../../App";
 
 interface TaskBoxProps{

@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import StatusColumn from "./StatusColumn";
 
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
@@ -74,7 +74,19 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
         }
     }
 
+    // mobile 
+    const [activeTab, setActiveTab] = useState<string>('create');
 
+    // set active class when activeTab changes
+    useEffect(()=>{
+        document.querySelectorAll('.status-column').forEach(column=>{
+            column.classList.contains(activeTab)?column.classList.add(`active`) : column.classList.remove(`active`);
+        });
+        document.querySelectorAll('.board-tab').forEach(tab=>{
+            tab.classList.contains(activeTab)?tab.classList.add(`active`) : tab.classList.remove(`active`);
+        });
+    }, [activeTab])
+    
 
 
     return(
@@ -83,6 +95,12 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                 <Filters></Filters>
             </div>
             
+            <div className="board-tabs">
+                <div className="board-tab create" onClick={()=>setActiveTab(`create`)}>Create: {tasksCreate.length}</div>
+                <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>In Curs: {tasksInCurs.length}</div>
+                <div className="board-tab finalizate" onClick={()=>setActiveTab(`finalizate`)}>Finalizate: {tasksFinalizate.length}</div>
+            </div>
+
             <div className="board-columns">
                 <StatusColumn type={'create'} name={`Create`} tasks={tasksCreate}></StatusColumn>
                 <StatusColumn type={'incurs'} name={`In Curs`} tasks={tasksInCurs}></StatusColumn>
