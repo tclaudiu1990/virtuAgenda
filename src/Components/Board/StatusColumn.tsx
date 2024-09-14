@@ -18,6 +18,7 @@ const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
         <div className={`status-column ${type}`}>
             <div className="column-header">
                 <h3>{name}</h3>
+                <span className="task-count pill">{taskBoxes.length}</span>
             </div>
             <div className="column-container">
             
