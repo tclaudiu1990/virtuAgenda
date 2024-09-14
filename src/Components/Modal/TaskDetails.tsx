@@ -54,10 +54,18 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openD
 
     }
 
+
+
     const location = useLocation();
     useEffect(()=>{
         saveTask()
     }, [location.hash])
+
+
+    useEffect(()=>{
+        console.log(`edited description: it is now stored as`)
+        console.log(description)
+    }, [description])
     
     
     return (
@@ -80,7 +88,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal, openD
                     taskBoxInfo={taskBoxInfo}
                     closeModal={closeModal}
                 />
-
 
                 <div className="modal-group-double">
                     <div className="group-item">

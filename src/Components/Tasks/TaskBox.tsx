@@ -30,8 +30,6 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
     let [modalContent, setModalContent] = useState(<></>);
 
     const openTaskDetails = (taskInfo:TaskBoxInfo) => {
-        console.log(`openModal NEW TaskBoxInfo`)
-        console.log(taskInfo)
         setModalContent(
             <TaskDetails
                     key={taskInfo.id}  
@@ -56,8 +54,6 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
     
     // when route changes to /#task_id, open Task Details of the corresponding task
     useEffect(()=>{
-        console.log(`location is:`)
-        console.log(location)
         //extract taskId
         const linkId = location.hash.substring(1);
         // get taskBoxInfo

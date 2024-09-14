@@ -15,7 +15,9 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
         const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
           return `<a href="#${taskId}" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
         });
-        console.log(valueWithLinks); // Debug statement
+        
+        console.log(`foala text`)
+        console.log(valueWithLinks)
         handleChange(valueWithLinks);
     };
 
@@ -36,7 +38,7 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
                     'insertLink','formatOL', 'formatUL'
                 ],
                 fontFamilyDefaultSelection: 'Montserrat',
-                
+                htmlAllowedTags: ['p', 'a', 'ul', 'ol', 'li', 'strong', 'em' ], //
             }}
         />
     );

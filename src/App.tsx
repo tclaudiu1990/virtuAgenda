@@ -65,8 +65,6 @@ function App() {
   
       // method to open the Task Details modal
       const openTaskDetails = (taskInfo:TaskBoxInfo) => {
-        console.log(`openModal NEW TaskBoxInfo`)
-        console.log(taskInfo)
         setModalContent(
             <TaskDetails
                     key={taskInfo.id}  
