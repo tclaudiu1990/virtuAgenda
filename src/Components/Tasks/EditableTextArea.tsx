@@ -31,24 +31,37 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     };
 
     useEffect(()=>{
+        checkForValidLinks()
         acceptEdit(textContent)
     }, [textContent])
 
 
-    // everytime the task opens, check if taks links are still available
+
+    const preventInvalidClick = (e:Event) => {
+        e.preventDefault()
+    }
+
+    // check if task links are still valid, if not, add class and event to prevent default
     const checkForValidLinks = () => {
         // get all taskLinks
         const taskLinks = document.querySelectorAll(`.task-link`)
         // find invalid task links and add link-not-valid class
         taskLinks.forEach(a => {
             const taskIdLink = a.getAttribute('href')?.substring(1);
-            !appContext?.getTask(Number(taskIdLink))? a.classList.add(`link-not-valid`) :  a.classList.remove(`link-not-valid`)
+            if(!appContext?.getTask(Number(taskIdLink))){
+                a.classList.add(`link-not-valid`)
+                a.addEventListener('click', (e)=>preventInvalidClick(e))
+            }else {
+                a.classList.remove(`link-not-valid`)
+                a.removeEventListener('click', preventInvalidClick)
+            } 
         });
     }
-    useEffect(()=>{
-        checkForValidLinks();
-    }, [])
-    
+
+    const openEditable = () => {
+        setIsEditable(false)   
+    }
+
 
     return (
         <>
@@ -63,7 +76,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                         />
                         <p><small>Creaza link-uri catre alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
-                        <div className="editableInput-menu-btn" onClick={() => setIsEditable(false)}>
+                        <div className="editableInput-menu-btn" onClick={() => openEditable()}>
                             <i className="fa-solid fa-check"></i>
                         </div>
                     </div>

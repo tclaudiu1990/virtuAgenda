@@ -19,16 +19,10 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
           return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
         });
         // recheck for invalid links and add invalid classes if necessary
-        checkForValidLinks();
-        
+        checkForValidLinks()
+
         handleChange(valueWithLinks);
     };
-
-    // add invalid link classes on component render
-    useEffect(()=>{
-        checkForValidLinks()
-    }, [])
-
 
 
     return (
@@ -48,7 +42,11 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
                 ],
                 fontFamilyDefaultSelection: 'Montserrat',
                 htmlAllowedTags: ['p', 'a', 'ul', 'ol', 'li', 'strong', 'em' ],
-                htmlAllowedAttrs: ['class', 'className', 'href', 'src']
+                htmlAllowedAttrs: ['class', 'className', 'href', 'src'],
+
+                events: {
+                    initialized: handleModelChange
+                }
             }}
         />
     );
