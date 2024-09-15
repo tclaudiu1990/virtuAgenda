@@ -25,8 +25,8 @@ const Filters =()=>{
     }
     
 
-    // filter everytime any filter is selected
-    // If the filtering were done in the backend, we would probably filter through a button as to not make too many requests
+    // automatically change global filters everytime any filter is selected
+    // If the filtering was done in the backend, we would probably filter through a button as to not make too many requests
     useEffect(()=>{
         appContext?.changeFilters({
             selectedDay: selectedDay,
@@ -35,7 +35,8 @@ const Filters =()=>{
         });
     }, [selectedDay, searchTitle, status])
 
-
+    // filters: title and status
+    // these are hidden on mobile
     const mobileFilters = useRef<HTMLDivElement>(null)
     const toggleHideFilters = () => {
         if(mobileFilters.current) {
@@ -62,16 +63,11 @@ const Filters =()=>{
                         onChange={handleCalendar}
                     />
                 </div>
-
                 <button className="btn-transparent btn-filters btn" onClick={toggleHideFilters}>Filtre &nbsp; <i className="fa-solid fa-filter"></i></button>
-
-
-                    
             </div>
 
-            
+        
             <div className="filters-group mobile-filter-group" ref={mobileFilters}>
-
                 <div>
                     {/* <label htmlFor="search-input"><i className="fa-solid fa-magnifying-glass"></i></label> */}
                     <label htmlFor="search-input">Titlu</label>
@@ -82,15 +78,12 @@ const Filters =()=>{
                     <label htmlFor="select-status">Status</label>
                     <select name="status" id="select-status" onChange={(e)=>setStatus((e.target as HTMLSelectElement).value)}>
                         <option value=''>Toate</option>
-                        <option value='create'>Creata</option>
-                        <option value='incurs'>In curs</option>
-                        <option value='finalizate'>Finalizata</option>
+                        <option value='create'>Create</option>
+                        <option value='incurs'>În curs</option>
+                        <option value='finalizate'>Finalizate</option>
                     </select>
                 </div>
-
-            </div>            
-            
-
+            </div>     
         </div>
     )
 }

@@ -15,21 +15,20 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
     // app context
     const appContext = useContext(AppContext);
 
-    // the state that holds the 'creata' tasks
+    // the state that holds the 'create' tasks
     const [tasksCreate, setTasksCreate] = useState<TaskBoxInfo[]>([]);
     // the state that holds the 'in curs' tasks
     const [tasksInCurs, setTasksInCurs] = useState<TaskBoxInfo[]>([]);
     // the state that holds the 'finalizate' tasks
     const [tasksFinalizate, setTasksFinalizate] = useState<TaskBoxInfo[]>([]);
      
-    // grab all task on board render and set the state
+    // render all tasks on board render
     useEffect(()=>{
         appContext?.reloadTasks()
     }, [])
 
 
-
-    // redistribute all tasks when tasks change
+    // redistribute all tasks everytime tasks change
     useEffect(()=>{
         distributeTasks(tasks)
     }, [tasks])
@@ -55,7 +54,7 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                     case 'finalizate': finalizateTasks.push(task);
                         break;
                     default:
-                        console.log(`ERROR building tasks. No such case.`)
+                        console.log(`ERROR building tasks. No such case: task status.`)
                 }
             });
 
@@ -73,18 +72,21 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
     }
 
     // MOBILE
-    // active tab - for mobile
+    // active tab state - for mobile
     const [activeTab, setActiveTab] = useState<string>('create');
 
-    // set active class when activeTab changes
+    // toggle active class when activeTab changes
     useEffect(()=>{
         addRemoveActiveClass('board-tab');
         addRemoveActiveClass('status-column');
     }, [activeTab])
     
+    // toggle active classes on items
+    // provide an item class ex:(.board-tab)
+    // will cicle through the items that contain that class and if those items also contain activeTab classes ('create', 'incurs' or 'finalizate'), will activate the appropriate item
     const addRemoveActiveClass = (itemClass:string) => {
-        document.querySelectorAll(`.${itemClass}`).forEach(column=>{
-            column.classList.contains(activeTab)?column.classList.add(`active`) : column.classList.remove(`active`);
+        document.querySelectorAll(`.${itemClass}`).forEach(item=>{
+            item.classList.contains(activeTab)?item.classList.add(`active`) : item.classList.remove(`active`);
         });
     }
 
@@ -95,16 +97,17 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                 <Filters></Filters>
             </div>
             
-            
-            <div className="board-tabs"> {/* visible on mobile */}
+            {/* visible on mobile */}
+            <div className="board-tabs"> 
                 <div className="board-tab create" onClick={()=>setActiveTab(`create`)}>Create: {tasksCreate.length}</div>
-                <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>In Curs: {tasksInCurs.length}</div>
+                <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>În Curs: {tasksInCurs.length}</div>
                 <div className="board-tab finalizate" onClick={()=>setActiveTab(`finalizate`)}>Finalizate: {tasksFinalizate.length}</div>
             </div>
+            {/* end visible on mobile */}
 
             <div className="board-columns">
                 <StatusColumn type={'create'} name={`Create`} tasks={tasksCreate}></StatusColumn>
-                <StatusColumn type={'incurs'} name={`In Curs`} tasks={tasksInCurs}></StatusColumn>
+                <StatusColumn type={'incurs'} name={`În Curs`} tasks={tasksInCurs}></StatusColumn>
                 <StatusColumn type={'finalizate'} name={`Finalizate`} tasks={tasksFinalizate}></StatusColumn>
             </div>
             

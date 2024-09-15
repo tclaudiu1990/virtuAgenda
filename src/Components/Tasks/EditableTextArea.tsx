@@ -26,24 +26,25 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     const [textContent, setTextContent] = useState(text);
 
 
+    // method that checks for valid links and sets the text content for the input
     const handleChange = (value: string) => {
         checkForValidLinks();
         setTextContent(value);
     };
 
+    // check for valid links every time text content changes and fires acceptEdit on parent
     useEffect(()=>{
         checkForValidLinks();
         acceptEdit(textContent);
     }, [textContent])
 
 
-
-    
     const preventInvalidClick = (e:Event) => {
         e.preventDefault()
     }
 
-    // check if task links are still valid, if not, add class and event to prevent default
+    // check if task links are still valid. 
+    //If not, add class and prevent default method
     const checkForValidLinks = () => {
         // get all taskLinks
         const taskLinks = document.querySelectorAll(`.task-link`)
@@ -65,6 +66,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
         setIsEditable(false);
     }
 
+    // check for valid links every time isEditable changes
     useEffect(()=>{
         checkForValidLinks();
     }, [isEditable])
@@ -81,7 +83,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                             handleChange={handleChange}
                             checkForValidLinks={checkForValidLinks}
                         />
-                        <p><small>Creaza link-uri catre alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
+                        <p><small>Crează link-uri către alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
                         <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
                             <i className="fa-solid fa-check"></i>

@@ -13,21 +13,16 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
 
     const appContext = useContext(AppContext);
 
-    // router hooks
+    // navigate router hook
     const navigate = useNavigate();
 
 
-
     return(
-        <>
-
-
-            {/* <div className="task-box" onClick={()=>openTaskDetails(taskBoxInfo)}> */}
+        <>            
             <div className="task-box" onClick={()=>navigate(`#${taskBoxInfo.id}`)}>
                 <div className="task-box-header">
                     <div className="pill">{name}</div>
                     <div className="task-box-menu">
-                        {/* <div className="task-box-menu-btn" onClick={()=>openTaskDetails(taskBoxInfo)}> */}
                         <div className="task-box-menu-btn" onClick={()=>navigate(`#${taskBoxInfo.id}`)}>
                             <i className="fa-solid fa-edit"></i>
                         </div>

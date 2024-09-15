@@ -6,26 +6,28 @@ type InputProps = {
     text: string;
 }
 
-// This input will appear
+// This input can toggle between non editable item and editable item
 const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
 
-    // toggle editable input or normal html element
-    const [isEditable, setIsEditable] = useState(false)
-    // text inside input
+    // state that holds the text of the input
     const [textContent, setTextContent] = useState(text)
 
-    // setting the text content for the editable input
+    // toggle state of editable input / non editable html element
+    const [isEditable, setIsEditable] = useState(false)
+
+    // Sets the text content for the input
     const handleChange = (textElement:HTMLInputElement) => {
         setTextContent(textElement.value);        
     }
 
-    // accept on every input change
+    // fires acceptEdit on parent on every textContent change
     useEffect(()=>{        
         acceptEdit(textContent.length==0 ? '-' : textContent)
     }, [textContent])
 
     // reference to the input element
     const inputElement = useRef<HTMLInputElement>(null)
+    // when editable state, focus on the element to begin writing
     useEffect(()=>{
         if(isEditable&&inputElement.current){inputElement.current.focus()}
     },[isEditable])
@@ -46,7 +48,7 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
                         /> 
                     </div>
                 :
-                    <span className="editable-item" onClick={()=>setIsEditable(true)}>{item}</span>
+                    <span className="non-editable-item" onClick={()=>setIsEditable(true)}>{item}</span>
             }
         </>
         

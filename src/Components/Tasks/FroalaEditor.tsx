@@ -11,19 +11,20 @@ interface FroalaEditorProps {
 
 const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChange, checkForValidLinks }) => {
 
-
-    const handleModelChange = (value: string) => {
-        
+    // method fired every time the editor input changes
+    const handleModelChange = (value: string) => {        
         if(value!=undefined){
-            // add <a> tags aroung any text of format {#task_id}
+            // add <a> tags around any text of format {#task_id} and add links to appropriate tasks
             const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
                 return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
               });
-              // recheck for invalid links and add invalid classes if necessary
-            checkForValidLinks()            
+            // recheck for invalid links and add invalid classes if necessary
+            checkForValidLinks()
+            // fires handleChange on parent
             handleChange(valueWithLinks);
         } else {
-            // check links of the model instead of the value - when initialized
+            //(when initialized input value is undefined) 
+            // check links of the model instead of the value 
             checkForValidLinks()
             handleChange(model);
         }

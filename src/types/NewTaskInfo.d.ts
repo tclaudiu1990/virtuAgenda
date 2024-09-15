@@ -1,5 +1,5 @@
-// Structure of the data for new task creation
-// has less properties than TaskBoxInfo
+// The structure of the data for any New Task Creation
+// has less properties than TaskBoxInfo 
 
 export type NewTaskInfo = {
     title: string;          // title of the task

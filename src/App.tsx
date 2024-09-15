@@ -88,14 +88,16 @@ function App() {
   // Automatically check for route changes
   // When route changes to /#task_id, open Task Details of the corresponding task
   useEffect(()=>{
-      //extract taskId
+      // extract taskId by removing the first character "#"
       const linkId = location.hash.substring(1);
-      // get taskBoxInfo
+      // get taskBoxInfo by id
       const newTaskBoxInfo = getTask(Number(linkId))
       
       if(newTaskBoxInfo){
+          // opens coresponding task details modal
           openTaskDetails(newTaskBoxInfo)
       } else {
+          // close modal if the task doesn't exist
           closeModal()
       }
 
@@ -134,11 +136,13 @@ function App() {
         <Board tasks={tasks}></Board>
 
         {/* dev buttons */}
-        {/* <div className='dev-buttons'>
+        {/* 
+        <div className='dev-buttons'>
           <button onClick={()=>logSavedTasks()}>log all task</button>
           <button onClick={()=>deleteAllTasks()}>delete all task</button>
-        </div> */}
-        {/* dev buttons */}
+        </div>         
+        */}
+        {/* end dev buttons */}
         
       </AppContext.Provider>
     </div>

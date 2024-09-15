@@ -23,11 +23,12 @@ const DayPicker:React.FC<DayPickerProps> = ({selectedDay, onChange}) => {
     
     
 
-
+    // changes the current date to provided value of type Date
     const handleChange = (value:Date)=>{
         setCurrentDate(value)
     }
 
+    // everytime currentDate changes, it fires the onChange method received through props
     useEffect(()=>{
         onChange(currentDate)
     }, [currentDate])
@@ -35,22 +36,22 @@ const DayPicker:React.FC<DayPickerProps> = ({selectedDay, onChange}) => {
 
     // HIGHLIGHT DAYS logic
 
-    // task dates to be highlighted in the calendar
+    // state containing task dates to be highlighted in the calendar
     const [taskDates, setTaskDates] = useState<Date[]>([])
     // ref to the calendar wrap 
     const calendarWrap = useRef(null);    
 
     // update calendar highlighted days when tasks change
     useEffect(()=>{
-        // get all task dates
+        // extract all task dates
         const unfilteredDates = getTasks().map((task:TaskBoxInfo)=>{
             return new Date(task.startDate);
         })
-        // filter task dates to get unique dates
+        // filter for unique dates
         const uniqueDates = unfilteredDates.filter((date, index)=>{
             return index === unfilteredDates.findIndex(item => item.toDateString() === date.toDateString());
         })
-        // set the task dates
+        // set the new task dates
         setTaskDates(uniqueDates);
 
     }, [appContext?.tasks])

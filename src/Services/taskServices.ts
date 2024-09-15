@@ -15,6 +15,7 @@ const getTasks = (): TaskBoxInfo[] => {
             startDate: new Date(task.startDate)
         })
     })
+    // return the correct tasks
     return(finalList);
 }
 
@@ -44,7 +45,7 @@ const addNewTask = (newTaskInfo: NewTaskInfo) => {
         ...newTaskInfo
     }
 
-    // push to all tasks and store 
+    // push to allTasks array and store 
     allTasks.push(newTask)
     localStorage.setItem(`vaTasks`, JSON.stringify(allTasks))
 }
@@ -58,7 +59,7 @@ const updateTask = (task: TaskBoxInfo) => {
     let allTasks = getTasks();
 
     // find the task using the unique id
-    // replace the stored task with new one 
+    // replace the stored task with new one
     for(let i=0; i<allTasks.length; i++) {
         if(allTasks[i].id==task.id){
             allTasks[i]=task;
@@ -93,29 +94,29 @@ const logSavedTasks = () => {
     console.log(getTasks())
 }
 
-// delete all tasks
-
+// delete all tasks - for devs but might come in handy in later updates
 const deleteAllTasks = () => {
     localStorage.removeItem('vaTasks');
     localStorage.removeItem('vaIdCounter');
 }
 
-// ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
-// ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
-// ID COUNTER // ID COUNTER // ID COUNTER // ID COUNTER 
+// ID COUNTER LOGIC // ID COUNTER LOGIC // ID COUNTER LOGIC // ID COUNTER LOGIC // ID COUNTER LOGIC // ID COUNTER LOGIC 
 
 
 // idCounter = a stored id counter that automatically increments when adding a task in order to create unique ids 
 // in a real world project, the unique id would be created in the backend when storing the task info in the database
+
+
+// returns the idCounter from storage as int
 const getIdCounter = ():number | null => {
-    // returns the idCounter from storage as int
     const idCounter = localStorage.getItem('vaIdCounter');
+    // convert the counter to number
     const result = idCounter?parseInt(JSON.parse(idCounter)):null;
     return(result)
 }
 // increments, stores and returns the id counter
 const createNewId = (): number => {
-    // if a counter doesn't exist, it sets it to 0 and stores it
+    // if a counter doesn't exist, it sets it to 1 and stores it
     // if a counter exists, it increments it and stores it
     const counter:number | null = getIdCounter();
     const result = counter!=null ? counter+1 : 1;

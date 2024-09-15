@@ -8,8 +8,8 @@ import { NewTaskInfo } from "../types/NewTaskInfo";
 
 const useTasks = () => {    
 
-// all tasks in the localStorage
-const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
+    // all visible tasks
+    const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
 
     // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION // FILTER MANIPULATION 
 
@@ -21,20 +21,20 @@ const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
     const [selectedStatus, setSelectedStatus] = useState('');
 
 
-    // change filters 
+    // change filters - sets the 3 global filters to their new values
     const changeFilters = (filters: FiltersInfo) => {
         setSelectedDay(filters.selectedDay);
         setSearchTitle(filters.title);
         setSelectedStatus(filters.status)
     }
 
-    // filter method and using taskServices.ts and set new tasks
+    // filter method using filteringServices.ts and set visible tasks to filtered ones
     const filter = (filters: FiltersInfo) => {
         const filteredTasks = filterTasks(filters);
         setTasks(filteredTasks)
     }  
 
-    // FILTER automatically when any setting is changed
+    // automatically filter when any filter setting is changed
     useEffect(()=>{
         reloadTasks();
     }, [selectedDay, searchTitle, selectedStatus])
@@ -47,7 +47,7 @@ const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
         reloadTasks();
     }, [])
 
-    // Retrieve a tasks by ID number
+    // Retrieve a task by ID number
     const getTask = (id:number): TaskBoxInfo | undefined => {
         const storedTask = getTaskById(id)
         return(storedTask)
@@ -64,12 +64,14 @@ const [tasks, setTasks] = useState<TaskBoxInfo[]>([])
         reloadTasks()
     }
 
-    // RELOAD tasks method from the local storage
+    // method to RELOAD tasks from the local storage
+    // can be considered as reaplying filters
+    // used to force rerender the tasks
     const reloadTasks = () => {    
         filter({
-        selectedDay: selectedDay,
-        title: searchTitle,
-        status: selectedStatus
+            selectedDay: selectedDay,
+            title: searchTitle,
+            status: selectedStatus
         })
     }
 

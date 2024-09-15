@@ -13,6 +13,7 @@ interface TaskDetailsProps {
     closeModal: () => void;
 }
 
+// This component represents the content that is passed to the modal when editing a task
 const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
 
     // app context
@@ -40,18 +41,16 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
         // update task from taskServices.ts
         updateTask(newTaskInfo);
         appContext?.reloadTasks();
-
     }
 
     // save task automatically when location changes
+    // for UX flow - ex: adding task link in description, when clicking the task link, the task is saved before navigating
     const location = useLocation();
     useEffect(()=>{
         saveTask()
     }, [location.hash])
 
 
-
-    
     return (
             <div className="modal-task-details">
 
@@ -78,7 +77,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                         <h3>Status</h3>
                         <select name="status" value={status} id="modal-task-status" onChange={(e)=>{setStatus(e.target.value)}}>
                             <option value='create'>Create</option>
-                            <option value='incurs'>In curs</option>
+                            <option value='incurs'>În curs</option>
                             <option value='finalizate'>Finalizate</option>
                         </select>
                     </div>
@@ -86,32 +85,26 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                     <div className="group-item">
                         <h3>Data:</h3>
                         <div className="modal-date">
-
                             <DayPicker
                                 selectedDay={startDate as Date}
                                 onChange={date=>setStartDate(date as Date)}
                             />
-                           
                         </div>
                     </div>
                 </div>
                 
-
-
                 <div className="modal-footer">
-                    <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Sterge Task</button>
+                    <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Șterge Task</button>
                     <div>
                         <button className="btn" onClick={()=>{
                             saveTask();                            
                             closeModal();
-                        }}>Salveaza</button>
+                        }}>Salvează</button>
                         &nbsp;&nbsp;&nbsp;
-                        <button className="btn" onClick={()=>closeModal()}>Renunta</button>
+                        <button className="btn" onClick={()=>closeModal()}>Renunță</button>
                     </div>
-                </div>
-                
-            </div>
-        
+                </div>                
+            </div>        
     )
 }
 

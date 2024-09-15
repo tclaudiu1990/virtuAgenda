@@ -10,6 +10,7 @@ interface StatusColumProps {
 
 const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
 
+    // generates the task boxes
     const taskBoxes = tasks.map(task => {
         return (<TaskBox key={task.id} name={name} taskBoxInfo={task}></TaskBox>)
     });
@@ -20,9 +21,8 @@ const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
                 <h3>{name}</h3>
                 <span className="task-count pill">{taskBoxes.length}</span>
             </div>
-            <div className="column-container">
-            
-                {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">Nu exista taskuri in aceasta coloana</h3>}
+            <div className="column-container">            
+                {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">Nu există taskuri în această coloană.</h3>}
             </div>
             
             

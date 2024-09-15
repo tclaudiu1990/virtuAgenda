@@ -1,6 +1,6 @@
-
 import agenda from './../../assets/img/agenda.png'
 
+// Header containing the logo and application name
 const Header = () =>{
     return(
         <div id="header">
