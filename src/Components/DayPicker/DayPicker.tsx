@@ -18,7 +18,7 @@ const DayPicker:React.FC<DayPickerProps> = ({selectedDay, onChange}) => {
 
     
     // selected calendar date
-    const [currentDate, setCurrentDate] = useState<Date>(new Date())
+    const [currentDate, setCurrentDate] = useState<Date>(selectedDay)
     
     
 

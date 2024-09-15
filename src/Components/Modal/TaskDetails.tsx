@@ -98,7 +98,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                         <div className="modal-date">
 
                             <DayPicker
-                                selectedDay= {startDate}
+                                selectedDay={startDate as Date}
                                 onChange={date=>setStartDate(date as Date)}
                             />
                            
