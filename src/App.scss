@@ -5,6 +5,8 @@
 body {
 
     background-color: #a6afbe;
+    background-image: url('./assets/img/bg.png');
+    background-size: cover;
     line-height: 1.5;
     font-weight: 500;
     font-size: 14px;
@@ -136,6 +138,7 @@ body {
 
     .calendarWrap {
         display: inline-block;
+        width: 100%;
     }
         
     .calendarElement {

@@ -135,12 +135,14 @@ function App() {
 
         <Header></Header>
         <Board tasks={tasks}></Board>
+
         {/* dev buttons */}
-        <div className='dev-buttons'>
+        {/* <div className='dev-buttons'>
           <button onClick={()=>logSavedTasks()}>log all task</button>
           <button onClick={()=>deleteAllTasks()}>delete all task</button>
-        </div>
+        </div> */}
         {/* dev buttons */}
+        
       </AppContext.Provider>
     </div>
   )
