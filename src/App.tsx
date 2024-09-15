@@ -98,6 +98,7 @@ function App() {
           openTaskDetails(newTaskBoxInfo)
       } else {
           // close modal if the task doesn't exist
+          navigate('/')
           closeModal()
       }
 
