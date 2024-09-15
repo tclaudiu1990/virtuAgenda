@@ -215,8 +215,11 @@ body {
                         border-radius: 30px;
                         width: 100%;
                         overflow: hidden;
-                        max-height: 67vh;
+                        max-height: 60vh;
+                        min-height: 400px;
                         transition: 0.2s;
+                        display: flex;
+                        flex-wrap: wrap;
 
                         .column-header {
                             display: flex;
@@ -225,8 +228,10 @@ body {
                             font-weight: 600;
                             margin: 5%;
                             padding: 3%;
+                            height: 50px;
                             border-radius: 16px;
                             box-sizing: border-box;
+                            width: 100%;
 
                             margin: 0;
                             border-radius: 0;
@@ -252,13 +257,14 @@ body {
 
                         .column-container {
                             overflow: overlay;
-                            max-height: 60vh;
-                            min-height: 500px;
+                            height: CALC(100% - 50px);
                             transition: 0.3s;
                             display: flex;
                             flex-wrap: wrap;
                             align-content: start;
                             justify-content: start;
+                            padding-bottom: 20px;
+                            box-sizing: border-box;
 
                             
                             .no-tasks-ui{

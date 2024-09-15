@@ -18,7 +18,11 @@
         padding: 10px 10px 8px;
         border-radius: 20px;
         white-space: nowrap;
-        
+        transition: 0.1s;
+
+        &.mobile-filter-group {
+            display: flex;
+        }
     }
 
     .btn-filters {
@@ -26,10 +30,13 @@
     }
 
     @media screen and (max-width: $xl) {
+        flex-wrap: wrap;
+        justify-content: end;
         .filters-group {
             display: flex;
-            flex-wrap: nowrap;
             align-items: center;
+            width: 100%;
+            justify-content: space-between;
         }
         
         .btn-filters {
@@ -39,14 +46,41 @@
             margin-left: 10px;
         }
         .filters-group.mobile-filter-group {
-            display: none;
+            display: flex;
+            width: auto;
+            margin-top: 0;
+            height: 0;
+            overflow: hidden;
+            padding: 0 10px 0;
+            justify-content: start;
 
+            
+
+            &.active {
+                height: auto;
+                padding: 10px 10px 8px;
+                margin-top: 10px;
+            }
+            
         }
+        
     }
 
     @media screen and (max-width: $m) {
         flex-wrap: wrap;
         justify-content: flex-end;
+        .filters-group {
+            > div {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+                align-items: center;
+            }
+        }
+        .btn{
+            margin: 0;
+            margin-bottom: 10px;
+        }
 
         .btn-filters {
             display: block;
@@ -55,27 +89,67 @@
             width: 100%;
         }
 
+        .calendarWrap{
+            width: 70%;
+            margin-bottom: 10px;
+            .react-datepicker-wrapper {
+                width: 100%;
+                .react-datepicker__input-container{
+                    width: 100%;
+                    .calendarElement{
+                        width: 100%;
+                        box-sizing: border-box;
+                        margin: 0;
+                    }
+                }
+            }
+        }
 
         .filters-group {
             width: 100%;
-            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: flex-end;
             flex-wrap: wrap;
 
+            > div {
+                justify-content: flex-end;
+                label {
+                    margin-right: 10px;
+                }
+            }
+            
+
             .btn-new-task {
                 width: 100%;
-                margin-right: 20px;
+                margin: 0 0 10px 0;
             }
             
-
-            
-            .filters-group.mobile-filter-group {
-                display: none;
-
-            }
         }
+        .filters-group.mobile-filter-group {
+            display: block;
+            width: auto;
+            margin-top: 0;
+            height: 0;
+            overflow: hidden;
+            padding: 0 10px 0;
+            
+            input {
+                margin-bottom: 10px;
+                width: 150px;
+                box-sizing: border-box;
+            }
+            select {
+                width: 150px;
+            }
+
+            &.active {
+                height: auto;
+                padding: 10px 10px 8px;
+            }
+            
+        }
+        
     }
     
 }
