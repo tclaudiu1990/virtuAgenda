@@ -3,7 +3,6 @@ import './App.scss'
 import Header from './Components/Header/Header'
 import Board from './Components/Board/Board'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import {  deleteAllTasks, logSavedTasks } from './Services/taskServices';
 import { TaskBoxInfo } from './types/TaskBoxInfo';
 import { NewTaskInfo } from './types/NewTaskInfo';
 import FiltersInfo from './types/FiltersInfo';
@@ -32,8 +31,6 @@ function App() {
 
   const {tasks, 
     selectedDay,
-    searchTitle,
-    selectedStatus,
     changeFilters,
     filter,
     getTask,

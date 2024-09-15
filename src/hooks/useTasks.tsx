@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { TaskBoxInfo } from "../types/TaskBoxInfo";
 import FiltersInfo from "../types/FiltersInfo";
 import { filterTasks } from "../Services/filteringServices";

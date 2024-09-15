@@ -1,14 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
-import { format } from "date-fns";
 import { updateTask } from "../../Services/taskServices";
 import EditableInput from "../Tasks/EditableInput";
 import { AppContext } from "../../App";
 import EditableTextArea from "../Tasks/EditableTextArea";
 
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { ro } from 'date-fns/locale';
 import { useLocation } from "react-router-dom";
 import DayPicker from "../DayPicker/DayPicker";
 
@@ -27,13 +23,6 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
     const [title, setTitle] = useState(taskBoxInfo.title);
     const [description, setDescription] = useState(taskBoxInfo.description);
     const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
-
-
-    // error validation to include when needed
-    const[validationError, setValidationError] = useState({
-        visible: false,
-        text: ''
-    })
 
 
     // method to update task on Save
@@ -109,14 +98,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                 
 
 
-                {
-                    validationError.visible &&
-                    <p className="error">{validationError.text}</p>
-                }
                 <div className="modal-footer">
                     <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Sterge Task</button>
                     <div>
-                        <button className="btn" disabled={validationError.visible} onClick={()=>{
+                        <button className="btn" onClick={()=>{
                             saveTask();                            
                             closeModal();
                         }}>Salveaza</button>

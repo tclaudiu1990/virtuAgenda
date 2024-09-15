@@ -4,6 +4,7 @@ import { ro } from 'date-fns/locale';
 import { getTasks } from "../../Services/taskServices";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { AppContext } from "../../App";
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface DayPickerProps {
     selectedDay: Date;

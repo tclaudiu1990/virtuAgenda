@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import './TaskBox.scss';
-import TaskDetails from "../Modal/TaskDetails";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../App";
 
 interface TaskBoxProps{
@@ -16,42 +15,8 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
 
     // router hooks
     const navigate = useNavigate();
-    const location = useLocation();
 
-    const [modalVisible, setModalVisible] = useState(false);
 
-    const closeModal = () => {
-        setModalVisible(false)        
-        navigate(`/`)
-    };
-
-    let [modalContent, setModalContent] = useState(<></>);
-
-    const openTaskDetails = (taskInfo:TaskBoxInfo) => {
-        setModalContent(
-            <TaskDetails
-                    key={taskInfo.id}  
-                    taskBoxInfo={taskInfo} 
-                    closeModal={closeModal}
-                /> 
-        )
-        setModalVisible(true);
-    }
-
-    
-    // when route changes to /#task_id, open Task Details of the corresponding task
-    useEffect(()=>{
-        //extract taskId
-        const linkId = location.hash.substring(1);
-        // get taskBoxInfo
-        const newTaskBoxInfo = appContext?.getTask(Number(linkId))
-        if(newTaskBoxInfo){
-            openTaskDetails(newTaskBoxInfo)
-        } else {
-            closeModal()
-        }
-
-    }, [location.hash])
 
     return(
         <>

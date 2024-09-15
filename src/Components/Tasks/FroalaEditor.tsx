@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Editor from 'react-froala-wysiwyg';
 import 'froala-editor/js/froala_editor.pkgd.min.js';
 import 'froala-editor/js/plugins/lists.min.js';

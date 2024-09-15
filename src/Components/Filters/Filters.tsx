@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import './Filters.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import { AppContext } from "../../App";
 import DayPicker from "../DayPicker/DayPicker";
 
-interface FiltersProps {
-    
-}
 
-const Filters: React.FC<FiltersProps>=(props)=>{
+const Filters =()=>{
 
     const appContext = useContext(AppContext);
 

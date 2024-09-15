@@ -1,11 +1,9 @@
 
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import StatusColumn from "./StatusColumn";
 
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Filters from "../Filters/Filters";
-import { addNewTask } from "../../Services/taskServices";
-import { NewTaskInfo } from "../../types/NewTaskInfo";
 import { AppContext } from "../../App";
 
 interface BoardProps {
