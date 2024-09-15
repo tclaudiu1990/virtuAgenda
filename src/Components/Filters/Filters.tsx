@@ -40,8 +40,9 @@ const Filters: React.FC<FiltersProps>=(props)=>{
 
     return(
         <div id="filters">
-            <div className="filter-group">
-                <button className="btn"
+            <div className="filters-group">
+
+                <button className="btn btn-new-task"
                     onClick={()=>appContext?.addTask(
                         {
                             title: 'Task nou',
@@ -49,18 +50,24 @@ const Filters: React.FC<FiltersProps>=(props)=>{
                             startDate: selectedDay
                         }
                 )}>+ Creaza Task Nou</button>
-
+                
                 <label htmlFor="date-picker"> Data:</label>
                 <DayPicker 
                     selectedDay={selectedDay}
                     onChange={handleCalendar}
                 />
+
+                <button className="btn-transparent btn-filters btn">Filtre &nbsp; <i className="fa-solid fa-filter"></i></button>
+
                     
             </div>
 
-            <div className="filter-group">
+            
+            <div className="filters-group mobile-filter-group">
+
                 {/* <label htmlFor="search-input"><i className="fa-solid fa-magnifying-glass"></i></label> */}
-                <input id="search-input" type="text" placeholder="Titlu Task" onChange={(e)=>setSearchTitle(e.target.value)}></input>
+                <label htmlFor="search-input">Titlu</label>
+                <input id="search-input" type="text" onChange={(e)=>setSearchTitle(e.target.value)}></input>
 
                 <label htmlFor="select-status">Status</label>
                 <select name="status" id="select-status" onChange={(e)=>setStatus((e.target as HTMLSelectElement).value)}>
@@ -70,7 +77,6 @@ const Filters: React.FC<FiltersProps>=(props)=>{
                     <option value='finalizate'>Finalizata</option>
                 </select>
 
-                <button className=""><i className="fa-solid fa-filter"></i></button>
             </div>            
             
 

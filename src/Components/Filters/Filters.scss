@@ -1,4 +1,6 @@
 @import './../../assets/styles/animations';
+@import './../../assets/styles/colors';
+@import './../../assets/styles/breakpoints';
 
 #filters {
     display: flex;
@@ -9,6 +11,71 @@
     }
     label {
         margin-left: 10px;
+    }
+
+    .filters-group {
+        background-color: $gray2;
+        padding: 10px 10px 8px;
+        border-radius: 20px;
+        white-space: nowrap;
+        
+    }
+
+    .btn-filters {
+        display: none;
+    }
+
+    @media screen and (max-width: $xl) {
+        .filters-group {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+        }
+        
+        .btn-filters {
+            display: block;
+            margin-left: auto;
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+        .filters-group.mobile-filter-group {
+            display: none;
+
+        }
+    }
+
+    @media screen and (max-width: $m) {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        .btn-filters {
+            display: block;
+            margin-left: auto;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+
+        .filters-group {
+            width: 100%;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+
+            .btn-new-task {
+                width: 100%;
+                margin-right: 20px;
+            }
+            
+
+            
+            .filters-group.mobile-filter-group {
+                display: none;
+
+            }
+        }
     }
     
 }

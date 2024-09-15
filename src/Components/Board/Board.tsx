@@ -74,19 +74,21 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
         }
     }
 
-    // mobile 
+    // MOBILE
+    // active tab - for mobile
     const [activeTab, setActiveTab] = useState<string>('create');
 
     // set active class when activeTab changes
     useEffect(()=>{
-        document.querySelectorAll('.status-column').forEach(column=>{
-            column.classList.contains(activeTab)?column.classList.add(`active`) : column.classList.remove(`active`);
-        });
-        document.querySelectorAll('.board-tab').forEach(tab=>{
-            tab.classList.contains(activeTab)?tab.classList.add(`active`) : tab.classList.remove(`active`);
-        });
+        addRemoveActiveClass('board-tab');
+        addRemoveActiveClass('status-column');
     }, [activeTab])
     
+    const addRemoveActiveClass = (itemClass:string) => {
+        document.querySelectorAll(`.${itemClass}`).forEach(column=>{
+            column.classList.contains(activeTab)?column.classList.add(`active`) : column.classList.remove(`active`);
+        });
+    }
 
 
     return(
@@ -95,7 +97,8 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
                 <Filters></Filters>
             </div>
             
-            <div className="board-tabs">
+            
+            <div className="board-tabs"> {/* visible on mobile */}
                 <div className="board-tab create" onClick={()=>setActiveTab(`create`)}>Create: {tasksCreate.length}</div>
                 <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>In Curs: {tasksInCurs.length}</div>
                 <div className="board-tab finalizate" onClick={()=>setActiveTab(`finalizate`)}>Finalizate: {tasksFinalizate.length}</div>
