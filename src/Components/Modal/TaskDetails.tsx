@@ -61,6 +61,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
     }, [location.hash])
 
 
+
     
     return (
             <div className="modal-task-details">

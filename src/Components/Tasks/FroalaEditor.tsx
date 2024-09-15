@@ -13,15 +13,20 @@ const FroalaEditorComponent: React.FC<FroalaEditorProps> = ({ model, handleChang
 
 
     const handleModelChange = (value: string) => {
-
-        // add <a> tags aroung any text of format {#task_id}
-        const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
-          return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
-        });
-        // recheck for invalid links and add invalid classes if necessary
-        checkForValidLinks()
-
-        handleChange(valueWithLinks);
+        
+        if(value!=undefined){
+            // add <a> tags aroung any text of format {#task_id}
+            const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
+                return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
+              });
+              // recheck for invalid links and add invalid classes if necessary
+            checkForValidLinks()            
+            handleChange(valueWithLinks);
+        } else {
+            // check links of the model instead of the value - when initialized
+            checkForValidLinks()
+            handleChange(model);
+        }
     };
 
 

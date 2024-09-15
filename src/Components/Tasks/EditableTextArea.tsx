@@ -27,16 +27,18 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
 
     const handleChange = (value: string) => {
+        checkForValidLinks();
         setTextContent(value);
     };
 
     useEffect(()=>{
-        checkForValidLinks()
-        acceptEdit(textContent)
+        checkForValidLinks();
+        acceptEdit(textContent);
     }, [textContent])
 
 
 
+    
     const preventInvalidClick = (e:Event) => {
         e.preventDefault()
     }
@@ -58,9 +60,14 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
         });
     }
 
-    const openEditable = () => {
-        setIsEditable(false)   
+
+    const closeEditable = () => {
+        setIsEditable(false);
     }
+
+    useEffect(()=>{
+        checkForValidLinks();
+    }, [isEditable])
 
 
     return (
@@ -76,7 +83,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                         />
                         <p><small>Creaza link-uri catre alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
-                        <div className="editableInput-menu-btn" onClick={() => openEditable()}>
+                        <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
                             <i className="fa-solid fa-check"></i>
                         </div>
                     </div>
