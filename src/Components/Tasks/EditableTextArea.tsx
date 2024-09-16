@@ -9,6 +9,7 @@ import 'froala-editor/css/froala_style.min.css';
 
 
 import FroalaEditorComponent from './FroalaEditor';
+import TiptapEditor from "./TipTapEditor";
 
 interface TextAreaProps {
     acceptEdit: (value:string) => void;
@@ -78,6 +79,12 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                 isEditable ?
                     <div className="input-editable-container">
                         
+                        <TiptapEditor
+                            textContent={textContent}
+                            handleChange={handleChange}
+                            checkForValidLinks={checkForValidLinks}
+                        />
+
                         <FroalaEditorComponent
                             model={textContent}
                             handleChange={handleChange}
