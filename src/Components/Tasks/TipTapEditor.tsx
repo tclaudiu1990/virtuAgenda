@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {  EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import '@tiptap/extension-text-style';
 import '@tiptap/extension-text';
 import Link from '@tiptap/extension-link';
+import { AppContext } from '../../App';
 
 interface TipTapProps{
 
@@ -14,25 +15,8 @@ interface TipTapProps{
 
 const TiptapEditor:React.FC<TipTapProps> = ({textContent, handleChange, checkForValidLinks}) => {
     
-    const update = (value: string) => {
-      checkForValidLinks()
-        if(value!=undefined){
-          // add <a> tags around any text of format {#task_id} and add links to appropriate tasks
-          const valueWithLinks = value.replace(/\{#(\d+)\}/g, (_, taskId) => {
-              return `<a href="#${taskId}" class="task-link" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
-            });
-          // recheck for invalid links and add invalid classes if necessary
-          checkForValidLinks()
-          // fires handleChange on parent
-          handleChange(valueWithLinks);
-      } else {
-          //(when initialized input value is undefined) 
-          // check links of the model instead of the value 
-          checkForValidLinks()
-          handleChange(value);
-      }
-    }
-    
+  const [textValue, setTextValue] = useState(textContent);
+
 
 
     const editor = useEditor({
@@ -44,17 +28,39 @@ const TiptapEditor:React.FC<TipTapProps> = ({textContent, handleChange, checkFor
           linkOnPaste: true,
         }),
       ],
-      content: textContent,
+      content: textValue,
       onUpdate: ({ editor }) => {
-        update(editor.getHTML());
+        const updatedHTML = editor.getHTML();
+        setTextValue(updatedHTML);
       },
-      //   onSelectionUpdate: (selection) => { update(selection) },
       autofocus: 'end',
     });
+
+    const appContext = useContext(AppContext);
+
+
+    const processContent = (rawContent: string) => {
+      // Example processing: Replace {#taskId} with a link      
+      return rawContent.replace(/\{#(\d+)\}/g, (_, taskId) => {        
+        return `<a href="#${taskId}" class="task-link ${!appContext?.getTask(Number(taskId))?'link-not-valid':''}" onClick="event.preventDefault(); openModal(${taskId});">Task-${taskId}</a>`;
+      });
+    };
+
+
+    useEffect(() => {
+      // Process content after state updates
+      const processedContent = processContent(textValue);
+      if (processedContent !== textValue) {
+        editor?.commands.setContent(processedContent, false); // Update editor content without adding to history
+      }
+      handleChange(processedContent)
+    }, [textValue, editor]);
 
     if (!editor) {
       return null;
     }
+    
+    
 
   
     return (
