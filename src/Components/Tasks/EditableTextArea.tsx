@@ -85,11 +85,11 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                             checkForValidLinks={checkForValidLinks}
                         />
 
-                        <FroalaEditorComponent
+                        {/* <FroalaEditorComponent
                             model={textContent}
                             handleChange={handleChange}
                             checkForValidLinks={checkForValidLinks}
-                        />
+                        /> */}
                         <p><small>Crează link-uri către alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
                         <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
