@@ -1,0 +1,12 @@
+.rich-text-container {
+    > div {
+        background-color: white;
+        margin-top: 3px;
+        border-radius: 8px;
+        min-height: 100px;
+        max-height: 160px;
+        padding: 12px;
+        box-sizing: border-box;
+        overflow: overlay;
+    }
+}

@@ -3,12 +3,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { AppContext } from "../../App";
+import Editor from "./Editor/Editor";
 
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-import 'froala-editor/css/froala_style.min.css';
-
-
-import FroalaEditorComponent from './FroalaEditor';
 
 interface TextAreaProps {
     acceptEdit: (value:string) => void;
@@ -77,12 +73,9 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
             {
                 isEditable ?
                     <div className="input-editable-container">
-                        
-                        <FroalaEditorComponent
-                            model={textContent}
-                            handleChange={handleChange}
-                            checkForValidLinks={checkForValidLinks}
-                        />
+
+                        <Editor/>                        
+
                         <p><small>Crează link-uri către alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
                         <div className="editableInput-menu-btn" onClick={() => closeEditable()}>

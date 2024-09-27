@@ -201,13 +201,31 @@ body {
         font-size: 2.4em;
         color: $text-heading;
     }
-    
+
+    // task rich text description
+    .toolbar-item {
+        font-weight: 500;
+        color: $gray4;
+        margin-right: 4px;
+        &.active {
+            color: black;
+            font-weight: 900;
+            background-color: $gray1;
+        }
+    }
     #root {
         #app {
             display: flex;
             flex-wrap: wrap;
             align-items: start;
             width: 100%;
+
+            .bold {
+                font-weight: 700;
+            }
+            .italic {
+                font-style: italic;
+            }
 
             #header {
                 padding: 0 5%;
@@ -222,6 +240,10 @@ body {
                 margin-top: 30px;
                 width: 100%;
                 max-width: 1200px;
+
+                .editor-textItalic {
+                    font-style: italic;
+                }
 
                 
                 
