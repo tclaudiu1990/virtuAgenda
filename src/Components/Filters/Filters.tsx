@@ -52,7 +52,7 @@ const Filters =()=>{
                         onClick={()=>appContext?.addTask(
                             {
                                 title: 'Task nou',
-                                description: 'Scrie aici descrierea taskului tau',
+                                description: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Click here to add a description.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
                                 startDate: selectedDay
                             }
                     )}>+ Creaza Task Nou</button>

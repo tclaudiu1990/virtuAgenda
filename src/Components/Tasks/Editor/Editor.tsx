@@ -1,4 +1,4 @@
-import {$getRoot, $getSelection} from 'lexical';
+import {$getRoot, $getSelection, EditorState} from 'lexical';
 import React, {useEffect, useState} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
@@ -28,7 +28,15 @@ function onError(error: any) {
   console.error(error);
 }
 
-const Editor:React.FC = () => {
+
+interface EditorProps {
+  changeEditorContent: (val:string) => void;
+  changeParsed: (val:string) => void;
+  isEditable: boolean
+  description: string
+}
+
+const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEditable, description}) => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,
@@ -43,7 +51,6 @@ const Editor:React.FC = () => {
   };
 
 
-  const loadState = () => {};
 
   // auto link regex
   const URL_MATCHER =
@@ -66,14 +73,14 @@ const Editor:React.FC = () => {
     },
   ];
 
-
+  
   return (
     <LexicalComposer initialConfig={initialConfig}>      
-      <Toolbars loadState={loadState}/>
+      <Toolbars changeEditorContent={changeEditorContent} changeParsed={changeParsed} isEditable={isEditable} description={description}/>
       <div className='rich-text-container'>
-        <RichTextPlugin
-          contentEditable={<ContentEditable />}
-          ErrorBoundary={LexicalErrorBoundary}
+        <RichTextPlugin          
+          contentEditable={<ContentEditable/>}
+          ErrorBoundary={LexicalErrorBoundary}          
         />
       </div>   
       <HistoryPlugin />

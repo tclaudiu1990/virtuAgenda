@@ -2,25 +2,29 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';
 import {
-  $getSelection,
-  $isRangeSelection,
-  CAN_REDO_COMMAND,
-  CAN_UNDO_COMMAND,
-  FORMAT_ELEMENT_COMMAND,
-  FORMAT_TEXT_COMMAND,
-  REDO_COMMAND,
-  SELECTION_CHANGE_COMMAND,
-  UNDO_COMMAND,
+    $getRoot,
+    $getSelection,
+    $isRangeSelection,
+    CAN_REDO_COMMAND,
+    CAN_UNDO_COMMAND,
+    EditorState,
+    FORMAT_ELEMENT_COMMAND,
+    FORMAT_TEXT_COMMAND,
+    REDO_COMMAND,
+    RootNode,
+    SELECTION_CHANGE_COMMAND,
+    UNDO_COMMAND,
 } from 'lexical';
 
 import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
 import {
-  $isListNode,
-  INSERT_CHECK_LIST_COMMAND,
-  INSERT_ORDERED_LIST_COMMAND,
-  INSERT_UNORDERED_LIST_COMMAND,
-  ListNode,
+    $isListNode,
+    INSERT_CHECK_LIST_COMMAND,
+    INSERT_ORDERED_LIST_COMMAND,
+    INSERT_UNORDERED_LIST_COMMAND,
+    ListNode,
 } from '@lexical/list';
+
 
 const LowPriority = 1;
 
@@ -31,11 +35,14 @@ function Divider() {
 
 
 interface ToolbarProps {
-    loadState: (val:string) => void 
+    changeEditorContent: (val:string) => void
+    changeParsed: (val: string) => void
+    isEditable: boolean
+    description: string
 }
 
 
- const ToolbarPlugin:React.FC<ToolbarProps> = ({loadState}) => {
+ const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, changeParsed, isEditable, description}) => {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [isBold, setIsBold] = useState(false);
@@ -53,14 +60,16 @@ interface ToolbarProps {
   }, []);
 
 
-  const handleSave = (content: string) => {
-    localStorage.setItem('vaDescription', content)
+  const handleChange = (editorState: EditorState) => {
+    const stringified = JSON.stringify(editorState)
+    // sends the stringified content to EditableTextArea to be saved if accepted
+    changeEditorContent(stringified);
+    console.log(stringified)
   }
 
   const handleLoad = ()=>{
-    const savedState = localStorage.getItem('vaDescription');
-    if(savedState){
-        const stateToLoad = editor.parseEditorState(savedState);
+    if(description){
+        const stateToLoad = editor.parseEditorState(description);
         editor.setEditorState(stateToLoad)
     }
   }
@@ -70,7 +79,7 @@ interface ToolbarProps {
         editorState.read(() => {
           $updateToolbar();
         });
-        handleSave(JSON.stringify(editorState))
+        handleChange(editorState)
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
@@ -87,50 +96,67 @@ interface ToolbarProps {
     handleLoad()
   }, [])
 
-  
 
+  // set read only or editable
+  useEffect(()=>{
+    editor.setEditable(isEditable)
+  }, [isEditable])
 
   return (
+
+    
     <div className="toolbar" ref={toolbarRef}>
-      
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
-        }}
-        className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
-        aria-label="Format Bold">
-        B
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
-        }}
-        className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
-        aria-label="Format Italics">
-        <em>i</em>
-      </button>
-      
 
-      <button
-        onClick={() => {
-          editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced"
-        aria-label="Unordered List">
-        • List
-      </button>
+        {isEditable?
+        
+        <>
+            <button
+                onClick={() => {
+                editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold');
+                }}
+                className={'toolbar-item spaced ' + (isBold ? 'active' : '')}
+                aria-label="Format Bold">
+                B
+            </button>
+            <button
+                onClick={() => {
+                editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic');
+                }}
+                className={'toolbar-item spaced ' + (isItalic ? 'active' : '')}
+                aria-label="Format Italics">
+                <em>i</em>
+            </button>
+            
 
-      <button
-        onClick={() => {
-          editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-        }}
-        className="toolbar-item spaced"
-        aria-label="Ordered List">
-        1. List
-      </button>
+            <button
+                onClick={() => {
+                editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+                }}
+                className="toolbar-item spaced"
+                aria-label="Unordered List">
+                <i className="fa-solid fa-list"></i>
+            </button>
+
+            <button
+                onClick={() => {
+                editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+                }}
+                className="toolbar-item spaced"
+                aria-label="Ordered List">
+                <i className="fa-solid fa-list-ol"></i>
+            </button>
+            
+
+            <Divider />
+        </>
+    
+        :
+
+        ''
+        }
+
+        
       
-
-      <Divider />
       
     </div>
   );

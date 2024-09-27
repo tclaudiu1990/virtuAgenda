@@ -19,76 +19,74 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
     // state to determine the visibility of the froala editor or the 
     const [isEditable, setIsEditable] = useState(false);
-    const [textContent, setTextContent] = useState(text);
+    // parsed content
+    const [parsedContent, setParsedContent] = useState('');
+    // unparsed content
+    const [editorContent, setEditorContent] = useState('');
 
+    
+    // method to update the UNPARSED text
+    const changeEditorContent = (value: string) => {
+        setEditorContent(value)
+    }
 
-    // method that checks for valid links and sets the text content for the input
-    const handleChange = (value: string) => {
-        checkForValidLinks();
-        setTextContent(value);
-    };
+    // method to update the PARSED text
+    const changeParsed = (value: string) => {
+        setParsedContent(value)
+    }
 
     // check for valid links every time text content changes and fires acceptEdit on parent
     useEffect(()=>{
-        checkForValidLinks();
-        acceptEdit(textContent);
-    }, [textContent])
+        acceptEdit(editorContent);
+    }, [editorContent])
 
 
     const preventInvalidClick = (e:Event) => {
         e.preventDefault()
     }
 
-    // check if task links are still valid. 
-    //If not, add class and prevent default method
-    const checkForValidLinks = () => {
-        // get all taskLinks
-        const taskLinks = document.querySelectorAll(`.task-link`)
-        // find invalid task links and add link-not-valid class
-        taskLinks.forEach(a => {
-            const taskIdLink = a.getAttribute('href')?.substring(1);
-            if(!appContext?.getTask(Number(taskIdLink))){
-                a.classList.add(`link-not-valid`)
-                a.addEventListener('click', (e)=>preventInvalidClick(e))
-            }else {
-                a.classList.remove(`link-not-valid`)
-                a.removeEventListener('click', preventInvalidClick)
-            } 
-        });
-    }
 
 
     const closeEditable = () => {
         setIsEditable(false);
     }
+    
+
+    const makeEditable = (e: any) =>{
+        e.stopPropagation()
+        setIsEditable(true);
+    }
 
     // check for valid links every time isEditable changes
     useEffect(()=>{
-        checkForValidLinks();
-    }, [isEditable])
+        acceptEdit(editorContent)
+    }, [editorContent])
 
 
     return (
         <>
-            {
-                isEditable ?
-                    <div className="input-editable-container">
+            <div className="input-editable-container">
 
-                        <Editor/>                        
+                
+                <div onClick={(e)=>makeEditable(e)} className={isEditable?'editor-wraper':'editor-wraper read-only'}>
+                    <Editor changeEditorContent={changeEditorContent} changeParsed={changeParsed} isEditable={isEditable} description={text}/>                        
+                </div>
 
+                {
+                    isEditable?                    
+                    <>
                         <p><small>Crează link-uri către alte taskuri prin: {"{"}#id_task{"}"}. Ex: {"{"}#3{"}"}, {"{"}#12{"}"} etc.</small></p>
 
                         <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
                             <i className="fa-solid fa-check"></i>
                         </div>
-                    </div>
+                    </>
                     :
-                    <div
-                        className="description-item"
-                        onClick={() => setIsEditable(true)} 
-                        dangerouslySetInnerHTML={{ __html: textContent }}
-                    ></div>
-            }
+                    ''
+                }
+                
+            </div>
+                    
         </>
     );
 }
