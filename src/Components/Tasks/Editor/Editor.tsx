@@ -1,5 +1,5 @@
 import {$getRoot, $getSelection} from 'lexical';
-import {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -7,9 +7,16 @@ import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import {AutoLinkNode, LinkNode} from '@lexical/link';
+import {ListNode, ListItemNode} from '@lexical/list';
+import {ListPlugin} from '@lexical/react/LexicalListPlugin';
+
 import Toolbars from './Toolbars';
 
 import './Editor.scss';
+import { AutoLinkPlugin } from '@lexical/react/LexicalAutoLinkPlugin';
+import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 
 
 
@@ -21,25 +28,63 @@ function onError(error: any) {
   console.error(error);
 }
 
-export default function Editor() {
+const Editor:React.FC = () => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,
     onError,
+    AutoLinkPlugin,
+    nodes: [      
+      LinkNode,
+      AutoLinkNode,
+      ListNode,
+      ListItemNode,
+    ]
   };
-  
+
+
+  const loadState = () => {};
+
+  // auto link regex
+  const URL_MATCHER =
+  /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
+
+  const MATCHERS = [
+    (text: any) => {
+      const match = URL_MATCHER.exec(text);
+      if (match === null) {
+        return null;
+      }
+      const fullMatch = match[0];
+      return {
+        index: match.index,
+        length: fullMatch.length,
+        text: fullMatch,
+        url: fullMatch.startsWith('http') ? fullMatch : `https://${fullMatch}`,
+        // attributes: { rel: 'noreferrer', target: '_blank' }, // Optional link attributes
+      };
+    },
+  ];
+
 
   return (
-    <LexicalComposer initialConfig={initialConfig}>
-      <Toolbars/>
+    <LexicalComposer initialConfig={initialConfig}>      
+      <Toolbars loadState={loadState}/>
       <div className='rich-text-container'>
         <RichTextPlugin
           contentEditable={<ContentEditable />}
           ErrorBoundary={LexicalErrorBoundary}
         />
-      </div>      
+      </div>   
       <HistoryPlugin />
       <AutoFocusPlugin />
+      
+      <ListPlugin />
+      <CheckListPlugin />
+      <AutoLinkPlugin
+        matchers={MATCHERS}
+      />
+
     </LexicalComposer>
   );
 }
@@ -117,3 +162,5 @@ const exampleTheme = {
     variable: 'editor-tokenVariable',
   },
 };
+
+export default Editor;
