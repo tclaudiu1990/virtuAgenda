@@ -23,6 +23,7 @@ import {
     INSERT_ORDERED_LIST_COMMAND,
     INSERT_UNORDERED_LIST_COMMAND,
     ListNode,
+    REMOVE_LIST_COMMAND,
 } from '@lexical/list';
 
 
@@ -47,60 +48,106 @@ interface ToolbarProps {
   const toolbarRef = useRef(null);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
+  const [isUnorderedList, setIsUnorderedList] = useState(false);
+  const [isOrderedList, setIsOrderedList] = useState(false);
+  const [isStrikethrough, setIsStrikethrough] = useState(false);
 
-
-  // change appearance of buttons when bold or italic
-  const $updateToolbar = useCallback(() => {
-    const selection = $getSelection();
-    if ($isRangeSelection(selection)) {
-      // Update text format
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-    }
-  }, []);
-
-
+  // sends the stringified content to EditableTextArea to be saved if accepted
   const handleChange = (editorState: EditorState) => {
     const stringified = JSON.stringify(editorState)
-    // sends the stringified content to EditableTextArea to be saved if accepted
     changeEditorContent(stringified);
-    console.log(stringified)
   }
 
+  // updating toolbar based on selection state (activate buttons for bold, italic etc.)
+  const updateToolbar = useCallback(() => {
+    const selection = $getSelection();
+    if ($isRangeSelection(selection)) {
+      setIsBold(selection.hasFormat('bold'));
+      setIsItalic(selection.hasFormat('italic'));
+      setIsStrikethrough(selection.hasFormat('strikethrough'));
+
+      const anchorNode = selection.anchor.getNode();
+      const element =
+        anchorNode.getKey() === 'root'
+          ? anchorNode
+          : anchorNode.getTopLevelElementOrThrow();
+      const elementKey = element.getKey();
+      const elementDOM = editor.getElementByKey(elementKey);
+
+      // Update list format
+      setIsOrderedList($isListNode(element) && element.getTag() === 'ol');
+      setIsUnorderedList($isListNode(element) && element.getTag() === 'ul');
+    }
+  }, [editor]);
+
+
+
+
+
+  // method to load the saved description into the editor
   const handleLoad = ()=>{
     if(description){
         const stateToLoad = editor.parseEditorState(description);
         editor.setEditorState(stateToLoad)
     }
   }
+
+  // logic that runs when editor updates
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({editorState}) => {
         editorState.read(() => {
-          $updateToolbar();
+          updateToolbar();
         });
         handleChange(editorState)
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
         (_payload, _newEditor) => {
-          $updateToolbar();
+          updateToolbar();
           return false;
         },
         LowPriority,
-      )
+      ),
     );
-  }, [editor, $updateToolbar]);
+  }, [editor, updateToolbar]);
 
+
+  // method to toggle lists
+  const formatList = (listType: 'ul' | 'ol') => {
+    if (listType === 'ul') {
+      if (isUnorderedList) {
+        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+      } else {
+        editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
+      }
+    } else if (listType === 'ol') {
+      if (isOrderedList) {
+        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+      } else {
+        editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+      }
+    }
+  };
+
+
+
+
+  // make editor read-only or editable based on isEditable (on editor click)
+  useEffect(() => {
+    editor.setEditable(isEditable);
+  }, [isEditable, editor]);
+
+  
   useEffect(()=>{
     handleLoad()
   }, [])
 
 
-  // set read only or editable
-  useEffect(()=>{
-    editor.setEditable(isEditable)
-  }, [isEditable])
+  if (!isEditable) {
+    return null;
+  }
+
 
   return (
 
@@ -127,23 +174,28 @@ interface ToolbarProps {
                 <em>i</em>
             </button>
             
-
             <button
-                onClick={() => {
-                editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-                }}
-                className="toolbar-item spaced"
-                aria-label="Unordered List">
-                <i className="fa-solid fa-list"></i>
+              onClick={() => {
+                editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough');
+              }}
+              className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
+              aria-label="Format Strikethrough">
+              ---
             </button>
 
             <button
-                onClick={() => {
-                editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
-                }}
-                className="toolbar-item spaced"
-                aria-label="Ordered List">
-                <i className="fa-solid fa-list-ol"></i>
+              onClick={() => formatList('ul')}
+              className={'toolbar-item spaced ' + (isUnorderedList ? 'active' : '')}
+              aria-label="Unordered List"
+            >
+              <i className="fa-solid fa-list"></i>
+            </button>
+            <button
+              onClick={() => formatList('ol')}
+              className={'toolbar-item spaced ' + (isOrderedList ? 'active' : '')}
+              aria-label="Ordered List"
+            >
+              <i className="fa-solid fa-list-ol"></i>
             </button>
             
 
@@ -161,6 +213,8 @@ interface ToolbarProps {
     </div>
   );
 }
+
+
 
 
 export default ToolbarPlugin;
