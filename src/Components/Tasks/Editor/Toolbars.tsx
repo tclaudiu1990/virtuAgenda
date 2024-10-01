@@ -180,7 +180,7 @@ interface ToolbarProps {
               }}
               className={'toolbar-item spaced ' + (isStrikethrough ? 'active' : '')}
               aria-label="Format Strikethrough">
-              ---
+              <i className="fa-solid fa-strikethrough"></i>
             </button>
 
             <button

@@ -16,8 +16,6 @@ import Toolbars from './Toolbars';
 import './Editor.scss';
 import { AutoLinkPlugin } from '@lexical/react/LexicalAutoLinkPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-
 
 
 
@@ -27,6 +25,8 @@ import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 function onError(error: any) {
   console.error(error);
 }
+
+
 
 
 interface EditorProps {
@@ -41,12 +41,11 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
     namespace: 'MyEditor',
     theme: exampleTheme,
     onError,
-    AutoLinkPlugin,
     nodes: [      
       LinkNode,
       AutoLinkNode,
       ListNode,
-      ListItemNode,
+      ListItemNode
     ]
   };
 
@@ -55,7 +54,6 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
   // auto link regex
   const URL_MATCHER =
   /((https?:\/\/(www\.)?)|(www\.))[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/;
-
   const MATCHERS = [
     (text: any) => {
       const match = URL_MATCHER.exec(text);
@@ -68,10 +66,13 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
         length: fullMatch.length,
         text: fullMatch,
         url: fullMatch.startsWith('http') ? fullMatch : `https://${fullMatch}`,
+        attributes: { target: '_blank' },
         // attributes: { rel: 'noreferrer', target: '_blank' }, // Optional link attributes
       };
     },
   ];
+
+
 
   
   return (
@@ -88,10 +89,7 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
       
       <ListPlugin />
       <CheckListPlugin />
-      <AutoLinkPlugin
-        matchers={MATCHERS}
-      />
-
+      <AutoLinkPlugin matchers={MATCHERS}/>
     </LexicalComposer>
   );
 }
