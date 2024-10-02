@@ -130,6 +130,10 @@
             flex-direction: row;
             z-index: 30;
 
+            @media screen and (max-width: $xs) {
+                display: none;
+            }
+
             &:hover{
                 opacity: 0.6;
 

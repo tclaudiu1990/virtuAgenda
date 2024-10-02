@@ -51,6 +51,7 @@ interface ToolbarProps {
   const [isUnorderedList, setIsUnorderedList] = useState(false);
   const [isOrderedList, setIsOrderedList] = useState(false);
   const [isStrikethrough, setIsStrikethrough] = useState(false);
+  const [isCheckList, setIsCheckList] = useState(false);
 
   // sends the stringified content to EditableTextArea to be saved if accepted
   const handleChange = (editorState: EditorState) => {
@@ -71,12 +72,11 @@ interface ToolbarProps {
         anchorNode.getKey() === 'root'
           ? anchorNode
           : anchorNode.getTopLevelElementOrThrow();
-      const elementKey = element.getKey();
-      const elementDOM = editor.getElementByKey(elementKey);
 
-      // Update list format
+      // Update list format based on element
       setIsOrderedList($isListNode(element) && element.getTag() === 'ol');
-      setIsUnorderedList($isListNode(element) && element.getTag() === 'ul');
+      setIsUnorderedList($isListNode(element) && element.getTag() === 'ul' && element.getListType() != 'check');
+      setIsCheckList($isListNode(element) && element.getListType() === 'check');
     }
   }, [editor]);
 
@@ -93,13 +93,13 @@ interface ToolbarProps {
   }
 
   // logic that runs when editor updates
-  useEffect(() => {
+   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({editorState}) => {
         editorState.read(() => {
           updateToolbar();
         });
-        handleChange(editorState)
+        handleChange(editorState);
       }),
       editor.registerCommand(
         SELECTION_CHANGE_COMMAND,
@@ -107,25 +107,33 @@ interface ToolbarProps {
           updateToolbar();
           return false;
         },
-        LowPriority,
-      ),
+        LowPriority
+      )
     );
   }, [editor, updateToolbar]);
 
 
-  // method to toggle lists
-  const formatList = (listType: 'ul' | 'ol') => {
-    if (listType === 'ul') {
-      if (isUnorderedList) {
-        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
-      } else {
-        editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
-      }
-    } else if (listType === 'ol') {
+  // Method to toggle lists (unordered, ordered, checklist)
+  const formatList = (listType: 'ul' | 'ol' | 'check') => {
+     if (listType === 'ol') {
       if (isOrderedList) {
         editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
       } else {
         editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
+      }
+    } else if (listType === 'check') {
+      if (isCheckList) {
+        setIsUnorderedList(false);
+        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined); // Correct command to remove checklist
+      } else {
+        setIsUnorderedList(false);
+        editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined); // Correct command to insert checklist
+      }
+    } else if (listType === 'ul') {
+      if (isUnorderedList) {
+        editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
+      } else {
+        editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
       }
     }
   };
@@ -196,6 +204,15 @@ interface ToolbarProps {
               aria-label="Ordered List"
             >
               <i className="fa-solid fa-list-ol"></i>
+            </button>
+
+            
+            <button
+              onClick={() =>formatList('check')}
+              className={'toolbar-item spaced ' + (isCheckList ? 'active' : '')}
+              aria-label="Check List"
+            >
+              <i className="fa-regular fa-square-check"></i>
             </button>
             
 

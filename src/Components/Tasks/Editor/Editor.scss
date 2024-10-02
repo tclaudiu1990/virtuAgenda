@@ -1,3 +1,4 @@
+@import './../../../assets/styles/colors';
 
 .editor-wraper {
     &.read-only{
@@ -9,17 +10,98 @@
             margin-top: 3px;
             border-radius: 8px;
             min-height: 100px;
-            max-height: 160px;
+            max-height: 1080px;
             padding: 12px;
             box-sizing: border-box;
             overflow: overlay;
+            
             &[contentEditable="false"] {
-                max-height: auto;
                 overflow: visible;
-                background-color: transparent;
+                background-color: white;
                 min-height: auto;
+                overflow: overlay;
+                min-height: auto;
+                max-height: 48vh;
+                padding-top: 14px;
+                padding-bottom: 20px;
             }
+            p {
+                margin-bottom: 6px;
+            }
+            ol {
+                padding-left: 32px;
+                margin-top: 0;
+                margin-bottom: 10px;
+            }
+            ul{
+                margin-top: 0;
+                margin-bottom: 10px;
+            }            
+
         }
         
+    }
+    .editor-listItem{
+        &.editor-listItemUnchecked {
+            padding-left: 26px;
+            list-style-type: none;
+            position: relative;
+            outline: 0 !important;
+            margin-left: -18px;
+
+            &::before
+            {
+                content: "";
+                width: 16px;
+                height: 16px;
+                top: 2px;
+                left: 0;
+                cursor: pointer;
+                display: block;
+                background-size: cover;
+                position: absolute;
+                border: solid 2px $gray3;
+            }
+        }
+        &.editor-listItemChecked {
+            padding-left: 26px;
+            list-style-type: none;
+            position: relative;
+            outline: 0 !important;
+            margin-left: -18px;
+            text-decoration: line-through;
+
+            &::before {
+                border: 2px solid rgb(61, 135, 245);
+                border-radius: 2px;
+                background-color: #3d87f5;
+                background-repeat: no-repeat;
+                content: "";
+                width: 16px;
+                height: 16px;
+                top: 2px;
+                left: 0;
+                cursor: pointer;
+                display: block;
+                background-size: cover;
+                position: absolute;
+            }
+
+            &::after {
+                content: "";
+                cursor: pointer;
+                border-color: #fff;
+                border-style: solid;
+                position: absolute;
+                display: block;
+                top: 7px;
+                width: 3px;
+                left: 8px;
+                height: 6px;
+                transform: rotate(45deg);
+                border-width: 0 2px 2px 0;
+                position: absolute;
+            }
+        }
     }
 }

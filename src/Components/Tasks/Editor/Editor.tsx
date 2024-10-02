@@ -90,6 +90,7 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
       <ListPlugin />
       <CheckListPlugin />
       <AutoLinkPlugin matchers={MATCHERS}/>
+      <CheckListPlugin/>
     </LexicalComposer>
   );
 }
