@@ -17,8 +17,6 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
     // state to determine the visibility of the froala editor or the 
     const [isEditable, setIsEditable] = useState(false);
-    // parsed content
-    const [parsedContent, setParsedContent] = useState('');
     // unparsed content
     const [editorContent, setEditorContent] = useState('');
 
