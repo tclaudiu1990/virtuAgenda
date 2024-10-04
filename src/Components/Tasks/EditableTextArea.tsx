@@ -1,6 +1,6 @@
 
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Editor from "./Editor/Editor";
 
@@ -28,11 +28,6 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
         setEditorContent(value)
     }
 
-    // method to update the PARSED text
-    const changeParsed = (value: string) => {
-        setParsedContent(value)
-        console.log(parsedContent)
-    }
 
     // check for valid links every time text content changes and fires acceptEdit on parent
     useEffect(()=>{
