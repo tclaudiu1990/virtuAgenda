@@ -5,6 +5,7 @@ import {
     $getSelection,
     $isRangeSelection,
     EditorState,
+    FOCUS_COMMAND,
     FORMAT_TEXT_COMMAND,
     SELECTION_CHANGE_COMMAND
 } from 'lexical';
@@ -75,8 +76,6 @@ interface ToolbarProps {
 
 
 
-
-
   // method to load the saved description into the editor
   const handleLoad = ()=>{
     if(description){
@@ -104,6 +103,7 @@ interface ToolbarProps {
       )
     );
   }, [editor, updateToolbar]);
+
 
 
   // Method to toggle lists (unordered, ordered, checklist)
@@ -135,9 +135,9 @@ interface ToolbarProps {
 
 
   // make editor read-only or editable based on isEditable (on editor click)
-  // useEffect(() => {
-  //   editor.setEditable(isEditable);
-  // }, [isEditable, editor]);
+  useEffect(() => {
+    editor.setEditable(isEditable);
+  }, [isEditable]);
 
   
   useEffect(()=>{
@@ -145,10 +145,6 @@ interface ToolbarProps {
   }, [])
 
 
-  
-  useEffect(()=>{
-    editor.blur()
-  }, [isEditable])
 
   if (!isEditable) {
     return null;

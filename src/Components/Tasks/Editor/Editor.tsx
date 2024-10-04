@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
+import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
@@ -48,6 +48,8 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, descript
     ]
   };
 
+  
+
 
 
   // auto link regex
@@ -82,12 +84,12 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, descript
         />
       <div ref={editorRef} className='rich-text-container'>
         <RichTextPlugin
-          contentEditable={<ContentEditable readOnly={!isEditable} />}
+          contentEditable={<ContentEditable/>}
           ErrorBoundary={LexicalErrorBoundary}
         />
       </div> 
       <HistoryPlugin />
-      {/* <AutoFocusPlugin /> */}
+      <AutoFocusPlugin />
       
       <ListPlugin />
       <AutoLinkPlugin matchers={MATCHERS}/>

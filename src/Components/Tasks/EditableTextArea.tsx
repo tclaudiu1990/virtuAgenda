@@ -41,14 +41,17 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     };
 
     // Check if the editor is already focused to avoid unnecessary focus stealing
-    // useEffect(() => {
-    //     if (isEditable && editorRef.current) {
-    //     editorRef.current.focus();  // Focus only when making the editor editable
-    //     }
-    // }, [isEditable]);
+    useEffect(() => {
+        if (isEditable && editorRef.current) {
+        editorRef.current.focus();  // Focus only when making the editor editable
+        }
+    }, [isEditable]);
+
+    
 
     return (
         <>
+
             <div className="input-editable-container">
                 <div
                     onClick={() => makeEditable()}
