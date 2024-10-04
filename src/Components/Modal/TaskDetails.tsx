@@ -24,6 +24,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
     const [title, setTitle] = useState(taskBoxInfo.title);
     const [description, setDescription] = useState(taskBoxInfo.description);
     const [startDate, setStartDate] = useState<Date>(taskBoxInfo.startDate);
+    
 
 
     // method to update task on Save

@@ -35,6 +35,9 @@
         margin: 0 0 3px 0;
         cursor: text;
     }
+    .non-editable-item {
+        cursor: pointer;
+    }
     .editable-item {
         cursor: pointer;
         margin-bottom: 10px;

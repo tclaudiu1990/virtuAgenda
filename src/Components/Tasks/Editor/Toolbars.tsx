@@ -33,6 +33,8 @@ interface ToolbarProps {
 }
 
 
+
+
  const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, isEditable, description}) => {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
@@ -69,6 +71,7 @@ interface ToolbarProps {
       setIsCheckList($isListNode(element) && element.getListType() === 'check');
     }
   }, [editor]);
+
 
 
 
@@ -132,9 +135,9 @@ interface ToolbarProps {
 
 
   // make editor read-only or editable based on isEditable (on editor click)
-  useEffect(() => {
-    editor.setEditable(isEditable);
-  }, [isEditable, editor]);
+  // useEffect(() => {
+  //   editor.setEditable(isEditable);
+  // }, [isEditable, editor]);
 
   
   useEffect(()=>{
@@ -142,10 +145,16 @@ interface ToolbarProps {
   }, [])
 
 
+  
+  useEffect(()=>{
+    editor.blur()
+  }, [isEditable])
+
   if (!isEditable) {
     return null;
   }
 
+  
 
   return (
 

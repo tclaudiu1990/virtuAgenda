@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
+// import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
 import {ContentEditable} from '@lexical/react/LexicalContentEditable';
 import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary';
@@ -32,9 +32,10 @@ interface EditorProps {
   changeEditorContent: (val:string) => void;
   isEditable: boolean
   description: string
+  closeEditable: () => void
 }
 
-const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description}) => {
+const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description, closeEditable}) => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,
@@ -70,23 +71,25 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, descript
     },
   ];
 
+  const editorRef = useRef<HTMLDivElement>(null);
 
-
-  
   return (
     <LexicalComposer initialConfig={initialConfig}>      
-      <Toolbars changeEditorContent={changeEditorContent} isEditable={isEditable} description={description}/>
-      <div className='rich-text-container'>
-        <RichTextPlugin          
-          contentEditable={<ContentEditable/>}
-          ErrorBoundary={LexicalErrorBoundary}          
+       <Toolbars
+          changeEditorContent={changeEditorContent}
+          isEditable={isEditable}
+          description={description}
         />
-      </div>   
+      <div ref={editorRef} className='rich-text-container'>
+        <RichTextPlugin
+          contentEditable={<ContentEditable readOnly={!isEditable} />}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+      </div> 
       <HistoryPlugin />
-      <AutoFocusPlugin />
+      {/* <AutoFocusPlugin /> */}
       
       <ListPlugin />
-      <CheckListPlugin />
       <AutoLinkPlugin matchers={MATCHERS}/>
       <CheckListPlugin/>
     </LexicalComposer>

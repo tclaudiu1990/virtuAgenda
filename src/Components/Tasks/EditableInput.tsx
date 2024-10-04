@@ -17,7 +17,7 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
 
     // Sets the text content for the input
     const handleChange = (textElement:HTMLInputElement) => {
-        setTextContent(textElement.value);        
+        setTextContent(textElement.value);
     }
 
     // When the `text` prop changes, update `textContent` state
@@ -59,6 +59,10 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
         </>
         
     )
+
+
+
+   
 }
 
 export default EditableInput;
