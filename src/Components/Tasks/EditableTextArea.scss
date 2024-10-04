@@ -1,6 +1,6 @@
-@import './../../../assets/styles/colors';
+@import './../../assets/styles/colors';
 
-.editor-wraper {
+.input-editable-container {
     &.read-only{
         cursor: pointer;
     }

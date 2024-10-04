@@ -12,7 +12,6 @@ import {ListPlugin} from '@lexical/react/LexicalListPlugin';
 
 import Toolbars from './Toolbars';
 
-import './Editor.scss';
 import { AutoLinkPlugin } from '@lexical/react/LexicalAutoLinkPlugin';
 import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
 
@@ -33,9 +32,10 @@ interface EditorProps {
   isEditable: boolean
   description: string
   closeEditable: () => void
+  updateParsedText: (val:string) => void
 }
 
-const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description, closeEditable}) => {
+const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description, closeEditable, updateParsedText}) => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,
@@ -81,6 +81,7 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, descript
           changeEditorContent={changeEditorContent}
           isEditable={isEditable}
           description={description}
+          updateParsedText={updateParsedText}
         />
       <div ref={editorRef} className='rich-text-container'>
         <RichTextPlugin

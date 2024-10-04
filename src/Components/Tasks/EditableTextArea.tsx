@@ -3,13 +3,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Editor from "./Editor/Editor";
+import './EditableTextArea.scss'
+import { convertToHtml } from "./Editor/LexicalUtils";
 
 
 interface TextAreaProps {
     acceptEdit: (value:string) => void;
     text: string;
     taskBoxInfo: TaskBoxInfo;
-    closeModal: ()=> void;
+    closeModal: (val:string)=> void;
 }
 
 
@@ -18,8 +20,13 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     // state to determine the visibility of the froala editor or the 
     const [isEditable, setIsEditable] = useState(false);
     // unparsed content
-    const [editorContent, setEditorContent] = useState('');
+    const [editorContent, setEditorContent] = useState(text);
+    // parsed text to html
+    const [parsedText, setParsedText] = useState('');
 
+    useEffect(()=>{
+        setParsedText(convertToHtml(editorContent))
+    }, [editorContent])
     
 
     const editorRef = useRef<HTMLDivElement>(null);
@@ -30,6 +37,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
     useEffect(() => {
         acceptEdit(editorContent);
+     
     }, [editorContent]);
 
     const closeEditable = () => {
@@ -47,30 +55,61 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
         }
     }, [isEditable]);
 
+
     
+    const updateParsedText = (val:any) => {
+        setParsedText(val)
+    }
+
+    
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setIsEditable(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <>
 
             <div className="input-editable-container">
-                <div
-                    onClick={() => makeEditable()}
-                    className={isEditable ? "editor-wraper" : "editor-wraper read-only"}
-                >
-                    <Editor
-                        changeEditorContent={changeEditorContent}
-                        isEditable={isEditable}
-                        description={text}
-                        closeEditable={closeEditable}
-                    />
-                </div>
-
-                {isEditable && (
-                    <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
-                    <i className="fa-solid fa-check"></i>
+            {
+                isEditable?
+                (<>
+                    <div ref={containerRef}
+                        onClick={() => makeEditable()}
+                        className={isEditable ? "editor-wraper" : "editor-wraper read-only"}
+                    >
+                        <Editor
+                            changeEditorContent={changeEditorContent}
+                            isEditable={isEditable}
+                            description={text}
+                            closeEditable={closeEditable}
+                            updateParsedText={updateParsedText}
+                        />
                     </div>
-                )}
-                </div>
+                    <div className="editableInput-menu-btn" onClick={() => closeEditable()}>
+                        <i className="fa-solid fa-check"></i>
+                    </div>
+                </>)
+                :
+                <div className="non-editable-item" onClick={()=>setIsEditable(true)}
+                    dangerouslySetInnerHTML={{__html: parsedText}}
+                ></div>
+            
+            }
+
+                
+
+            </div>
                     
         </>
     );

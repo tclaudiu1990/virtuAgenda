@@ -9,6 +9,7 @@ import {
     FORMAT_TEXT_COMMAND,
     SELECTION_CHANGE_COMMAND
 } from 'lexical';
+import { $generateHtmlFromNodes } from '@lexical/html';
 
 import {
     $isListNode,
@@ -31,12 +32,13 @@ interface ToolbarProps {
     changeEditorContent: (val:string) => void
     isEditable: boolean
     description: string
+    updateParsedText: (val:string) => void
 }
 
 
 
 
- const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, isEditable, description}) => {
+ const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, isEditable, description, updateParsedText}) => {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [isBold, setIsBold] = useState(false);
@@ -91,6 +93,8 @@ interface ToolbarProps {
         editorState.read(() => {
           updateToolbar();
         });
+        // generate and load parsed text into div placeholder
+        convertToHtml();
         handleChange(editorState);
       }),
       editor.registerCommand(
@@ -132,6 +136,14 @@ interface ToolbarProps {
   };
 
 
+  // generate and load parsed text into div placeholder
+  const convertToHtml = () => {
+    editor.update(() => {
+      const htmlString = $generateHtmlFromNodes(editor);
+      updateParsedText(htmlString);
+    });
+  };
+  
 
 
   // make editor read-only or editable based on isEditable (on editor click)
