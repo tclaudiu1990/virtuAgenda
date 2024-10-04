@@ -11,6 +11,10 @@ import DeleteModal from './Components/Modal/DeleteModal';
 import TaskDetails from './Components/Modal/TaskDetails';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from './Components/Modal/Modal';
+import { getSettingsService } from './Services/settingsServices';
+import SettingsModal from './Components/Modal/SettingsModal';
+import useSettings from './hooks/useSettings';
+import { SettingsInfo } from './types/settingsInfo';
 
 // context definition
 type TaskContextType = {
@@ -22,14 +26,22 @@ type TaskContextType = {
   getTask: (id: number) => TaskBoxInfo | undefined;
   deleteTask: (task: TaskBoxInfo) => void;
   openDelete: (info: TaskBoxInfo) => void;
+  openSettings: () => void;
   filter: (filters: FiltersInfo) => void
+  //settings
+  appTitle: string,
+  appBgType: 'default' | 'custom',
+  appBgUrl: string,
+  updateSettings: (settings:SettingsInfo) => void,
+  reloadSettings: () => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
 
 
 function App() {
 
-  const {tasks, 
+  const {
+    tasks, 
     selectedDay,
     changeFilters,
     filter,
@@ -39,13 +51,19 @@ function App() {
     reloadTasks
   } = useTasks()
 
+  const {
+    appTitle,
+    appBgType,
+    appBgUrl,
+    updateSettings,
+    reloadSettings
+  } = useSettings()
 
-  // MODAL
+  // MODAL 
 
   // router hooks
   const navigate = useNavigate();
   const location = useLocation();
-
 
 
   // state to determine the visibility of the modal
@@ -84,6 +102,17 @@ function App() {
       setModalVisible(true);
   }
 
+    // method to open the Settings modal
+    const openSettings= () => {
+      setModalContent(
+          <SettingsModal   
+              closeModal={closeModal}       
+          /> 
+      )
+      setModalVisible(true);
+  }
+
+
 
   // Automatically check for route changes
   // When route changes to /#task_id, open Task Details of the corresponding task
@@ -105,6 +134,10 @@ function App() {
   }, [location.hash])
 
 
+  // load app settings on component mount
+  useEffect(()=>{
+    reloadSettings()
+  }, [])
 
 
 
@@ -118,12 +151,24 @@ function App() {
     getTask: getTask,
     deleteTask: deleteTask,
     openDelete: openDelete,
-    filter: filter
+    openSettings: openSettings,
+    filter: filter,
+    appTitle: appTitle,
+    appBgType: appBgType,
+    appBgUrl: appBgUrl,
+    updateSettings: updateSettings,
+    reloadSettings: reloadSettings
   }
   
-
+  // method to remove everything from localStorage
+  const clearAll = () => {
+    localStorage.removeItem('vaSettings');
+    localStorage.removeItem('vaTasks');
+    localStorage.removeItem('vaIdCounter');
+  }
+ 
   return (
-    <div id='app'>
+    <div id='app' style={{backgroundImage: `url(${appBgUrl})`}}>
       <AppContext.Provider value={appContextValue}>
 
         
@@ -132,17 +177,19 @@ function App() {
               {modalContent}
           </Modal>
         }
+        <div className='app-content'>
 
-        <Header></Header>
-        <Board tasks={tasks}></Board>
+          <Header></Header>
+          <Board tasks={tasks}></Board>
+        </div>
+
 
         {/* dev buttons */}
-        {/* 
-        <div className='dev-buttons'>
-          <button onClick={()=>logSavedTasks()}>log all task</button>
-          <button onClick={()=>deleteAllTasks()}>delete all task</button>
-        </div>         
-        */}
+        
+        {/* <div className='dev-buttons'>
+          <button onClick={()=>clearAll()}>Clear Everything</button>
+        </div>      */}
+       
         {/* end dev buttons */}
         
       </AppContext.Provider>

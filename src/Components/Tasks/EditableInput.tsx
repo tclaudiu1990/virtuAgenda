@@ -20,6 +20,12 @@ const EditableInput: React.FC<InputProps> = ({acceptEdit, item, text}) => {
         setTextContent(textElement.value);        
     }
 
+    // When the `text` prop changes, update `textContent` state
+    useEffect(() => {
+        setTextContent(text);
+    }, [text]);
+
+    
     // fires acceptEdit on parent on every textContent change
     useEffect(()=>{        
         acceptEdit(textContent.length==0 ? '-' : textContent)

@@ -17,7 +17,7 @@ const DeleteModal:React.FC<DeleteModalProps> = ({taskBoxInfo, closeModal}) => {
     }
 
     return(
-        <div className="modal-delete-details">
+        <div className="modal-delete-details modal-details">
             <h2>Șterge Task-ul #{taskBoxInfo.id}?</h2>
             <p>Ești sigur(ă) că vrei să ștergi task-ul? Dacă îl ștergi, nu îl mai poți recupera.</p>
             <div className="modal-footer">

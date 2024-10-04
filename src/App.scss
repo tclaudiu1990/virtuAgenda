@@ -7,8 +7,6 @@
 body {
 
     background-color: #a6afbe;
-    background-image: url('./assets/img/bg.png');
-    background-size: cover;
     line-height: 1.5;
     font-weight: 500;
     font-size: 14px;
@@ -221,11 +219,20 @@ body {
         cursor: pointer;
       }
     #root {
-        #app {
+        width: 100%;
+        
+        #app {            
+            background-image: url('./assets/img/bg.png');
+            background-size: cover;
             display: flex;
             flex-wrap: wrap;
             align-items: start;
             width: 100%;
+            height: 100%;
+            align-items: start;
+            align-content: start;
+            justify-content: start;
+            
 
             .bold {
                 font-weight: 700;
@@ -235,10 +242,28 @@ body {
             }
 
             #header {
+                width: 100%;
+                max-width: 1200px;
                 padding: 0 5%;
+                box-sizing: border-box;
+                display: flex;
+                justify-content: space-between;
+                align-items: end;
+                padding-top: 10px;
+
                 h1 {
                     margin-bottom: 0;
-                    padding-bottom: 0;
+                    padding-bottom: 10px;
+                    padding-top: 0;
+                    margin-top: 0;
+                }
+                span {
+                    display: inline-block;
+                    font-size: 2em;
+                    color: $text-dark;
+                    cursor: pointer;
+                    padding: 10px;
+                    margin-top: 10px;
                 }
             }
     
@@ -247,6 +272,7 @@ body {
                 margin-top: 30px;
                 width: 100%;
                 max-width: 1200px;
+                box-sizing: border-box;
 
 
                 

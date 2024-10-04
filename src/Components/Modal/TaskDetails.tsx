@@ -52,7 +52,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
 
 
     return (
-            <div className="modal-task-details">
+            <div className="modal-task-details modal-details">
 
                 <small><em>Task ID: {taskBoxInfo.id}</em></small>
 
