@@ -1,9 +1,8 @@
-import SettingsModal from "../Components/Modal/SettingsModal"
-import { SettingsInfo } from "../types/settingsInfo"
+import { SettingsTypeInfo } from "../types/SettingsTypeInfo"
 import bgDefault from './../assets/img/bg.png'
 
 // save settings 
-const saveSettingsService = (settings:SettingsInfo) => {
+const saveSettingsService = (settings:SettingsTypeInfo) => {
     // const {title, bgType, gbUrl} = settings;
     const jsonSettings = JSON.stringify(settings);
     localStorage.setItem('vaSettings', jsonSettings)    

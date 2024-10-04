@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import bgDefault from './../assets/img/bg.png'
 import { getSettingsService, saveSettingsService } from "../Services/settingsServices";
-import { SettingsInfo } from "../types/settingsInfo";
+import { SettingsTypeInfo } from "../types/SettingsTypeInfo";
 
 
 const useSettings = () => {
@@ -16,7 +16,7 @@ const useSettings = () => {
     };
     
     // method to update the settings and automatically save them
-    const updateSettings = (settings: SettingsInfo) => {    
+    const updateSettings = (settings: SettingsTypeInfo) => {    
         setAppTitle(settings.title);
         setAppBgType(settings.bgType);
         setAppBgUrl(settings.bgUrl);
@@ -25,7 +25,7 @@ const useSettings = () => {
 
 
     // save settings to local storage using services
-    const saveSettings = (settings:SettingsInfo) => {
+    const saveSettings = (settings:SettingsTypeInfo) => {
         saveSettingsService(settings);
     }
 

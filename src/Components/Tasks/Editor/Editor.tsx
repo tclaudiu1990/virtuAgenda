@@ -1,5 +1,4 @@
-import {$getRoot, $getSelection, EditorState} from 'lexical';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -31,12 +30,11 @@ function onError(error: any) {
 
 interface EditorProps {
   changeEditorContent: (val:string) => void;
-  changeParsed: (val:string) => void;
   isEditable: boolean
   description: string
 }
 
-const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEditable, description}) => {
+const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description}) => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,
@@ -77,7 +75,7 @@ const Editor:React.FC<EditorProps> = ({changeEditorContent, changeParsed, isEdit
   
   return (
     <LexicalComposer initialConfig={initialConfig}>      
-      <Toolbars changeEditorContent={changeEditorContent} changeParsed={changeParsed} isEditable={isEditable} description={description}/>
+      <Toolbars changeEditorContent={changeEditorContent} isEditable={isEditable} description={description}/>
       <div className='rich-text-container'>
         <RichTextPlugin          
           contentEditable={<ContentEditable/>}

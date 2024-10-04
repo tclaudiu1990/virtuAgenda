@@ -2,7 +2,6 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
-import { AppContext } from "../../App";
 import Editor from "./Editor/Editor";
 
 
@@ -15,7 +14,6 @@ interface TextAreaProps {
 
 
 const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
-    const appContext = useContext(AppContext);
 
     // state to determine the visibility of the froala editor or the 
     const [isEditable, setIsEditable] = useState(false);
@@ -33,17 +31,13 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     // method to update the PARSED text
     const changeParsed = (value: string) => {
         setParsedContent(value)
+        console.log(parsedContent)
     }
 
     // check for valid links every time text content changes and fires acceptEdit on parent
     useEffect(()=>{
         acceptEdit(editorContent);
     }, [editorContent])
-
-
-    const preventInvalidClick = (e:Event) => {
-        e.preventDefault()
-    }
 
 
 
@@ -69,7 +63,7 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
                 
                 <div onClick={(e)=>makeEditable(e)} className={isEditable?'editor-wraper':'editor-wraper read-only'}>
-                    <Editor changeEditorContent={changeEditorContent} changeParsed={changeParsed} isEditable={isEditable} description={text}/>                        
+                    <Editor changeEditorContent={changeEditorContent} isEditable={isEditable} description={text}/>                        
                 </div>
 
                 {

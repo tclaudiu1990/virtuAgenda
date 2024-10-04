@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../App";
-import { getSettingsService, saveSettingsService } from "../../Services/settingsServices";
 import bgDefault from '../../assets/img/bg.png'
 
 import EditableInput from "../Tasks/EditableInput";

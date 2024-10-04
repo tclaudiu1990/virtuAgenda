@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import agenda from './../../assets/img/agenda.png'
 import { AppContext } from '../../App';
-import useSettings from '../../hooks/useSettings';
 
 
 // Header containing the logo and application name

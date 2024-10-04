@@ -11,10 +11,9 @@ import DeleteModal from './Components/Modal/DeleteModal';
 import TaskDetails from './Components/Modal/TaskDetails';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Modal from './Components/Modal/Modal';
-import { getSettingsService } from './Services/settingsServices';
 import SettingsModal from './Components/Modal/SettingsModal';
 import useSettings from './hooks/useSettings';
-import { SettingsInfo } from './types/settingsInfo';
+import { SettingsTypeInfo } from './types/SettingsTypeInfo';
 
 // context definition
 type TaskContextType = {
@@ -32,7 +31,7 @@ type TaskContextType = {
   appTitle: string,
   appBgType: 'default' | 'custom',
   appBgUrl: string,
-  updateSettings: (settings:SettingsInfo) => void,
+  updateSettings: (settings:SettingsTypeInfo) => void,
   reloadSettings: () => void
 }
 export const AppContext = createContext<TaskContextType | undefined>(undefined);
@@ -161,11 +160,11 @@ function App() {
   }
   
   // method to remove everything from localStorage
-  const clearAll = () => {
-    localStorage.removeItem('vaSettings');
-    localStorage.removeItem('vaTasks');
-    localStorage.removeItem('vaIdCounter');
-  }
+  // const clearAll = () => {
+  //   localStorage.removeItem('vaSettings');
+  //   localStorage.removeItem('vaTasks');
+  //   localStorage.removeItem('vaIdCounter');
+  // }
  
   return (
     <div id='app' style={{backgroundImage: `url(${appBgUrl})`}}>

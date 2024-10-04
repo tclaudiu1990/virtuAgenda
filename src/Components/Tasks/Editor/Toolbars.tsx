@@ -2,27 +2,18 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
 import {mergeRegister} from '@lexical/utils';
 import {
-    $getRoot,
     $getSelection,
     $isRangeSelection,
-    CAN_REDO_COMMAND,
-    CAN_UNDO_COMMAND,
     EditorState,
-    FORMAT_ELEMENT_COMMAND,
     FORMAT_TEXT_COMMAND,
-    REDO_COMMAND,
-    RootNode,
-    SELECTION_CHANGE_COMMAND,
-    UNDO_COMMAND,
+    SELECTION_CHANGE_COMMAND
 } from 'lexical';
 
-import {$isLinkNode, TOGGLE_LINK_COMMAND} from '@lexical/link';
 import {
     $isListNode,
     INSERT_CHECK_LIST_COMMAND,
     INSERT_ORDERED_LIST_COMMAND,
     INSERT_UNORDERED_LIST_COMMAND,
-    ListNode,
     REMOVE_LIST_COMMAND,
 } from '@lexical/list';
 
@@ -37,13 +28,12 @@ function Divider() {
 
 interface ToolbarProps {
     changeEditorContent: (val:string) => void
-    changeParsed: (val: string) => void
     isEditable: boolean
     description: string
 }
 
 
- const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, changeParsed, isEditable, description}) => {
+ const ToolbarPlugin:React.FC<ToolbarProps> = ({changeEditorContent, isEditable, description}) => {
   const [editor] = useLexicalComposerContext();
   const toolbarRef = useRef(null);
   const [isBold, setIsBold] = useState(false);
