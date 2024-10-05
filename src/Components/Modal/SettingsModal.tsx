@@ -65,7 +65,7 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
                 <h2>App settings</h2>
                 <div className="modal-header">
                     <p>
-                        Here you can can change the title of the app header and set a custom background for the app.
+                        From here you can change the title of the app and set a custom background image for the app.
                     </p>
                 </div>                
 
