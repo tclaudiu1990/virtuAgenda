@@ -13,8 +13,6 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
 
     const appContext = useContext(AppContext)
 
-
-
     const [title, setTitle] = useState('VirtuAgenda');
     const [bgType, setBgType] = useState<'default' | 'custom'>('default');
     const [bgUrl, setBgUrl] = useState(bgDefault);
@@ -28,6 +26,7 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
             bgUrl: bg})
     }
     
+    // set the bgType
     const handleBgTypeInput = (val:string) => {
         if(val=='default' || val=='custom'){
             setBgType(val)
@@ -35,6 +34,7 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
     }
 
 
+    // set modal states on component mount
     useEffect(()=>{
         if(appContext) {
             setTitle(appContext?.appTitle)
@@ -87,7 +87,10 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
 
                 {bgType=='custom'
                     ?
+                    <>
+                        <small>Paste valid link to your photo below:</small>
                         <input type="text" onChange={(e)=>setBgUrl(e.currentTarget.value)} value={bgUrl}></input>
+                    </>
                     :
                         ''
                 }

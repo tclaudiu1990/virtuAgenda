@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import Editor from "./Editor/Editor";
 import './EditableTextArea.scss'
-import { convertToHtml } from "./Editor/LexicalUtils";
 
 
 interface TextAreaProps {
@@ -18,15 +17,11 @@ interface TextAreaProps {
 const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
 
     // state to determine the visibility of the froala editor or the 
-    const [isEditable, setIsEditable] = useState(false);
+    const [isEditable, setIsEditable] = useState(true);
     // unparsed content
     const [editorContent, setEditorContent] = useState(text);
     // parsed text to html
     const [parsedText, setParsedText] = useState('');
-
-    useEffect(()=>{
-        setParsedText(convertToHtml(editorContent))
-    }, [editorContent])
     
 
     const editorRef = useRef<HTMLDivElement>(null);
@@ -56,7 +51,8 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
     }, [isEditable]);
 
 
-    
+    // method to update parsed text
+    // called from 
     const updateParsedText = (val:any) => {
         setParsedText(val)
     }
@@ -70,12 +66,17 @@ const EditableTextArea: React.FC<TextAreaProps> = ({ acceptEdit, text}) => {
                 setIsEditable(false);
             }
         };
+        
+
 
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
+
     }, []);
+
+
 
     return (
         <>

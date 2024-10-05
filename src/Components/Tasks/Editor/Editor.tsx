@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 
 import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
 import {LexicalComposer} from '@lexical/react/LexicalComposer';
@@ -35,7 +35,7 @@ interface EditorProps {
   updateParsedText: (val:string) => void
 }
 
-const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description, closeEditable, updateParsedText}) => {
+const Editor:React.FC<EditorProps> = ({changeEditorContent, isEditable, description, updateParsedText}) => {
   const initialConfig = {
     namespace: 'MyEditor',
     theme: exampleTheme,

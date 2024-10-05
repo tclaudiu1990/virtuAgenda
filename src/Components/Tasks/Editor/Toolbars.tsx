@@ -5,7 +5,6 @@ import {
     $getSelection,
     $isRangeSelection,
     EditorState,
-    FOCUS_COMMAND,
     FORMAT_TEXT_COMMAND,
     SELECTION_CHANGE_COMMAND
 } from 'lexical';
