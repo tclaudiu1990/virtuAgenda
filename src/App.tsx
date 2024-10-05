@@ -160,11 +160,14 @@ function App() {
   }
   
   // method to remove everything from localStorage
-  // const clearAll = () => {
-  //   localStorage.removeItem('vaSettings');
-  //   localStorage.removeItem('vaTasks');
-  //   localStorage.removeItem('vaIdCounter');
-  // }
+  const clearAll = () => {
+    localStorage.removeItem('vaSettings');
+    localStorage.removeItem('vaTasks');
+    localStorage.removeItem('vaIdCounter');
+  }
+  const getSettings = () => {
+    console.log(localStorage.getItem('vaSettings'));
+  }
  
   return (
     <div id='app' style={{backgroundImage: `url(${appBgUrl})`}}>
@@ -187,7 +190,9 @@ function App() {
         
         {/* <div className='dev-buttons'>
           <button onClick={()=>clearAll()}>Clear Everything</button>
-        </div>      */}
+          <button onClick={()=>getSettings()}>Log Settings</button>
+        </div>     
+         */}
        
         {/* end dev buttons */}
         

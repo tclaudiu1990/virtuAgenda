@@ -180,6 +180,8 @@
         .modal-task-details {
             animation: appear-top 0.3s forwards ease-in-out;
         }
+
+
     
         .react-datepicker-wrapper  {
             width: 100%;
@@ -202,6 +204,47 @@
                     cursor: pointer;
                 }
             }
+        }
+
+        .modal-settings-details {
+            .uploaded-img {
+                width: 100px;
+                height: 100px;
+                border-radius: 8px;
+                background-size: cover;
+                background-position: center;
+                transition: 0.2s;
+                &.no-image {
+                    height: 0px;
+                }
+            }
+
+            .photo-upload-input {
+                display: none; // hide file input to customize label            
+            }
+
+            .image-upload-content{
+                display: flex;
+
+                .photo-upload-input-label {
+                    display: flex;
+                    white-space: nowrap;
+                    justify-content: space-evenly;
+                    cursor: pointer;
+                    align-items: center;
+    
+                    max-width: 110px;
+    
+                    &.no-image {
+                        max-width: 110px;
+                        text-align: center;
+                        justify-content: center;
+                        align-items: center;
+                    }                
+                }
+            }
+
+            
         }
     }
     .modal-group-double {

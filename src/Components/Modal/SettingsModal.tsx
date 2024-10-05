@@ -3,6 +3,7 @@ import { AppContext } from "../../App";
 import bgDefault from '../../assets/img/bg.png'
 
 import EditableInput from "../Tasks/EditableInput";
+import PhotoUpload from "./PhotoUpload";
 
 
 interface SettingsProps {
@@ -42,6 +43,12 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
             setBgUrl(appContext?.appBgUrl)
         }
     }, [])
+
+
+    // set the image
+    const setPhoto = (imgString:string) => {
+        setBgUrl(imgString)
+    }   
 
 
     useEffect(()=>{
@@ -88,8 +95,9 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
                 {bgType=='custom'
                     ?
                     <>
-                        <small>Paste valid link to your photo below:</small>
-                        <input type="text" onChange={(e)=>setBgUrl(e.currentTarget.value)} value={bgUrl}></input>
+                        {/* <small>Paste valid link to your photo below:</small>
+                        <input type="text" onChange={(e)=>setBgUrl(e.currentTarget.value)} value={bgUrl}></input> */}
+                        <PhotoUpload bgType={bgType} bgUrl={bgUrl} uploadPhoto={setPhoto}/>
                     </>
                     :
                         ''
