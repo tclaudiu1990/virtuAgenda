@@ -22,7 +22,7 @@ const StatusColumn: React.FC<StatusColumProps> = ({type, name, tasks}) => {
                 <span className="task-count pill">{taskBoxes.length}</span>
             </div>
             <div className="column-container">            
-                {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">Nu există taskuri în această coloană.</h3>}
+                {taskBoxes.length>0?taskBoxes:<h3 className="no-tasks-ui">There are no tasks here yet.</h3>}
             </div>
             
             

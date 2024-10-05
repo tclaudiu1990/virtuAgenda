@@ -200,24 +200,7 @@ body {
         color: $text-heading;
     }
 
-    // task rich text description
-    .toolbar-item {
-        font-weight: 500;
-        color: $gray4;
-        margin-right: 5px;
-        width: 40px;
-        padding: 9px;
-        &.active {
-            color: black;
-            font-weight: 900;
-            background-color: $gray1;
-        }
-    }
-    .task-link {
-        color: blue;
-        text-decoration: underline;
-        cursor: pointer;
-      }
+
     #root {
         width: 100%;
         

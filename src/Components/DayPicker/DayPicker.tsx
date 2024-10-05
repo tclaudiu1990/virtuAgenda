@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import DatePicker from "react-datepicker";
-import { ro } from 'date-fns/locale';
+import { enUS, ro } from 'date-fns/locale';
 import { getTasks } from "../../Services/taskServices";
 import { TaskBoxInfo } from "../../types/TaskBoxInfo";
 import { AppContext } from "../../App";
@@ -66,7 +66,7 @@ const DayPicker:React.FC<DayPickerProps> = ({selectedDay, onChange}) => {
                 onChange={value=>handleChange(value as Date)}
                 date={ new Date() }
                 className="calendarElement"
-                locale={ro}
+                locale={enUS}
                 highlightDates={taskDates}
             />
         </div>

@@ -9,8 +9,8 @@ const Filters =()=>{
 
     const appContext = useContext(AppContext);
 
-    // filter states
 
+    // filter states
     // selected calendar date
     const [selectedDay, setSelectedDay] = useState<Date>(new Date())
     // selected title
@@ -51,13 +51,13 @@ const Filters =()=>{
                     <button className="btn btn-new-task"
                         onClick={()=>appContext?.addTask(
                             {
-                                title: 'Task nou',
+                                title: 'My new task',
                                 description: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"Click here to add a description.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1,"textFormat":0,"textStyle":""}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}',
                                 startDate: selectedDay
                             }
-                    )}>+ Creaza Task Nou</button>
+                    )}>+ Create Task</button>
                     
-                    <label htmlFor="date-picker"> Data:</label>
+                    <label htmlFor="date-picker"> Date:</label>
                     <DayPicker 
                         selectedDay={selectedDay}
                         onChange={handleCalendar}
@@ -70,17 +70,17 @@ const Filters =()=>{
             <div className="filters-group mobile-filter-group" ref={mobileFilters}>
                 <div>
                     {/* <label htmlFor="search-input"><i className="fa-solid fa-magnifying-glass"></i></label> */}
-                    <label htmlFor="search-input">Titlu</label>
+                    <label htmlFor="search-input">Title:</label>
                     <input id="search-input" type="text" onChange={(e)=>setSearchTitle(e.target.value)}></input>
                 </div>
 
                 <div>
-                    <label htmlFor="select-status">Status</label>
+                    <label htmlFor="select-status">Status:</label>
                     <select name="status" id="select-status" onChange={(e)=>setStatus((e.target as HTMLSelectElement).value)}>
-                        <option value=''>Toate</option>
-                        <option value='create'>Create</option>
-                        <option value='incurs'>În curs</option>
-                        <option value='finalizate'>Finalizate</option>
+                        <option value=''>All</option>
+                        <option value='create'>To do</option>
+                        <option value='incurs'>On it</option>
+                        <option value='finalizate'>Done</option>
                     </select>
                 </div>
             </div>     

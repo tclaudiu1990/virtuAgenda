@@ -99,16 +99,16 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
             
             {/* visible on mobile */}
             <div className="board-tabs"> 
-                <div className="board-tab create" onClick={()=>setActiveTab(`create`)}>Create: {tasksCreate.length}</div>
-                <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>În Curs: {tasksInCurs.length}</div>
-                <div className="board-tab finalizate" onClick={()=>setActiveTab(`finalizate`)}>Finalizate: {tasksFinalizate.length}</div>
+                <div className="board-tab create" onClick={()=>setActiveTab(`create`)}>To do: {tasksCreate.length}</div>
+                <div className="board-tab incurs" onClick={()=>setActiveTab(`incurs`)}>On it: {tasksInCurs.length}</div>
+                <div className="board-tab finalizate" onClick={()=>setActiveTab(`finalizate`)}>Done: {tasksFinalizate.length}</div>
             </div>
             {/* end visible on mobile */}
 
             <div className="board-columns">
-                <StatusColumn type={'create'} name={`Create`} tasks={tasksCreate}></StatusColumn>
-                <StatusColumn type={'incurs'} name={`În Curs`} tasks={tasksInCurs}></StatusColumn>
-                <StatusColumn type={'finalizate'} name={`Finalizate`} tasks={tasksFinalizate}></StatusColumn>
+                <StatusColumn type={'create'} name={`To do`} tasks={tasksCreate}></StatusColumn>
+                <StatusColumn type={'incurs'} name={`On it`} tasks={tasksInCurs}></StatusColumn>
+                <StatusColumn type={'finalizate'} name={`Done`} tasks={tasksFinalizate}></StatusColumn>
             </div>
             
         </div>

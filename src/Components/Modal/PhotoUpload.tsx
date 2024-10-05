@@ -32,12 +32,14 @@ const PhotoUpload:React.FC<UploadProps> = ({bgType, bgUrl, uploadPhoto}) => {
         }
     }   
 
+    // automatically update the photo in the settings modal when the src changes
     useEffect(() => {
         if(imgSrc.length>0){
             uploadPhoto(imgSrc)
         }
     }, [imgSrc])
 
+    // if the image is not the default one, set the saved image to update ui
     useEffect(()=>{
         if(bgUrl.length>0 && bgUrl!=bgDefault){
             setImgSrc(bgUrl)

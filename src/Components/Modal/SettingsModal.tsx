@@ -62,7 +62,13 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
             <div className="modal-settings-details modal-details">
 
 
-                <h2>Settings</h2>
+                <h2>App settings</h2>
+                <div className="modal-header">
+                    <p>
+                        Here you can can change the title of the app header and set a custom background for the app.
+                    </p>
+                </div>                
+
                 <h3>Title</h3>
                 <EditableInput 
                     acceptEdit={setTitle} 

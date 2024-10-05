@@ -18,13 +18,13 @@ const DeleteModal:React.FC<DeleteModalProps> = ({taskBoxInfo, closeModal}) => {
 
     return(
         <div className="modal-delete-details modal-details">
-            <h2>Șterge Task-ul #{taskBoxInfo.id}?</h2>
-            <p>Ești sigur(ă) că vrei să ștergi task-ul? Dacă îl ștergi, nu îl mai poți recupera.</p>
+            <h2>Delete Task-ul #{taskBoxInfo.id}?</h2>
+            <p>Are you sure you want to permanently delete this task? If you do, you won't be able to retrieve it.</p>
             <div className="modal-footer">
                 <div></div>
                 <div>
-                    <button className="btn btn-delete" onClick={handleDelete}> Șterge Task</button> 
-                    <button className="btn" onClick={closeModal}>Nu șterge</button>                   
+                    <button className="btn btn-delete" onClick={handleDelete}> Delete Task</button> 
+                    <button className="btn" onClick={closeModal}>Cancel</button>                   
                 </div>
             </div>            
         </div>

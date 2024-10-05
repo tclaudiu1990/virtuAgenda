@@ -55,9 +55,10 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
     return (
             <div className="modal-task-details modal-details">
 
-                <small><em>Task ID: {taskBoxInfo.id}</em></small>
+                <small><strong><em>Task ID: {taskBoxInfo.id}</em></strong></small>
+        
 
-                <h3>Titlu</h3>
+                <h3>Title</h3>
 
                 <EditableInput 
                     acceptEdit={setTitle} 
@@ -65,7 +66,7 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                     text={title}
                 />
 
-                <h3>Descriere</h3>
+                <h3>Description</h3>
                 <EditableTextArea
                     acceptEdit={setDescription}
                     text={description}
@@ -77,14 +78,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                     <div className="group-item">
                         <h3>Status</h3>
                         <select name="status" value={status} id="modal-task-status" onChange={(e)=>{setStatus(e.target.value)}}>
-                            <option value='create'>Create</option>
-                            <option value='incurs'>În curs</option>
-                            <option value='finalizate'>Finalizate</option>
+                            <option value='create'>To do</option>
+                            <option value='incurs'>On it</option>
+                            <option value='finalizate'>Done</option>
                         </select>
                     </div>
 
                     <div className="group-item">
-                        <h3>Data:</h3>
+                        <h3>Date:</h3>
                         <div className="modal-date">
                             <DayPicker
                                 selectedDay={startDate as Date}
@@ -95,14 +96,14 @@ const TaskDetails: React.FC<TaskDetailsProps> = ({taskBoxInfo, closeModal}) => {
                 </div>
                 
                 <div className="modal-footer">
-                    <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Șterge Task</button>
+                    <button className="btn btn-delete" onClick={()=>appContext?.openDelete(taskBoxInfo)}>Delete Task</button>
                     <div>
                         <button className="btn" onClick={()=>{
                             saveTask();                            
                             closeModal();
-                        }}>Salvează</button>
+                        }}>Save</button>
                         &nbsp;&nbsp;&nbsp;
-                        <button className="btn" onClick={()=>closeModal()}>Renunță</button>
+                        <button className="btn" onClick={()=>closeModal()}>Cancel</button>
                     </div>
                 </div>                
             </div>        
