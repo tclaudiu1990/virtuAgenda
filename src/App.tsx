@@ -160,14 +160,16 @@ function App() {
   }
   
   // method to remove everything from localStorage
-  const clearAll = () => {
-    localStorage.removeItem('vaSettings');
-    localStorage.removeItem('vaTasks');
-    localStorage.removeItem('vaIdCounter');
-  }
-  const getSettings = () => {
-    console.log(localStorage.getItem('vaSettings'));
-  }
+  // const clearAll = () => {
+  //   localStorage.removeItem('vaSettings');
+  //   localStorage.removeItem('vaTasks');
+  //   localStorage.removeItem('vaIdCounter');
+  // }
+  
+  // method to log settings from localStorage
+  // const getSettings = () => {
+  //   console.log(localStorage.getItem('vaSettings'));
+  // }
  
   return (
     <div id='app' style={{backgroundImage: `url(${appBgUrl})`}}>

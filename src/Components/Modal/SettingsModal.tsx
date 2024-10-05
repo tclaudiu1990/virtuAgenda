@@ -103,7 +103,7 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
                     <>
                         {/* <small>Paste valid link to your photo below:</small>
                         <input type="text" onChange={(e)=>setBgUrl(e.currentTarget.value)} value={bgUrl}></input> */}
-                        <PhotoUpload bgType={bgType} bgUrl={bgUrl} uploadPhoto={setPhoto}/>
+                        <PhotoUpload bgUrl={bgUrl} uploadPhoto={setPhoto}/>
                     </>
                     :
                         ''

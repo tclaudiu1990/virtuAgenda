@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import bgDefault from './../../assets/img/bg.png'
 
 interface UploadProps {
-    bgType: 'default' | 'custom';
     bgUrl: string;
     uploadPhoto: (imgString:string) => void
 }
 
 // component that holds the file input and conversion logic from image to base64 string 
-const PhotoUpload:React.FC<UploadProps> = ({bgType, bgUrl, uploadPhoto}) => {
+const PhotoUpload:React.FC<UploadProps> = ({ bgUrl, uploadPhoto}) => {
 
     const [imgSrc, setImgSrc] = useState('')
     
