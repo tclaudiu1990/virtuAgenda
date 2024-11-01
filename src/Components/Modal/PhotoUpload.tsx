@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import bgDefault from './../../assets/img/bg.png'
+import imageCompression from "browser-image-compression";
 
 interface UploadProps {
     bgUrl: string;
@@ -12,22 +13,40 @@ const PhotoUpload:React.FC<UploadProps> = ({ bgUrl, uploadPhoto}) => {
     const [imgSrc, setImgSrc] = useState('')
     
     // converts the image to base64 string
-    const handleUpload = (e: any) => {
+    const handleUpload = async (e: any) => {
         // extract the file
         const image = e.target.files?.[0];
 
         if(image){
             const reader = new FileReader();
 
-            // tell the reader to convert the image to a data url
-            reader.readAsDataURL(image);
+            // set the compression options for the image
+            const options = {
+                maxSizeMB: 1, // Compress to approximately 1 MB
+                maxWidthOrHeight: 1920, // Maintain quality while resizing
+                useWebWorker: true,
+                fileType: 'image/webp'
+            };
 
-            // convert the string on reader load end
-            reader.onloadend = () => {
-                const imgString = reader.result as string;
-                // update imgsrc state
-                setImgSrc(imgString);
+            try {
+                //use the image compression package to compress the image using the options above
+                const compressedImage = await imageCompression(image, options);
+                
+                console.log(compressedImage)
+
+                // tell the reader to convert the compressed image to a data url
+                reader.readAsDataURL(compressedImage);
+
+                // convert the string on reader load end
+                reader.onloadend = () => {
+                    const imgString = reader.result as string;
+                    // update imgsrc state
+                    setImgSrc(imgString);
+                }
+            } catch (err) {
+                console.log(`ERROR: Failed to compress image`, err)
             }
+
         }
     }   
 

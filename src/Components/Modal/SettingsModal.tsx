@@ -51,11 +51,6 @@ const SettingsModal:React.FC<SettingsProps> = ({closeModal}) => {
     }   
 
 
-    useEffect(()=>{
-
-    }, [title, bgType, bgUrl])
-
-
 
     return(
         <>
