@@ -75,21 +75,6 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
     // active tab state - for mobile
     const [activeTab, setActiveTab] = useState<string>('create');
 
-    // toggle active class when activeTab changes
-    useEffect(()=>{
-        addRemoveActiveClass('board-tab');
-        addRemoveActiveClass('status-column');
-    }, [activeTab])
-    
-    // toggle active classes on items
-    // provide an item class ex:(.board-tab)
-    // will cicle through the items that contain that class and if those items also contain activeTab classes ('create', 'incurs' or 'finalizate'), will activate the appropriate item
-    const addRemoveActiveClass = (itemClass:string) => {
-        document.querySelectorAll(`.${itemClass}`).forEach(item=>{
-            item.classList.contains(activeTab)?item.classList.add(`active`) : item.classList.remove(`active`);
-        });
-    }
-
 
     return(
         <div id="board">
@@ -106,9 +91,9 @@ const Board:React.FC<BoardProps> = ({tasks}) => {
             {/* end visible on mobile */}
 
             <div className="board-columns">
-                <StatusColumn type={'create'} name={`To do`} tasks={tasksCreate}></StatusColumn>
-                <StatusColumn type={'incurs'} name={`On it`} tasks={tasksInCurs}></StatusColumn>
-                <StatusColumn type={'finalizate'} name={`Done`} tasks={tasksFinalizate}></StatusColumn>
+                <StatusColumn type={'create'} name={`To do`} tasks={tasksCreate} activeTab={activeTab}></StatusColumn>
+                <StatusColumn type={'incurs'} name={`On it`} tasks={tasksInCurs} activeTab={activeTab}></StatusColumn>
+                <StatusColumn type={'finalizate'} name={`Done`} tasks={tasksFinalizate} activeTab={activeTab}></StatusColumn>
             </div>
             
         </div>

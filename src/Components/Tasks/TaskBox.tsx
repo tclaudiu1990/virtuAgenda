@@ -16,10 +16,18 @@ const TaskBox: React.FC<TaskBoxProps> = ({name, taskBoxInfo}) => {
     // navigate router hook
     const navigate = useNavigate();
 
+    const handleDragStart = (e:React.DragEvent) => {
+        // bind the task info to data inside the drag event
+        e.dataTransfer.setData('draggedTaskInfo', JSON.stringify(taskBoxInfo))
+    }
 
     return(
         <>            
-            <div className="task-box" onClick={()=>navigate(`#${taskBoxInfo.id}`)}>
+            <div className="task-box" 
+                onClick={()=>navigate(`#${taskBoxInfo.id}`)}
+                draggable
+                onDragStart={e=>handleDragStart(e)}
+                >
                 <div className="task-box-header">
                     <div className="pill">{name}</div>
                     <div className="task-box-menu">

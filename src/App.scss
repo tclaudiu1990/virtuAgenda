@@ -326,9 +326,26 @@ body {
                         overflow: hidden;
                         height: 60vh;
                         min-height: 400px;
-                        transition: 0.2s;
                         display: flex;
                         flex-wrap: wrap;
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                        
+
+                        &.dragging-on {
+                            box-shadow: 0 5px 10px 15px rgba(0,0,0, 0.1);
+                            border: dashed 2px $create-dark;
+                            top: -2px;
+                            left: -2px;
+                            transition: 0.1s;
+                            @media screen and (max-width: $l) {
+                                box-shadow: none;
+                                border: none;
+                                top: 0;
+                                left: 0;
+                            }
+                        }
 
                         .column-header {
                             display: flex;
